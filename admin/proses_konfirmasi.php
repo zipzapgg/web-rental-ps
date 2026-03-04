@@ -1,14 +1,24 @@
 <?php
-include '../config/koneksi.php';
+require_once '../config/koneksi.php';
+require_login('login.php');
 
-$id_sewa = $_GET['id'];
-$id_unit = $_GET['unit'];
+$id_sewa = intval($_GET['id'] ?? 0);
+$id_unit = intval($_GET['unit'] ?? 0);
 
-// 1. Update status pengajuan menjadi 'Selesai'
-mysqli_query($koneksi, "UPDATE pengajuan SET status_pengajuan = 'Selesai' WHERE id_pengajuan = '$id_sewa'");
+if (!$id_sewa || !$id_unit) {
+    header("Location: data_sewa.php"); exit();
+}
 
-// 2. Kembalikan status unit PS menjadi 'Tersedia' agar muncul lagi di form sewa
-mysqli_query($koneksi, "UPDATE units SET status = 'Tersedia' WHERE id_unit = '$id_unit'");
+// Update status pengajuan
+$stmt = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan = 'Selesai' WHERE id_pengajuan = ?");
+$stmt->bind_param("i", $id_sewa);
+$stmt->execute();
+$stmt->close();
 
-echo "<script>alert('Transaksi Selesai. Unit PS kini berstatus Tersedia kembali.'); window.location='data_sewa.php';</script>";
-?>
+// Kembalikan status unit
+$stmt = $koneksi->prepare("UPDATE units SET status = 'Tersedia' WHERE id_unit = ?");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$stmt->close();
+
+echo "<script>alert('Transaksi selesai. Unit kini tersedia kembali.'); window.location='data_sewa.php';</script>";

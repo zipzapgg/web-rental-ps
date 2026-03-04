@@ -1,101 +1,112 @@
-<?php include 'config/koneksi.php'; ?>
+<?php require_once 'config/koneksi.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Sewa Bawa Pulang - Violet PS</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { background-color: #0f051d; color: white; font-family: 'Poppins', sans-serif; }
-        .gaming-font { font-family: 'Orbitron', sans-serif; }
-        .form-card { background: rgba(255, 255, 255, 0.05); border: 1px solid #8a2be2; border-radius: 20px; padding: 30px; }
-        .text-neon { color: #bc13fe; text-shadow: 0 0 10px #bc13fe; }
-        .form-control, .form-select { background: #1a1a2e; border: 1px solid #444; color: white; }
-        .form-control:focus { background: #1a1a2e; color: white; border-color: #bc13fe; box-shadow: 0 0 10px #bc13fe; }
-        .btn-violet { background: #8a2be2; color: white; transition: 0.3s; }
-        .btn-violet:hover { background: #bc13fe; box-shadow: 0 0 15px #bc13fe; }
-    </style>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Form Sewa — Violet Playstation</title>
+  <link rel="stylesheet" href="assets/css/violet.css">
+  <style>
+    body{background:var(--v-black);}
+    .form-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 50% 60% at 10% 20%,rgba(123,47,190,.15) 0%,transparent 60%),var(--v-black);}
+    .form-bg-grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(123,47,190,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(123,47,190,.04) 1px,transparent 1px);background-size:60px 60px;}
+    .form-header{text-align:center;padding:4rem 1.5rem 2.5rem;}
+    .form-header img{height:80px;filter:drop-shadow(0 0 16px rgba(168,85,247,.6));margin-bottom:1.5rem;animation:floatY 4s ease-in-out infinite;}
+    .form-header h1{font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);font-weight:800;letter-spacing:4px;text-transform:uppercase;line-height:1;}
+    .form-header p{color:var(--v-muted);font-size:.9rem;margin-top:.75rem;letter-spacing:1px;}
+    .form-card{background:rgba(18,18,31,.8);border:1px solid var(--v-border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(10px);max-width:720px;margin:0 auto;width:100%;}
+    .form-section-label{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--v-border);display:flex;align-items:center;gap:.75rem;}
+    .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+    .form-group{margin-bottom:1.25rem;}
+    .file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
+    .file-upload-box:hover{border-color:var(--v-violet);background:rgba(168,85,247,.05);}
+    .file-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .file-upload-box .upload-icon{font-size:2rem;margin-bottom:.5rem;}
+    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
+    .file-upload-box .upload-hint{font-size:.75rem;color:#4B3F6B;margin-top:.25rem;}
+    .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(168,85,247,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
+    .syarat-box .syarat-title{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-violet);margin-bottom:.75rem;}
+    .syarat-box ul{list-style:none;padding:0;}
+    .syarat-box li{font-size:.85rem;color:var(--v-muted);padding:.3rem 0;padding-left:1.25rem;position:relative;}
+    .syarat-box li::before{content:'›';position:absolute;left:0;color:var(--v-violet);}
+    .info-pickup{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:2rem;display:flex;gap:.75rem;align-items:flex-start;}
+    .info-pickup .icon{font-size:1.4rem;flex-shrink:0;}
+    .info-pickup p{font-size:.85rem;color:#93c5fd;line-height:1.6;}
+    .info-pickup strong{color:#60a5fa;display:block;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.8rem;margin-bottom:.25rem;}
+    .btn-submit{width:100%;padding:1rem;font-size:1.1rem;letter-spacing:3px;border-radius:10px;margin-top:2rem;}
+    .back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;transition:color .2s;}
+    .back-link:hover{color:var(--v-lavender);}
+    .container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
+    .form-container{max-width:760px;margin:0 auto;padding:0 1.5rem 5rem;}
+    @media(max-width:540px){.form-grid-2{grid-template-columns:1fr;}.form-card{padding:1.5rem;}}
+  </style>
 </head>
 <body>
-
-<div class="container mt-5 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="text-center mb-4">
-                <img src="assets/images/logo.png" width="100" class="mb-3">
-                <h2 class="gaming-font text-neon">FORM PENGAJUAN SEWA</h2>
-                <p class="text-muted small">Khusus Wilayah Jagakarsa & Sekitarnya</p>
-            </div>
-
-            <div class="form-card shadow-lg">
-                <form action="proses_sewa.php" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nama Lengkap (Sesuai KTP)</label>
-                            <input type="text" name="nama" class="form-control" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nomor WhatsApp</label>
-                            <input type="number" name="wa" class="form-control" placeholder="08..." required>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Alamat Lengkap di Jagakarsa</label>
-                        <textarea name="alamat" class="form-control" rows="2" required></textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Pilih Unit PS4</label>
-                            <select name="id_unit" class="form-select" required>
-                                <option value="">-- Pilih Unit Tersedia --</option>
-                                <?php
-                                // Hanya menampilkan unit "Sewa Luar" yang statusnya "Tersedia"
-                                $units = mysqli_query($koneksi, "SELECT * FROM units WHERE tipe_layanan = 'Sewa Luar' AND status = 'Tersedia'");
-                                while($u = mysqli_fetch_assoc($units)){
-                                    echo "<option value='".$u['id_unit']."'>".$u['nama_unit']." (".$u['kategori'].")</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Durasi Sewa</label>
-                            <select name="durasi" class="form-select" required>
-                                <option value="1 Hari">1 Hari</option>
-                                <option value="2 Hari">2 Hari</option>
-                                <option value="3 Hari">3 Hari</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr class="my-4" style="border-color: #444;">
-                    <h6 class="text-neon mb-3">Upload Dokumen (Wajib)</h6>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label small">Foto KTP Asli</label>
-                            <input type="file" name="ktp" class="form-control" accept="image/*" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label small">Foto STNK Asli</label>
-                            <input type="file" name="stnk" class="form-control" accept="image/*" required>
-                        </div>
-                    </div>
-
-                    <div class="alert alert-dark small mt-3" style="border: 1px dashed #bc13fe;">
-                        <ul class="mb-0">
-                            <li>Jaminan berupa KTP/STNK asli akan diambil saat unit diantar.</li>
-                            <li>Pastikan domisili sesuai dengan area layanan kami.</li>
-                        </ul>
-                    </div>
-
-                    <button type="submit" name="kirim" class="btn btn-violet w-100 py-3 gaming-font mt-3">AJUKAN SEWA SEKARANG</button>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="form-bg"></div><div class="form-bg-grid"></div>
+<nav class="v-navbar">
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon" style="margin-left:.3rem;">PLAYSTATION</span></a>
+    <div style="display:flex;align-items:center;gap:1rem;"><a href="index.php" class="back-link" style="margin:0;">← Kembali</a></div>
+  </div>
+</nav>
+<div class="form-header">
+  <img src="assets/images/logo-violet.jpeg" alt="Logo">
+  <h1>FORM <span class="neon">PENGAJUAN</span><br>SEWA</h1>
+  <p>Unit diambil langsung di toko · Bawa KTP & STNK asli</p>
 </div>
-
-</body>
-</html>
+<div class="form-container">
+  <div class="info-pickup">
+    <div class="icon">🏪</div>
+    <div><strong>Ambil di Toko</strong>
+    <p>Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp untuk konfirmasi waktu pengambilan.</p></div>
+  </div>
+  <div class="form-card">
+    <form action="proses_sewa.php" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+      <div class="form-section-label"><span>👤</span> Data Diri</div>
+      <div class="form-grid-2">
+        <div class="form-group"><label class="v-label">Nama Lengkap (Sesuai KTP)</label><input type="text" name="nama" class="v-input" placeholder="John Doe" required></div>
+        <div class="form-group"><label class="v-label">Nomor WhatsApp</label><input type="tel" name="wa" class="v-input" placeholder="08xxxxxxxxxx" required></div>
+      </div>
+      <div class="form-group"><label class="v-label">Alamat Lengkap</label><textarea name="alamat" class="v-input" rows="2" required style="resize:vertical;"></textarea></div>
+      <div class="form-section-label" style="margin-top:2rem;"><span>🎮</span> Pilih Unit & Durasi</div>
+      <div class="form-grid-2">
+        <div class="form-group"><label class="v-label">Unit PS</label>
+          <select name="id_unit" class="v-input" required><option value="">-- Pilih Unit --</option>
+          <?php
+          $stmt=$koneksi->prepare("SELECT * FROM units WHERE tipe_layanan='Sewa Luar' AND status='Tersedia'");
+          $stmt->execute(); $units=$stmt->get_result();
+          while($u=$units->fetch_assoc()) echo "<option value='".(int)$u['id_unit']."'>".htmlspecialchars($u['nama_unit'])." (".$u['kategori'].")</option>";
+          $stmt->close();
+          ?></select>
+        </div>
+        <div class="form-group"><label class="v-label">Durasi Sewa</label>
+          <select name="durasi" class="v-input" required><option value="1 Hari">1 Hari</option><option value="2 Hari">2 Hari</option><option value="3 Hari">3 Hari</option></select>
+        </div>
+      </div>
+      <div class="form-section-label" style="margin-top:2rem;"><span>📄</span> Upload Dokumen</div>
+      <div class="form-grid-2">
+        <div class="form-group"><label class="v-label">Foto KTP Asli</label>
+          <div class="file-upload-box" id="ktp-box"><input type="file" name="ktp" accept="image/*" required onchange="previewFile(this,'ktp-box','ktp-text')"><div class="upload-icon">🪪</div><div class="upload-text" id="ktp-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+        </div>
+        <div class="form-group"><label class="v-label">Foto STNK Asli</label>
+          <div class="file-upload-box" id="stnk-box"><input type="file" name="stnk" accept="image/*" required onchange="previewFile(this,'stnk-box','stnk-text')"><div class="upload-icon">🚗</div><div class="upload-text" id="stnk-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+        </div>
+      </div>
+      <div class="syarat-box">
+        <div class="syarat-title">⚠ Syarat & Ketentuan</div>
+        <ul>
+          <li>Unit diambil langsung ke toko kami di Jagakarsa</li>
+          <li>KTP & STNK asli wajib dibawa saat pengambilan sebagai jaminan</li>
+          <li>Unit dikembalikan tepat waktu sesuai durasi yang dipilih</li>
+          <li>Kerusakan akibat kelalaian menjadi tanggung jawab penyewa</li>
+          <li>Data dokumen kamu dijaga keamanannya dan tidak disebarluaskan</li>
+        </ul>
+      </div>
+      <button type="submit" name="kirim" class="btn-violet btn-submit"><span>🎮 Ajukan Sewa Sekarang</span></button>
+    </form>
+  </div>
+</div>
+<script>
+function previewFile(input,boxId,textId){const f=input.files[0];if(f){document.getElementById(textId).textContent=f.name;document.getElementById(boxId).style.borderColor='var(--v-violet)';document.getElementById(boxId).style.background='rgba(168,85,247,.08)';}}
+</script>
+</body></html>
