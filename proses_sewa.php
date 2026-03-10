@@ -17,11 +17,13 @@ if (!preg_match('/^[0-9]{10,15}$/', $wa)) {
     echo "<script>alert('Nomor WhatsApp tidak valid.'); window.history.back();</script>"; exit();
 }
 
-// Validasi unit
-$stmt = $koneksi->prepare("SELECT id_unit FROM units WHERE id_unit=? AND tipe_layanan='Sewa Luar' AND status='Tersedia'");
-$stmt->bind_param("i",$id_unit); $stmt->execute();
-if($stmt->get_result()->num_rows===0){echo "<script>alert('Unit tidak tersedia.'); window.history.back();</script>"; exit();}
+// Validasi unit + ambil nama unit
+$stmt = $koneksi->prepare("SELECT id_unit, nama_unit FROM units WHERE id_unit=? AND tipe_layanan='Sewa Luar' AND status='Tersedia'");
+$stmt->bind_param("i", $id_unit); $stmt->execute();
+$unit_data = $stmt->get_result()->fetch_assoc();
+if (!$unit_data) { echo "<script>alert('Unit tidak tersedia.'); window.history.back();</script>"; exit(); }
 $stmt->close();
+$nama_unit = $unit_data['nama_unit'];
 
 // Upload secure
 $allowed_mime = ['image/jpeg','image/png','image/webp'];
@@ -49,10 +51,29 @@ if(isset($stnk['error'])){ echo "<script>alert('".$stnk['error']."'); window.his
 
 $stmt=$koneksi->prepare("INSERT INTO pengajuan (nama_penyewa,no_wa,alamat,id_unit,durasi,foto_ktp,foto_stnk,status_pengajuan) VALUES(?,?,?,?,?,?,?,'Pending')");
 $stmt->bind_param("sssisss",$nama,$wa,$alamat,$id_unit,$durasi,$ktp['filename'],$stnk['filename']);
+
 if($stmt->execute()){
     $upd=$koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=?");
     $upd->bind_param("i",$id_unit); $upd->execute(); $upd->close();
-    echo "<script>alert('Pengajuan berhasil! Kami akan menghubungi kamu via WhatsApp untuk konfirmasi pengambilan.'); window.location='index.php';</script>";
+
+    // ── Notif WA otomatis ke pemilik ─────────────────────
+    // Nomor pemilik (ganti sesuai nomor WA pemilik)
+    $no_pemilik = '6285847831078';
+    $pesan = "🎮 *PENGAJUAN SEWA BARU*%0A%0A"
+           . "Nama: *$nama*%0A"
+           . "No WA: $wa%0A"
+           . "Unit: *$nama_unit*%0A"
+           . "Durasi: $durasi%0A"
+           . "Alamat: $alamat%0A%0A"
+           . "Segera cek admin panel untuk verifikasi.";
+    $wa_url = "https://wa.me/$no_pemilik?text=$pesan";
+
+    echo "<script>
+        alert('Pengajuan berhasil! Kami akan menghubungi kamu via WhatsApp untuk konfirmasi pengambilan.');
+        // Buka WA pemilik di tab baru (opsional, bisa dihapus jika tidak mau)
+        // window.open('$wa_url', '_blank');
+        window.location='index.php';
+    </script>";
 } else {
     echo "<script>alert('Terjadi kesalahan. Silakan coba lagi.'); window.history.back();</script>";
 }

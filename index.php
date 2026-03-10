@@ -77,8 +77,9 @@
     .map-detail-text strong{font-family:var(--font-ui);font-size:.95rem;color:var(--v-white);display:block;margin-bottom:.2rem;}
     .v-footer{background:var(--v-dark);border-top:1px solid var(--v-border);padding:4rem 0 2rem;}
     .footer-copy{color:var(--v-muted);font-size:.8rem;text-align:center;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--v-border);}
-    .ig-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.08);color:var(--v-violet);transition:all .25s;text-decoration:none;}
+    .ig-btn,.wa-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;border:1px solid rgba(168,85,247,.35);background:rgba(168,85,247,.08);color:var(--v-violet);transition:all .25s;text-decoration:none;}
     .ig-btn:hover{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);border-color:transparent;color:#fff;box-shadow:0 0 20px rgba(220,39,67,.4);transform:translateY(-2px);}
+    .wa-btn:hover{background:#25d366;border-color:transparent;color:#fff;box-shadow:0 0 20px rgba(37,211,102,.4);transform:translateY(-2px);}
     .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
     .modal-overlay.open{display:flex;}
     .modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;width:100%;max-width:660px;max-height:88vh;overflow-y:auto;position:relative;animation:fadeUp .3s ease both;}
@@ -109,7 +110,7 @@
       <a href="#unit">Unit</a>
       <a href="#games">Game</a>
       <a href="#lokasi">Lokasi</a>
-<a href="sewa.php" class="btn-violet" style="padding:.5rem 1.5rem;font-size:.85rem;border-radius:6px;text-decoration:none;"><span>Sewa Unit</span></a>
+<a href="sewa.php" style="padding:.5rem 1.5rem;font-size:.85rem;font-family:var(--font-display);font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:6px;text-decoration:none;background:var(--v-lavender);color:#1a0030;box-shadow:0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25);transition:box-shadow .2s,transform .2s;display:inline-block;position:relative;z-index:1;" onmouseover="this.style.boxShadow='0 0 28px rgba(192,132,252,.9),0 0 60px rgba(168,85,247,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25)';this.style.transform=''">Sewa Unit</a>
     </div>
   </div>
 </nav>
@@ -273,7 +274,7 @@
         <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;margin-top:1.5rem;width:100%;justify-content:center;"><span>💬 Chat WhatsApp</span></a>
       </div></div>
       <div class="col-half"><div class="map-wrap" style="height:100%;min-height:350px;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15865.456!2d106.8320!3d-6.3501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69edb7e25b01d7%3A0x5030bfcca9d4b1c4!2sJagakarsa%2C%20South%20Jakarta%20City%2C%20Jakarta!5e0!3m2!1sen!2sid!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5!2d106.8198065!3d-6.3269265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed005178c647%3A0x884731391d96c010!2sViolet%20PlayStation!5e0!3m2!1sid!2sid!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div></div>
     </div>
   </div>
@@ -286,7 +287,7 @@
         <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;">VIOLET <span class="neon">PLAYSTATION</span></div>
         <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Best Gaming Experience di Jagakarsa</div>
         <div style="display:flex;gap:.75rem;margin-top:1.5rem;align-items:center;">
-        <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;"><span>📱 WhatsApp</span></a>
+        <a href="https://wa.me/6285847831078" target="_blank" class="wa-btn" title="WhatsApp Violet PlayStation"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
         <a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram" style="width:44px;height:44px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
       </div>
       </div>
@@ -366,6 +367,21 @@ function filterUnit(tipe, btn) {
   document.querySelectorAll('.unit-card').forEach(c => {
     c.style.display = (tipe==='semua' || c.dataset.tipe===tipe) ? '' : 'none';
   });
+}
+</script>
+
+<script>
+function toggleDrawer() {
+  const d = document.getElementById('navDrawer');
+  const h = document.getElementById('hamburger');
+  d.classList.toggle('open');
+  h.classList.toggle('open');
+  document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+}
+function closeDrawer() {
+  document.getElementById('navDrawer').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
 }
 </script>
 </body>

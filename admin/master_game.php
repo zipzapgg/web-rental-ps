@@ -16,11 +16,11 @@ $msg = $_GET['msg'] ?? '';
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Master Game — Violet PS</title>
+<title>Master Game — Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
 <style>
-body{display:flex;min-height:100vh;}
-.sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;z-index:50;}
+/* layout handled by violet.css */
+.sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;/* sidebar positioning from violet.css */}
 .sidebar-brand{padding:0 1.5rem 2rem;border-bottom:1px solid var(--v-border);margin-bottom:1.5rem;}
 .sidebar-brand h2{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
 .sidebar-brand p{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.2rem;}
@@ -62,8 +62,19 @@ body{display:flex;min-height:100vh;}
 .alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;}
 @media(max-width:768px){.sidebar{display:none;}.main-content{margin-left:0;}}
 </style></head><body>
+<!-- Mobile topbar -->
+<div class="admin-topbar">
+  <div style="display:flex;align-items:center;gap:.6rem;">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(168,85,247,.5));">
+    <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
+  </div>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <aside class="sidebar">
-  <div class="sidebar-brand"><img src="../assets/images/logo-violet.jpeg" alt="Logo"><h2>VIOLET <span class="neon">PS</span></h2><p>Admin Panel</p></div>
+  <div class="sidebar-brand"><img src="../assets/images/logo-violet.jpeg" alt="Logo"><h2>VIOLET <span class="neon">PLAYSTATION</span></h2><p>Admin Panel</p></div>
   <div class="nav-section">Menu</div>
   <a href="index.php" class="nav-item"><span class="icon">🏠</span> Dashboard</a>
   <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>

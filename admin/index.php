@@ -21,11 +21,11 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
 <html lang="id">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — Violet PS</title>
+  <title>Dashboard — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
   <style>
-    body{display:flex;min-height:100vh;}
-    .sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;z-index:50;}
+    /* layout handled by violet.css */
+    .sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;/* sidebar positioning from violet.css */}
     .sidebar-brand{padding:0 1.5rem 2rem;border-bottom:1px solid var(--v-border);margin-bottom:1.5rem;}
     .sidebar-brand h2{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
     .sidebar-brand p{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.2rem;}
@@ -68,10 +68,21 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   </style>
 </head>
 <body>
+<!-- Mobile topbar -->
+<div class="admin-topbar">
+  <div style="display:flex;align-items:center;gap:.6rem;">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(168,85,247,.5));">
+    <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
+  </div>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <aside class="sidebar">
   <div class="sidebar-brand">
     <img src="../assets/images/logo-violet.jpeg" alt="Logo">
-    <h2>VIOLET <span class="neon">PS</span></h2>
+    <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
     <p>Admin Panel</p>
   </div>
   <div class="nav-section">Menu</div>
@@ -106,7 +117,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
     </div>
     <div class="table-wrap">
       <table class="v-table">
-        <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Layanan</th><th>Status</th><?php if($is_admin): ?><th>Aksi</th><?php endif; ?></tr></thead>
+        <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Layanan</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody>
         <?php
         $no=1; $q=$koneksi->query("SELECT * FROM units ORDER BY tipe_layanan DESC, nama_unit ASC");
@@ -120,7 +131,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
           <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
           <td style="color:var(--v-muted);font-size:.85rem;"><?php echo $d['tipe_layanan']; ?></td>
           <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
-          <?php if($is_admin): ?><td><a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">Kelola Game</a></td><?php endif; ?>
+          <td><a href="histori_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue">📋 Histori</a><?php if($is_admin): ?>&nbsp;<a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">🎮 Game</a><?php endif; ?></td>
         </tr>
         <?php endwhile; ?>
         </tbody>

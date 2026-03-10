@@ -12,7 +12,7 @@
     .form-header{text-align:center;padding:4rem 1.5rem 2.5rem;}
     .form-header img{height:80px;filter:drop-shadow(0 0 16px rgba(168,85,247,.6));margin-bottom:1.5rem;animation:floatY 4s ease-in-out infinite;}
     .form-header h1{font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);font-weight:800;letter-spacing:4px;text-transform:uppercase;line-height:1;}
-    .form-header p{color:var(--v-muted);font-size:.9rem;margin-top:.75rem;letter-spacing:1px;}
+    .form-header p{color:var(--v-muted);font-size:1rem;margin-top:.75rem;letter-spacing:1px;}
     .form-card{background:rgba(18,18,31,.8);border:1px solid var(--v-border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(10px);max-width:720px;margin:0 auto;width:100%;}
     .form-section-label{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--v-border);display:flex;align-items:center;gap:.75rem;}
     .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
@@ -21,7 +21,7 @@
     .file-upload-box:hover{border-color:var(--v-violet);background:rgba(168,85,247,.05);}
     .file-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
     .file-upload-box .upload-icon{font-size:2rem;margin-bottom:.5rem;}
-    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
+    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:1rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
     .file-upload-box .upload-hint{font-size:.75rem;color:#4B3F6B;margin-top:.25rem;}
     .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(168,85,247,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
     .syarat-box .syarat-title{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-violet);margin-bottom:.75rem;}
@@ -45,7 +45,7 @@
 <nav class="v-navbar">
   <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
     <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon" style="margin-left:.3rem;">PLAYSTATION</span></a>
-    <div style="display:flex;align-items:center;gap:1rem;"><a href="index.php" class="back-link" style="margin:0;">← Kembali</a></div>
+    <div style="display:flex;align-items:center;gap:1rem;"><a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="index.php" class="back-link" style="margin:0;">← Kembali</a></div>
   </div>
 </nav>
 <div class="form-header">
