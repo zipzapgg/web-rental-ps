@@ -268,7 +268,7 @@
     <div class="row" style="align-items:stretch;margin-top:1rem;">
       <div class="col-half"><div class="map-info">
         <h4>📍 Violet PlayStation</h4>
-        <div class="map-detail"><div class="map-detail-icon">🗺️</div><div class="map-detail-text"><strong>Alamat</strong><p>Jagakarsa, Jakarta Selatan, DKI Jakarta</p></div></div>
+        <div class="map-detail"><div class="map-detail-icon">🗺️</div><div class="map-detail-text"><strong>Alamat</strong><p>Jl. Jagakarsa II No.5D, RT.1/RW.7, Jagakarsa, Kec. Jagakarsa, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12620, Indonesia</p></div></div>
         <div class="map-detail"><div class="map-detail-icon">🕐</div><div class="map-detail-text"><strong>Jam Operasional</strong><p>Setiap hari · Hubungi via WhatsApp untuk info lebih lanjut</p></div></div>
         <div class="map-detail"><div class="map-detail-icon">📱</div><div class="map-detail-text"><strong>WhatsApp</strong><p>0858-4783-1078</p></div></div>
         <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;margin-top:1.5rem;width:100%;justify-content:center;"><span>💬 Chat WhatsApp</span></a>
