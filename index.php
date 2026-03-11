@@ -158,7 +158,7 @@
         <div class="price-card-title">PlayStation 4</div><div class="price-tag">Main di Tempat · Per Sesi</div>
         <div class="price-row"><span class="label">1 Jam</span><span class="price">Rp 8.000</span></div>
         <div class="price-row"><span class="label">2 Jam</span><span class="price">Rp 15.000</span></div>
-        <div class="price-row best"><span class="label">3 Jam <span class="best-badge">Best Value</span></span><span class="price">Rp 20.000</span></div>
+        <div class="price-row"><span class="label">3 Jam</span><span class="price">Rp 20.000</span></div>
         <div class="price-row"><span class="label">5 Jam</span><span class="price">Rp 35.000</span></div>
         <div class="price-note">⚠ Waktu tidak dapat disimpan / dipause</div>
       </div></div>
@@ -167,8 +167,8 @@
         <div class="price-card-title" style="color:#60a5fa;">PlayStation 5</div><div class="price-tag">Main di Tempat · Per Sesi</div>
         <div class="price-row"><span class="label">1 Jam</span><span class="price">Rp 15.000</span></div>
         <div class="price-row"><span class="label">2 Jam</span><span class="price">Rp 28.000</span></div>
-        <div class="price-row best"><span class="label" style="color:#60a5fa;">3 Jam <span class="best-badge" style="background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:#60a5fa;">Best Value</span></span><span class="price" style="color:#60a5fa;text-shadow:0 0 8px #3b82f6;">Rp 42.000</span></div>
-        <div class="price-row"><span class="label">6 Jam</span><span class="price">Rp 84.000</span></div>
+        <div class="price-row"><span class="label">3 Jam</span><span class="price">Rp 42.000</span></div>
+        <div class="price-row"><span class="label">5 Jam</span><span class="price">Rp 57.000</span></div>
         <div class="price-note" style="border-color:rgba(96,165,250,.2);color:#60a5fa;background:rgba(96,165,250,.08);">⚠ Waktu tidak dapat disimpan / dipause</div>
       </div></div>
     </div>
@@ -243,7 +243,7 @@
         <div class="section-title">SEWA <span class="neon">BAWA<br>PULANG</span></div>
         <div class="v-divider"></div>
         <div class="sewa-feature"><div class="sewa-icon">🏪</div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Kamu datang langsung ke toko kami di Jagakarsa untuk mengambil unit PS yang sudah dipesan.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon">🪪</div><div class="sewa-feature-text"><h6>Jaminan KTP / STNK</h6><p>Dokumen asli diserahkan saat pengambilan unit sebagai jaminan.</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon">🪪</div><div class="sewa-feature-text"><h6>Jaminan KTP & STNK</h6><p>Dokumen asli diserahkan saat pengambilan unit sebagai jaminan.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon">📅</div><div class="sewa-feature-text"><h6>Durasi Fleksibel</h6><p>Tersedia pilihan 1, 2, atau 3 hari sesuai kebutuhan.</p></div></div>
         <a href="sewa.php" class="btn-violet" style="display:inline-block;text-decoration:none;margin-top:1rem;"><span>Ajukan Sewa Sekarang →</span></a>
       </div>
