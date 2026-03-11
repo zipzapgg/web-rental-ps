@@ -5,6 +5,7 @@ $is_admin = is_admin();
 
 // Proses terima / tolak
 if (isset($_GET['aksi']) && isset($_GET['id'])) {
+    csrf_get_check();
     $id   = intval($_GET['id']);
     $aksi = $_GET['aksi'];
 
@@ -229,7 +230,7 @@ body{display:flex;min-height:100vh;}
             <div class="actions-wrap">
             <?php if($st === 'Pending'): ?>
               <!-- Terima -->
-              <a href="data_sewa.php?aksi=terima&id=<?php echo $d['id_pengajuan']; ?>" class="btn-sm btn-green" onclick="return confirm('Setujui pengajuan <?php echo htmlspecialchars($d['nama_penyewa']); ?>?')">✓ Terima</a>
+              <a href="data_sewa.php?aksi=terima&id=<?php echo $d['id_pengajuan']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-green" onclick="return confirm('Setujui pengajuan <?php echo htmlspecialchars($d['nama_penyewa']); ?>?')">✓ Terima</a>
               <!-- Tolak -->
               <button class="btn-sm btn-red" onclick="bukaModalTolak(<?php echo $d['id_pengajuan']; ?>,'<?php echo htmlspecialchars(addslashes($d['nama_penyewa'])); ?>','<?php echo $no_wa_bersih; ?>','<?php echo htmlspecialchars(addslashes($d['nama_unit'])); ?>')">✕ Tolak</button>
 
@@ -243,7 +244,7 @@ body{display:flex;min-height:100vh;}
                 Chat Penyewa
               </a>
               <!-- Selesaikan -->
-              <a href="data_sewa.php?aksi=selesai&id=<?php echo $d['id_pengajuan']; ?>&unit=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue" onclick="return confirm('Tandai transaksi ini selesai?')">✓ Selesai</a>
+              <a href="data_sewa.php?aksi=selesai&id=<?php echo $d['id_pengajuan']; ?>&unit=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-blue" onclick="return confirm('Tandai transaksi ini selesai?')">✓ Selesai</a>
 
             <?php elseif($st === 'Ditolak'): ?>
               <!-- Chat WA penolakan -->
@@ -283,7 +284,7 @@ body{display:flex;min-height:100vh;}
 <script>
 function bukaModalTolak(id, nama, wa, unit) {
   document.getElementById('tolak-nama').textContent = nama;
-  document.getElementById('tolak-confirm-btn').href = 'data_sewa.php?aksi=tolak&id=' + id;
+  document.getElementById('tolak-confirm-btn').href = 'data_sewa.php?aksi=tolak&id=' + id + '&_token=<?php echo csrf_get_token(); ?>';
   document.getElementById('modalTolak').classList.add('open');
 }
 function tutupModalTolak() {

@@ -1,11 +1,10 @@
 <?php require_once '../config/koneksi.php'; ?>
-<?php require_once '../config/koneksi.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Admin — Violet PS</title>
+  <title>Login Admin — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
   <style>
     html, body {
@@ -104,7 +103,7 @@
   <div class="login-wrap">
     <?php if(isset($_GET['pesan'])):
       $msg = $_GET['pesan'];
-      $txt = $msg === 'belum_login' ? '⚠ Silakan login terlebih dahulu.' : ($msg === 'logout' ? '✓ Berhasil logout.' : '');
+      $txt = $msg === 'belum_login' ? '⚠ Silakan login terlebih dahulu.' : ($msg === 'logout' ? '✓ Berhasil logout.' : ($msg === 'timeout' ? '⏱ Sesi berakhir karena tidak aktif. Silakan login kembali.' : ''));
       if($txt): ?>
       <div style="background:rgba(168,85,247,.1); border:1px solid rgba(168,85,247,.3); border-radius:8px; padding:.75rem 1rem; font-family:var(--font-ui); font-size:.85rem; letter-spacing:1px; color:var(--v-lavender); text-align:center; margin-bottom:1rem;">
         <?php echo $txt; ?>
@@ -113,13 +112,12 @@
 
     <div class="login-card">
       <div class="login-logo">
-        <img src="../assets/images/logo-violet.jpeg" alt="Violet PS">
-        <h2>VIOLET <span class="neon">PS</span></h2>
+        <img src="../assets/images/logo-violet.jpeg" alt="Violet PlayStation">
+        <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
         <p>Admin Panel</p>
       </div>
 
       <form action="cek_login.php" method="POST">
-        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
         <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
         <div class="form-group">
           <label class="v-label">Username</label>

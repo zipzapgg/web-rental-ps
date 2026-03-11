@@ -21,7 +21,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
 <html lang="id">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — Violet PlayStation</title>
+  <title>Dashboard Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
   <style>
     body{display:flex;min-height:100vh;}

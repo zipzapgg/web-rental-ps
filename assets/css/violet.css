@@ -83,6 +83,7 @@ body::before {
   font-family: var(--font-ui); font-size: .95rem; font-weight: 600;
   letter-spacing: 1.5px; color: var(--v-muted); text-decoration: none;
   text-transform: uppercase; transition: color .2s;
+  display: inline-flex; align-items: center; gap: .35rem;
 }
 .v-navbar .nav-links a:hover { color: var(--v-lavender); }
 

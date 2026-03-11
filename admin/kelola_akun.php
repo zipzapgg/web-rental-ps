@@ -12,8 +12,8 @@ if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     $nama     = trim($_POST['nama_lengkap']);
     $role     = in_array($_POST['role'], ['admin','karyawan']) ? $_POST['role'] : 'karyawan';
 
-    if (strlen($password) < 6) {
-        $msg = ['type'=>'error', 'text'=>'Password minimal 6 karakter.'];
+    if (strlen($password) < 8 || !preg_match('/[A-Za-z]/', $password) || !preg_match('/[0-9]/', $password)) {
+        $msg = ['type'=>'error', 'text'=>'Password minimal 8 karakter.'];
     } else {
         $hash = password_hash($password, PASSWORD_BCRYPT);
         $stmt = $koneksi->prepare("INSERT INTO admin (username, password, role, nama_lengkap) VALUES (?,?,?,?)");
@@ -29,6 +29,7 @@ if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
 
 // Hapus akun
 if (isset($_GET['hapus'])) {
+    csrf_get_check();
     $id = intval($_GET['hapus']);
     // Tidak boleh hapus diri sendiri
     if ($id === intval($_SESSION['id_admin'])) {
@@ -165,7 +166,7 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
             <td><span class="v-badge role-<?php echo $a['role']; ?>"><?php echo ucfirst($a['role']); ?></span></td>
             <td>
               <?php if($a['id_admin'] != $_SESSION['id_admin']): ?>
-              <a href="kelola_akun.php?hapus=<?php echo $a['id_admin']; ?>" class="btn-sm btn-red" onclick="return confirm('Hapus akun <?php echo htmlspecialchars($a['username']); ?>?')">Hapus</a>
+              <a href="kelola_akun.php?hapus=<?php echo $a['id_admin']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus akun <?php echo htmlspecialchars($a['username']); ?>?')">Hapus</a>
               <?php else: ?>
               <span style="font-family:var(--font-ui);font-size:.75rem;color:var(--v-muted);">— Anda —</span>
               <?php endif; ?>

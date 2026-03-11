@@ -3,6 +3,7 @@ require_once '../config/koneksi.php';
 require_admin('login.php');
 
 if (isset($_GET['hapus'])) {
+    csrf_get_check(); // [FIX #1] CSRF on GET
     $id = intval($_GET['hapus']);
     $g = $koneksi->prepare("SELECT foto_game FROM games WHERE id_game = ?");
     $g->bind_param("i", $id); $g->execute();
@@ -99,7 +100,7 @@ body{display:flex;min-height:100vh;}
       <div class="game-card-body">
         <?php if($kat): ?><span class="v-badge <?php echo $bc; ?>" style="font-size:.65rem;padding:.1rem .4rem;margin-bottom:.35rem;display:inline-block;"><?php echo $kat; ?></span><?php endif; ?>
         <h6><?php echo htmlspecialchars($g['judul_game']); ?></h6>
-        <a href="master_game.php?hapus=<?php echo $g['id_game']; ?>" class="btn-hapus" onclick="return confirm('Hapus game ini?')">🗑 Hapus</a>
+        <a href="master_game.php?hapus=<?php echo $g['id_game']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-hapus" onclick="return confirm('Hapus game ini?')">🗑 Hapus</a>
       </div>
     </div>
     <?php endwhile; ?>
