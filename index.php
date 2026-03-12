@@ -5,6 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Violet PlayStation — Sewa PS & Playbox Jagakarsa</title>
+  <meta name="description" content="Sewa PS4, PS5, Nintendo Switch & Playbox di Jagakarsa, Jakarta Selatan. Bawa pulang harian, harga terjangkau, promo weekday!">
+  <meta property="og:title" content="Violet PlayStation — Sewa PS & Playbox Jagakarsa">
+  <meta property="og:description" content="Sewa PS4, PS5, Nintendo Switch & Playbox harian. Booking H-1 via WA. Promo weekday: sewa 2 hari gratis 1 hari!">
+  <meta property="og:image" content="https://violetplaystation.com/assets/images/logo-violet.jpeg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
   <style>
     .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:6rem 0 4rem;}

@@ -4,6 +4,12 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Form Sewa — Violet Playstation</title>
+  <meta name="description" content="Sewa PS4, PS5, Nintendo Switch & Playbox di Jagakarsa, Jakarta Selatan. Bawa pulang harian, harga terjangkau, promo weekday!">
+  <meta property="og:title" content="Violet PlayStation — Sewa PS & Playbox Jagakarsa">
+  <meta property="og:description" content="Sewa PS4, PS5, Nintendo Switch & Playbox harian. Booking H-1 via WA. Promo weekday: sewa 2 hari gratis 1 hari!">
+  <meta property="og:image" content="https://violetplaystation.com/assets/images/logo-violet.jpeg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
   <style>
     body{background:var(--v-black);}
@@ -45,7 +51,7 @@
 <nav class="v-navbar">
   <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
     <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon" style="margin-left:.3rem;">PLAYSTATION</span></a>
-    <div style="display:flex;align-items:center;gap:1rem;"><a href="index.php" class="back-link" style="margin:0;">← Kembali</a></div>
+    <div style="display:flex;align-items:center;gap:1rem;"><a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a><a href="index.php" class="back-link" style="margin:0;">← Kembali</a></div>
   </div>
 </nav>
 <div class="form-header">
@@ -55,6 +61,7 @@
 </div>
 <div class="form-container">
   <div class="info-pickup">
+    <div class="icon">🏪</div>
     <div><strong>Ambil di Toko</strong>
     <p>Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp untuk konfirmasi waktu pengambilan.</p></div>
   </div>
@@ -64,7 +71,7 @@
       <div class="form-section-label"><span>👤</span> Data Diri</div>
       <div class="form-grid-2">
         <div class="form-group"><label class="v-label">Nama Lengkap (Sesuai KTP)</label><input type="text" name="nama" class="v-input" placeholder="John Doe" required></div>
-        <div class="form-group"><label class="v-label">Nomor WhatsApp (Aktif)</label><input type="tel" name="wa" class="v-input" placeholder="08xxxxxxxxxx" required></div>
+        <div class="form-group"><label class="v-label">Nomor WhatsApp</label><input type="tel" name="wa" class="v-input" placeholder="08xxxxxxxxxx" required></div>
       </div>
       <div class="form-group"><label class="v-label">Alamat Lengkap</label><textarea name="alamat" class="v-input" rows="2" required style="resize:vertical;"></textarea></div>
       <div class="form-section-label" style="margin-top:2rem;"><span>🎮</span> Pilih Unit & Durasi</div>
@@ -72,9 +79,13 @@
         <div class="form-group"><label class="v-label">Unit PS</label>
           <select name="id_unit" class="v-input" required><option value="">-- Pilih Unit --</option>
           <?php
-          $stmt=$koneksi->prepare("SELECT * FROM units WHERE tipe_layanan='Sewa Luar' AND status='Tersedia'");
+          $stmt=$koneksi->prepare("SELECT * FROM units WHERE (tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5')) AND status='Tersedia' ORDER BY kategori,nama_unit");
           $stmt->execute(); $units=$stmt->get_result();
-          while($u=$units->fetch_assoc()) echo "<option value='".(int)$u['id_unit']."'>".htmlspecialchars($u['nama_unit'])." (".$u['kategori'].")</option>";
+          while($u=$units->fetch_assoc()){
+            $label = htmlspecialchars($u['nama_unit']).' ('.$u['kategori'].')';
+            if($u['tipe_layanan']==='Main di Tempat') $label .= ' — WA dulu';
+            echo "<option value='".(int)$u['id_unit']."'>$label</option>";
+          }
           $stmt->close();
           ?></select>
         </div>
@@ -85,10 +96,10 @@
       <div class="form-section-label" style="margin-top:2rem;"><span>📄</span> Upload Dokumen</div>
       <div class="form-grid-2">
         <div class="form-group"><label class="v-label">Foto KTP Asli</label>
-          <div class="file-upload-box" id="ktp-box"><input type="file" name="ktp" accept="image/*" required onchange="previewFile(this,'ktp-box','ktp-text')"><div class="upload-icon"></div><div class="upload-text" id="ktp-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+          <div class="file-upload-box" id="ktp-box"><input type="file" name="ktp" accept="image/*" required onchange="previewFile(this,'ktp-box','ktp-text')"><div class="upload-icon">🪪</div><div class="upload-text" id="ktp-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
         </div>
         <div class="form-group"><label class="v-label">Foto STNK Asli</label>
-          <div class="file-upload-box" id="stnk-box"><input type="file" name="stnk" accept="image/*" required onchange="previewFile(this,'stnk-box','stnk-text')"><div class="upload-icon"></div><div class="upload-text" id="stnk-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+          <div class="file-upload-box" id="stnk-box"><input type="file" name="stnk" accept="image/*" required onchange="previewFile(this,'stnk-box','stnk-text')"><div class="upload-icon">🚗</div><div class="upload-text" id="stnk-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
         </div>
       </div>
       <div class="syarat-box">

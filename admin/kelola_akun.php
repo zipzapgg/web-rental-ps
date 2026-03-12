@@ -4,6 +4,7 @@ require_admin('login.php');
 
 $msg = '';
 
+// Tambah akun
 if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     csrf_check();
     $username = trim($_POST['username']);
@@ -26,9 +27,11 @@ if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     }
 }
 
+// Hapus akun
 if (isset($_GET['hapus'])) {
     csrf_get_check();
     $id = intval($_GET['hapus']);
+    // Tidak boleh hapus diri sendiri
     if ($id === intval($_SESSION['id_admin'])) {
         $msg = ['type'=>'error', 'text'=>'Tidak bisa menghapus akun sendiri.'];
     } else {
@@ -135,7 +138,7 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
           <input type="text" name="username" class="v-input" required>
         </div>
         <div class="form-group">
-          <label class="v-label">Password (min. 6 karakter)</label>
+          <label class="v-label">Password (min. 8 karakter, harus ada huruf & angka)</label>
           <input type="password" name="password" class="v-input" minlength="6" required>
         </div>
         <div class="form-group">
