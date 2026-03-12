@@ -7,7 +7,6 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] != "login") {
 include '../config/koneksi.php'; 
 
 $id_unit = $_GET['id'];
-// Mengambil info unit dari database
 $u = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM units WHERE id_unit = '$id_unit'"));
 ?>
 <!DOCTYPE html>
@@ -25,7 +24,6 @@ $u = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM units WHERE id_uni
         $sql_games = mysqli_query($koneksi, "SELECT * FROM games");
         while($g = mysqli_fetch_assoc($sql_games)){
             $id_g = $g['id_game'];
-            // Cek relasi di tabel unit_games
             $cek = mysqli_query($koneksi, "SELECT id_relasi FROM unit_games WHERE id_unit = '$id_unit' AND id_game = '$id_g'");
             $ada = mysqli_num_rows($cek);
         ?>

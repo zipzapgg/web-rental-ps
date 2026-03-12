@@ -4,7 +4,6 @@ require_admin('login.php');
 
 $msg = '';
 
-// Tambah akun
 if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     csrf_check();
     $username = trim($_POST['username']);
@@ -27,11 +26,9 @@ if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     }
 }
 
-// Hapus akun
 if (isset($_GET['hapus'])) {
     csrf_get_check();
     $id = intval($_GET['hapus']);
-    // Tidak boleh hapus diri sendiri
     if ($id === intval($_SESSION['id_admin'])) {
         $msg = ['type'=>'error', 'text'=>'Tidak bisa menghapus akun sendiri.'];
     } else {

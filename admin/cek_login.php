@@ -12,7 +12,6 @@ $user = trim($_POST['user'] ?? '');
 $pass = trim($_POST['pass'] ?? '');
 $ip   = $_SERVER['REMOTE_ADDR'];
 
-// ── Rate limiting: max 5 percobaan per IP per 15 menit ────
 $stmt = $koneksi->prepare(
     "SELECT COUNT(*) as c FROM login_attempts 
      WHERE ip_address = ? AND attempted_at > DATE_SUB(NOW(), INTERVAL 15 MINUTE)"
@@ -27,13 +26,12 @@ if ($attempts >= 5) {
     exit();
 }
 
-// ── Catat percobaan login ─────────────────────────────────
 $stmt = $koneksi->prepare("INSERT INTO login_attempts (ip_address) VALUES (?)");
 $stmt->bind_param("s", $ip);
 $stmt->execute();
 $stmt->close();
 
-// ── Cek username (prepared statement) ────────────────────
+
 $stmt = $koneksi->prepare("SELECT * FROM admin WHERE username = ? LIMIT 1");
 $stmt->bind_param("s", $user);
 $stmt->execute();
@@ -42,7 +40,6 @@ $admin  = $result->fetch_assoc();
 $stmt->close();
 
 if ($admin && password_verify($pass, $admin['password'])) {
-    // Login sukses — bersihkan attempts, regenerate session
     $stmt = $koneksi->prepare("DELETE FROM login_attempts WHERE ip_address = ?");
     $stmt->bind_param("s", $ip);
     $stmt->execute();

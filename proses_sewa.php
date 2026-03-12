@@ -4,34 +4,28 @@ csrf_check();
 
 if (!isset($_POST['kirim'])) { header("Location: sewa.php"); exit(); }
 
-// ── [FIX #3] Sanitasi + validasi panjang semua input ──
 $nama    = trim($_POST['nama']   ?? '');
 $wa      = trim($_POST['wa']     ?? '');
 $alamat  = trim($_POST['alamat'] ?? '');
 $id_unit = intval($_POST['id_unit'] ?? 0);
 $durasi  = trim($_POST['durasi'] ?? '');
 
-// Validasi wajib isi
 if (!$nama || !$wa || !$alamat || !$id_unit || !$durasi) {
     echo "<script>alert('Semua field wajib diisi.'); window.history.back();</script>"; exit();
 }
 
-// Validasi panjang maksimal (cegah input raksasa)
 if (mb_strlen($nama)   > 100) { echo "<script>alert('Nama terlalu panjang (maks 100 karakter).'); window.history.back();</script>"; exit(); }
 if (mb_strlen($alamat) > 300) { echo "<script>alert('Alamat terlalu panjang (maks 300 karakter).'); window.history.back();</script>"; exit(); }
 if (mb_strlen($durasi) > 50)  { echo "<script>alert('Durasi tidak valid.'); window.history.back();</script>"; exit(); }
 
-// Validasi format nomor WA
 if (!preg_match('/^[0-9]{10,15}$/', $wa)) {
     echo "<script>alert('Nomor WhatsApp tidak valid.'); window.history.back();</script>"; exit();
 }
 
-// Sanitasi karakter berbahaya
 $nama   = htmlspecialchars($nama,   ENT_QUOTES, 'UTF-8');
 $alamat = htmlspecialchars($alamat, ENT_QUOTES, 'UTF-8');
 $durasi = htmlspecialchars($durasi, ENT_QUOTES, 'UTF-8');
 
-// Validasi unit tersedia
 $stmt = $koneksi->prepare("SELECT id_unit, nama_unit FROM units WHERE id_unit=? AND tipe_layanan='Sewa Luar' AND status='Tersedia'");
 $stmt->bind_param("i", $id_unit); $stmt->execute();
 $unit_data = $stmt->get_result()->fetch_assoc();
@@ -39,7 +33,6 @@ if (!$unit_data) { echo "<script>alert('Unit tidak tersedia.'); window.history.b
 $stmt->close();
 $nama_unit = $unit_data['nama_unit'];
 
-// ── [FIX #2] Upload aman: ekstensi dari MIME, bukan dari nama file ──
 $allowed_mime = ['image/jpeg', 'image/png', 'image/webp'];
 $max_size     = 5 * 1024 * 1024;
 
@@ -56,7 +49,6 @@ function upload_secure($file_key, $prefix) {
 
     if (!in_array($mime, $GLOBALS['allowed_mime'])) return ['error' => "Format $file_key tidak diizinkan."];
 
-    // [FIX #2] Ekstensi ditentukan dari MIME, bukan nama file user
     $ext = ext_from_mime($mime);
     if (!$ext) return ['error' => "Tipe file $file_key tidak dikenali."];
 

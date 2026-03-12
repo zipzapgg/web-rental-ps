@@ -2,7 +2,6 @@
 require_once '../config/koneksi.php';
 require_login('login.php');
 
-// Auto logout jika idle 2 jam
 if (isset($_SESSION['login_at']) && (time() - $_SESSION['login_at']) > 7200) {
     session_destroy();
     header("Location: login.php?pesan=timeout");

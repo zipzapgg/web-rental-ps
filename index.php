@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Violet PlayStation Sewa PS & Playbox Jagakarsa</title>
+  <title>Violet PlayStation — Sewa PS & Playbox Jagakarsa</title>
   <link rel="stylesheet" href="assets/css/violet.css">
   <style>
     .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:6rem 0 4rem;}
@@ -261,7 +261,7 @@
     <div class="hero-content col-half animate-fade-up">
       <div class="hero-eyebrow"><svg width="14" height="14" style="vertical-align:middle;margin-right:.35rem;opacity:.8"><use href="#ico-pin"/></svg>Jagakarsa · Jakarta Selatan</div>
       <h1 class="hero-title">SEWA PS<br><span class="line2">BAWA<br>PULANG</span></h1>
-      <p class="hero-sub">PS4, PS5, Nintendo Switch & Playbox sewa harian, bawa ke rumah. Booking H-1 via WhatsApp, jaminan KTP & STNK.</p>
+      <p class="hero-sub">PS4, PS5, Nintendo Switch & Playbox — sewa harian, bawa ke rumah. Booking H-1 via WhatsApp, jaminan KTP & STNK.</p>
       <div class="hero-cta">
         <a href="sewa.php" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Sewa Sekarang</span></a>
         <a href="#harga" class="btn-violet" style="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);box-shadow:none;"><span>Lihat Harga →</span></a>
@@ -304,7 +304,7 @@
       <div class="promo-banner">
         <svg width="28" height="28" style="flex-shrink:0;color:#fbbf24"><use href="#ico-gift"/></svg>
         <div>
-          <div class="promo-banner-text">SPECIAL PROMO WEEKDAY Senin s/d Kamis</div>
+          <div class="promo-banner-text">SPECIAL PROMO WEEKDAY — Senin s/d Kamis</div>
           <div class="promo-banner-sub">Sewa 2 hari gratis 1 hari &nbsp;·&nbsp; Sewa 3 hari gratis 2 hari</div>
         </div>
       </div>
@@ -323,7 +323,7 @@
           <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 195.000</span></div>
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 390.000</span></div>
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 585.000</span></div>
-          <div class="price-note blue">ℹ️ Unit PS5 yang disewa adalah unit yang ada di tempat hubungi WA dulu untuk konfirmasi</div>
+          <div class="price-note blue">ℹ️ Unit PS5 yang disewa adalah unit yang ada di tempat — hubungi WA dulu untuk konfirmasi</div>
         </div></div>
       </div>
       <!-- Baris 2: Nintendo ditengah (segitiga terbalik) -->
@@ -384,7 +384,7 @@
         <div class="playbox-intro-icon"><svg width="36" height="36"><use href="#ico-case"/></svg></div>
         <div>
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#34d399;margin-bottom:.5rem;">Apa itu Playbox?</div>
-          <p style="font-size:.88rem;color:var(--v-muted);line-height:1.7;max-width:560px;">Playbox adalah <strong style="color:#C4B5D4;">koper gaming all-in-one</strong> yang berisi monitor, speaker, dan PlayStation (PS4 / PS5) di dalamnya. Tinggal buka koper, colok listrik langsung bisa main. <strong style="color:#C4B5D4;">Plug and play</strong>, cocok buat acara, gathering, atau main bareng di rumah tanpa ribet setup.</p>
+          <p style="font-size:.88rem;color:var(--v-muted);line-height:1.7;max-width:560px;">Playbox adalah <strong style="color:#C4B5D4;">koper gaming all-in-one</strong> yang berisi monitor, speaker, dan PlayStation (PS4 / PS5) di dalamnya. Tinggal buka koper, colok listrik — langsung bisa main. <strong style="color:#C4B5D4;">Plug and play</strong>, cocok buat acara, gathering, atau main bareng di rumah tanpa ribet setup.</p>
           <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;">
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">Monitor built-in</span>
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">🔊 Speaker built-in</span>
@@ -394,24 +394,71 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-half"><div class="price-card playbox">
-          <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);margin-bottom:.75rem;display:inline-block;">Playbox</span>
-          <div class="price-card-title">Playbox PS4</div>
-          <div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
-          <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp130.000</span></div>
-          <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp260.000</span></div>
-          <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp390.000</span></div>
+      <!-- Baris 1: PS4 + PS5 -->
+      <div class="row" style="margin-bottom:1.25rem;">
 
-          <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);margin-bottom:.75rem;display:inline-block;">Playbox</span>
-          <div class="price-card-title">Playbox PS5</div>
-          <div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
-          <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp225.000</span></div>
-          <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp450.000</span></div>
-          <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp675.000</span></div>
-          <div class="price-note green">✅ Syarat sewa sama seperti PlayStation · Booking H-1 via WA</div>
+        <div class="col-half"><div class="price-card playbox">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
+            <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
+            <span class="v-badge v-badge-ps4">PS4</span>
+          </div>
+          <div class="price-card-title">Playbox PS4</div>
+          <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
+          <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 130.000</span></div>
+          <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 260.000</span></div>
+          <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 390.000</span></div>
+          <div class="price-note green" style="margin-top:1.25rem;"><svg width="13" height="13" style="vertical-align:middle;margin-right:.3rem;"><use href="#ico-monitor"/></svg>Monitor + speaker + 2 controller included</div>
         </div></div>
+
+        <div class="col-half"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
+            <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
+            <span class="v-badge v-badge-ps5">PS5</span>
+          </div>
+          <div class="price-card-title">Playbox PS5</div>
+          <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
+          <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 225.000</span></div>
+          <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 450.000</span></div>
+          <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 675.000</span></div>
+          <div class="price-note blue" style="margin-top:1.25rem;"><svg width="13" height="13" style="vertical-align:middle;margin-right:.3rem;"><use href="#ico-monitor"/></svg>Monitor + speaker + 2 controller included</div>
+        </div></div>
+
       </div>
+
+      <!-- Baris 2: Nintendo ditengah -->
+      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+        <div style="width:100%;max-width:calc(50% - .75rem);">
+          <div class="price-card nin" style="border-color:rgba(248,113,113,.2);position:relative;">
+            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;flex-wrap:wrap;">
+              <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
+              <span class="v-badge v-badge-nin">Nintendo</span>
+              <span class="same-price-badge">= Harga sama dengan PS4</span>
+            </div>
+            <div class="price-card-title">Playbox Nintendo</div>
+            <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
+            <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 130.000</span></div>
+            <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 260.000</span></div>
+            <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 390.000</span></div>
+            <div class="price-note" style="margin-top:1.25rem;border-color:rgba(248,113,113,.2);color:#fca5a5;background:rgba(248,113,113,.06);"><svg width="13" height="13" style="vertical-align:middle;margin-right:.3rem;"><use href="#ico-monitor"/></svg>Monitor + speaker + controller included</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syarat Playbox -->
+      <div class="syarat-box">
+        <h6><svg width="16" height="16" style="vertical-align:middle;margin-right:.4rem;"><use href="#ico-shield"/></svg>Syarat & Ketentuan Sewa Playbox</h6>
+        <ul class="syarat-list">
+          <li><strong>Pengambilan wajib 2 orang</strong> menggunakan motor — barang berat</li>
+          <li>KTP & STNK aktif <strong>sekitar Jagakarsa, alamat wajib sama</strong> — ditahan selama sewa</li>
+          <li>Nomor HP penyewa <strong>dicek kecocokan dengan KTP via GetContact</strong> — jika tidak sesuai, tidak bisa sewa</li>
+          <li>2 stik controller dan <strong>monitor sudah termasuk</strong> dalam paket Playbox</li>
+          <li><strong>Terlambat</strong> kena charge Rp 20.000/jam · lebih dari 6 jam dianggap sewa 1 hari</li>
+          <li>Jika <strong>segel rusak / barang rusak / monitor pecah</strong> dianggap membeli unit</li>
+          <li>PS4 dan Nintendo <strong>khusus offline</strong> — dilarang konek internet. Denda senilai unit atau <strong>Rp 4.500.000</strong></li>
+          <li>Unit <strong>dijemput dan diantar sendiri</strong> ke lokasi Violet PlayStation</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </section>
@@ -429,12 +476,13 @@
 
     <!-- Panel Sewa -->
     <div class="units-panel active" id="upanel-sewa">
-      <div class="ps5-note"><span>ℹ️</span><span>PS5 juga tersedia untuk sewa unit yang sama dengan yang ada di tempat. Hubungi WA untuk konfirmasi ketersediaan sebelum booking.</span></div>
+      <div class="ps5-note"><svg width="16" height="16" style="flex-shrink:0;margin-top:.1rem;"><use href="#ico-warn"/></svg><span>Unit PS5 di bawah adalah unit yang biasa dipakai main di tempat. Karena itu, <strong style="color:#93c5fd;">hubungi WA dulu sebelum booking</strong> untuk pastikan unit tidak sedang terpakai.</span></div>
       <div class="units-grid">
         <?php
-        $q = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Sewa Luar' GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
+        $q = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Sewa Luar' OR (u.tipe_layanan='Main di Tempat' AND u.kategori='PS5') GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
         while($u=mysqli_fetch_assoc($q)):
           $kat=$u['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'); $disewa=$u['status']==='Disewa';
+          $is_ps5_tempat = ($u['tipe_layanan']==='Main di Tempat' && $kat==='PS5');
         ?>
         <div class="unit-card <?php echo $disewa?'disewa':''; ?>" <?php if(!$disewa): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
           <div class="unit-icon"><svg width="28" height="28" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg></div>
@@ -443,10 +491,14 @@
             <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
             <?php if($disewa): ?><span class="v-badge" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);">Sedang Disewa</span>
             <?php else: ?><span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Tersedia</span><?php endif; ?>
+            <?php if($is_ps5_tempat): ?><span style="font-size:.68rem;color:#60a5fa;font-family:var(--font-ui);display:flex;align-items:center;gap:.25rem;"><svg width="10" height="10"><use href="#ico-phone"/></svg>WA dulu</span><?php endif; ?>
           </div>
         </div>
         <?php endwhile; ?>
       </div>
+
+
+
     </div>
 
     <!-- Panel Tempat -->
@@ -457,13 +509,11 @@
         while($u=mysqli_fetch_assoc($q)):
           $kat=$u['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'); $disewa=$u['status']==='Disewa';
         ?>
-        <div class="unit-card <?php echo $disewa?'disewa':''; ?>" <?php if(!$disewa): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')"<?php endif; ?>>
+        <div class="unit-card" onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')">
           <div class="unit-icon"><svg width="28" height="28" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg></div>
           <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
           <div class="unit-meta">
             <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
-            <?php if($disewa): ?><span class="v-badge" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);">Sedang Digunakan</span>
-            <?php else: ?><span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Tersedia</span><?php endif; ?>
           </div>
         </div>
         <?php endwhile; ?>
@@ -504,9 +554,9 @@
         <div class="section-title">SEWA <span class="neon">BAWA<br>PULANG</span></div>
         <div class="v-divider"></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-phone"/></svg></div><div class="sewa-feature-text"><h6>Booking via WhatsApp</h6><p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa unit tidak diantar.</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa — unit tidak diantar.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-idcard"/></svg></div><div class="sewa-feature-text"><h6>Jaminan KTP & STNK</h6><p>Dokumen asli diserahkan saat pengambilan. Alamat KTP & STNK harus Jagakarsa.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari berlaku Senin s/d Kamis!</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari — berlaku Senin s/d Kamis!</p></div></div>
         <a href="sewa.php" class="btn-violet" style="display:inline-block;text-decoration:none;margin-top:1rem;"><span>Ajukan Sewa Sekarang</span></a>
       </div>
       <div class="col-half"><div class="v-card" style="padding:2.5rem;">
@@ -523,7 +573,7 @@
         </div>
         <?php endwhile;
         if(!$ada): ?><div style="text-align:center;padding:2rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.9rem;">Semua unit sedang disewa 😊</div><?php endif; ?>
-        <div style="margin-top:1rem;font-size:.78rem;color:#93c5fd;font-family:var(--font-ui);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:.6rem .85rem;">ℹ️ PS5 juga bisa disewa hubungi WA untuk cek ketersediaan</div>
+        <div style="margin-top:1rem;font-size:.78rem;color:#93c5fd;font-family:var(--font-ui);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:.6rem .85rem;">ℹ️ PS5 juga bisa disewa — hubungi WA untuk cek ketersediaan</div>
       </div></div>
     </div>
   </div>
@@ -556,7 +606,7 @@
     <div style="display:flex;flex-wrap:wrap;gap:3rem;justify-content:space-between;">
       <div>
         <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;">VIOLET <span class="neon">PLAYSTATION</span></div>
-        <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Sewa PS & Playbox Jagakarsa, Jakarta Selatan</div>
+        <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Sewa PS & Playbox — Jagakarsa, Jakarta Selatan</div>
         <div style="display:flex;gap:.75rem;margin-top:1.5rem;align-items:center;">
           <a href="https://wa.me/6285847831078" target="_blank" class="wa-btn" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
           <a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram" style="width:44px;height:44px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>

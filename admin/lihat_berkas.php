@@ -1,8 +1,4 @@
 <?php
-// ── lihat_berkas.php ──────────────────────────────────
-// File KTP & STNK disimpan di luar htdocs.
-// Script ini satu-satunya cara mengaksesnya,
-// dan hanya bisa diakses oleh admin/karyawan yang login.
 require_once '../config/koneksi.php';
 require_login('../admin/login.php');
 
@@ -12,12 +8,10 @@ if (!$file) {
     http_response_code(400); die("File tidak ditemukan.");
 }
 
-// Hanya huruf, angka, underscore, dash, titik — cegah path traversal
 if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $file)) {
     http_response_code(400); die("Nama file tidak valid.");
 }
 
-// Pastikan ekstensi aman
 $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 if (!in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
     http_response_code(400); die("Tipe file tidak diizinkan.");
@@ -29,7 +23,6 @@ if (!file_exists($path)) {
     http_response_code(404); die("File tidak ditemukan.");
 }
 
-// Verifikasi file ini memang milik pengajuan yang ada di DB
 $stmt = $koneksi->prepare(
     "SELECT id_pengajuan FROM pengajuan WHERE foto_ktp = ? OR foto_stnk = ? LIMIT 1"
 );
@@ -40,7 +33,6 @@ if ($stmt->get_result()->num_rows === 0) {
 }
 $stmt->close();
 
-// Set header yang benar lalu kirim file
 $mime_map = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp'];
 $mime = $mime_map[$ext] ?? 'application/octet-stream';
 

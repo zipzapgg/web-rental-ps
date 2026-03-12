@@ -6,7 +6,6 @@ $is_admin = is_admin();
 $id_unit = intval($_GET['id'] ?? 0);
 if (!$id_unit) { header("Location: index.php"); exit(); }
 
-// Ambil info unit
 $stmt = $koneksi->prepare("SELECT * FROM units WHERE id_unit = ?");
 $stmt->bind_param("i", $id_unit); $stmt->execute();
 $unit = $stmt->get_result()->fetch_assoc();
@@ -14,7 +13,6 @@ $stmt->close();
 
 if (!$unit) { header("Location: index.php"); exit(); }
 
-// Ambil histori sewa unit ini
 $stmt = $koneksi->prepare(
     "SELECT * FROM pengajuan WHERE id_unit = ? ORDER BY tgl_pengajuan DESC"
 );
@@ -22,7 +20,6 @@ $stmt->bind_param("i", $id_unit); $stmt->execute();
 $histori = $stmt->get_result();
 $stmt->close();
 
-// Stats unit
 $total_sewa   = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit")->fetch_assoc()['c'];
 $total_selesai = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'")->fetch_assoc()['c'];
 $total_pending = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Pending'")->fetch_assoc()['c'];

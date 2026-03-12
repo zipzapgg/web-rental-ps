@@ -9,13 +9,11 @@ if (!$id_sewa || !$id_unit) {
     header("Location: data_sewa.php"); exit();
 }
 
-// Update status pengajuan
 $stmt = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan = 'Selesai' WHERE id_pengajuan = ?");
 $stmt->bind_param("i", $id_sewa);
 $stmt->execute();
 $stmt->close();
 
-// Kembalikan status unit
 $stmt = $koneksi->prepare("UPDATE units SET status = 'Tersedia' WHERE id_unit = ?");
 $stmt->bind_param("i", $id_unit);
 $stmt->execute();

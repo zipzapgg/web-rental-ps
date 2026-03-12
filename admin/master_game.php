@@ -3,7 +3,7 @@ require_once '../config/koneksi.php';
 require_admin('login.php');
 
 if (isset($_GET['hapus'])) {
-    csrf_get_check(); // [FIX #1] CSRF on GET
+    csrf_get_check();
     $id = intval($_GET['hapus']);
     $g = $koneksi->prepare("SELECT foto_game FROM games WHERE id_game = ?");
     $g->bind_param("i", $id); $g->execute();

@@ -3,7 +3,6 @@ require_once '../config/koneksi.php';
 require_login('login.php');
 $is_admin = is_admin();
 
-// Proses terima / tolak
 if (isset($_GET['aksi']) && isset($_GET['id'])) {
     csrf_get_check();
     $id   = intval($_GET['id']);
@@ -15,7 +14,6 @@ if (isset($_GET['aksi']) && isset($_GET['id'])) {
         header("Location: data_sewa.php?msg=terima"); exit();
 
     } elseif ($aksi === 'tolak') {
-        // Kembalikan status unit juga
         $s = $koneksi->prepare("SELECT id_unit FROM pengajuan WHERE id_pengajuan=?");
         $s->bind_param("i",$id); $s->execute();
         $id_unit = $s->get_result()->fetch_assoc()['id_unit'] ?? 0; $s->close();
@@ -48,7 +46,6 @@ if (isset($_GET['aksi']) && isset($_GET['id'])) {
 $msg = $_GET['msg'] ?? '';
 $filter = $_GET['filter'] ?? 'semua';
 
-// Build query berdasarkan filter
 $where = '';
 if ($filter === 'pending')    $where = "WHERE status_pengajuan='Pending'";
 elseif ($filter === 'terima') $where = "WHERE status_pengajuan='Disetujui'";
@@ -60,7 +57,6 @@ $sql = "SELECT pengajuan.*, units.nama_unit, units.kategori FROM pengajuan
         $where ORDER BY tgl_pengajuan DESC";
 $data = $koneksi->query($sql);
 
-// Count per status untuk badge
 $counts = [];
 foreach (['Pending','Disetujui','Ditolak','Selesai'] as $s) {
     $r = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE status_pengajuan='$s'");
@@ -204,7 +200,7 @@ body{display:flex;min-height:100vh;}
           };
           $kat = $d['kategori'];
           $bc  = $kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
-          // Format nomor WA untuk link
+        
           $no_wa_bersih = preg_replace('/^0/', '62', preg_replace('/[^0-9]/','',$d['no_wa']));
         ?>
         <tr>
@@ -237,7 +233,7 @@ body{display:flex;min-height:100vh;}
             <?php elseif($st === 'Disetujui'): ?>
               <!-- Chat WA ke penyewa -->
               <?php
-              $pesan_terima = urlencode("Halo *{$d['nama_penyewa']}* 👋\n\nPengajuan sewa *{$d['nama_unit']}* kamu sudah *DISETUJUI* ✅\n\nSilakan datang ke toko kami di Jagakarsa untuk mengambil unit. Jangan lupa bawa *KTP & STNK asli* ya.\n\nTerima kasih sudah memilih Violet PlayStation! 🎮");
+              $pesan_terima = urlencode("Halo *{$d['nama_penyewa']}* 👋\n\nPengajuan sewa *{$d['nama_unit']}* kamu sudah *DISETUJUI* ✅\n\nSilakan datang ke toko kami di Jagakarsa untuk mengambil unit. Jangan lupa bawa *KTP, STNK asli, dan motor sesuai STNK* ya.\n\nTerima kasih sudah memilih Violet PlayStation!");
               ?>
               <a href="https://wa.me/<?php echo $no_wa_bersih; ?>?text=<?php echo $pesan_terima; ?>" target="_blank" class="btn-sm btn-wa">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -304,7 +300,6 @@ function closeSidebar() {
   document.getElementById('sidebarOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-// Close sidebar when nav item clicked on mobile
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', () => {
     if (window.innerWidth <= 768) closeSidebar();

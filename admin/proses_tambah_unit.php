@@ -11,7 +11,6 @@ if (!$nama_unit || !$kategori || !$tipe) {
     echo "<script>alert('Semua field wajib diisi.'); window.history.back();</script>"; exit();
 }
 
-// Simpan unit baru
 $stmt = $koneksi->prepare("INSERT INTO units (nama_unit, kategori, tipe_layanan, status) VALUES (?,?,?,'Tersedia')");
 $stmt->bind_param("sss", $nama_unit, $kategori, $tipe);
 
@@ -22,7 +21,6 @@ if (!$stmt->execute()) {
 $id_unit_baru = $koneksi->insert_id;
 $stmt->close();
 
-// Assign game ke unit
 if (!empty($_POST['game_ids'])) {
     $ins = $koneksi->prepare("INSERT IGNORE INTO unit_games (id_unit, id_game) VALUES (?,?)");
     foreach ($_POST['game_ids'] as $id_game) {
