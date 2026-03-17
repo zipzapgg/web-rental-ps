@@ -60,8 +60,10 @@ body{display:flex;min-height:100vh;}
   <div class="nav-section">Menu</div>
   <a href="index.php" class="nav-item active">🏠 Dashboard</a>
   <a href="data_sewa.php" class="nav-item">📋 Data Sewa</a>
+  <a href="laporan.php" class="nav-item">📊 Laporan</a>
   <div class="nav-section">Admin Only</div>
   <a href="master_game.php" class="nav-item">🎮 Master Game</a>
+  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
   <a href="kelola_akun.php" class="nav-item">👥 Kelola Akun</a>
   <div class="sidebar-bottom">
     <div class="user-chip">Login sebagai<strong><?php echo htmlspecialchars($_SESSION['nama']??$_SESSION['user']); ?></strong>
@@ -70,7 +72,11 @@ body{display:flex;min-height:100vh;}
   </div>
 </aside>
 <main class="main-content">
-  <a href="index.php" style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;display:inline-block;margin-bottom:1.5rem;">← Kembali</a>
+  <div style="display:flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1.5rem;">
+    <a href="index.php" style="color:var(--v-muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--v-lavender)'" onmouseout="this.style.color='var(--v-muted)'">Dashboard</a>
+    <span style="opacity:.4;">›</span>
+    <span style="color:var(--v-lavender);">Game Unit — <?php echo htmlspecialchars($unit['nama_unit']); ?></span>
+  </div>
 
   <?php if($msg==='ok'): ?><div class="alert-msg alert-success">✓ Game berhasil diperbarui.</div><?php endif; ?>
 

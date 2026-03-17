@@ -4,6 +4,30 @@ require_admin('login.php');
 
 $msg = '';
 
+if(isset($_POST['aksi']) && $_POST['aksi']==='ganti_password'){
+    csrf_check();
+    $pw_lama  = $_POST['pw_lama']  ?? '';
+    $pw_baru  = trim($_POST['pw_baru']  ?? '');
+    $pw_ulang = trim($_POST['pw_ulang'] ?? '');
+
+    $s = $koneksi->prepare("SELECT password FROM admin WHERE id_admin=?");
+    $s->bind_param("i",$_SESSION['id_admin']); $s->execute();
+    $row = $s->get_result()->fetch_assoc(); $s->close();
+
+    if(!password_verify($pw_lama,$row['password'])){
+        $msg = ['type'=>'error','text'=>'Password lama salah.'];
+    } elseif($pw_baru !== $pw_ulang){
+        $msg = ['type'=>'error','text'=>'Konfirmasi password tidak cocok.'];
+    } elseif(strlen($pw_baru)<8 || !preg_match('/[A-Za-z]/',$pw_baru) || !preg_match('/[0-9]/',$pw_baru)){
+        $msg = ['type'=>'error','text'=>'Password baru minimal 8 karakter, harus ada huruf dan angka.'];
+    } else {
+        $hash = password_hash($pw_baru, PASSWORD_BCRYPT);
+        $s = $koneksi->prepare("UPDATE admin SET password=? WHERE id_admin=?");
+        $s->bind_param("si",$hash,$_SESSION['id_admin']); $s->execute(); $s->close();
+        $msg = ['type'=>'success','text'=>'Password berhasil diubah.'];
+    }
+}
+
 // Tambah akun
 if (isset($_POST['aksi']) && $_POST['aksi'] === 'tambah') {
     csrf_check();
@@ -53,17 +77,17 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
   <link rel="stylesheet" href="../assets/css/violet.css">
   <style>
     body{display:flex;min-height:100vh;}
-    .sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s;}
-    .sidebar-brand{padding:0 1.5rem 2rem;border-bottom:1px solid var(--v-border);margin-bottom:1.5rem;}
-    .sidebar-brand h2{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
-    .sidebar-brand p{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.2rem;}
-    .sidebar-brand img{height:40px;margin-bottom:.75rem;filter:drop-shadow(0 0 8px rgba(168,85,247,.5));}
-    .nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-family:var(--font-ui);font-size:.95rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;transition:color .2s,background .2s;border-left:3px solid transparent;}
-    .nav-item:hover,.nav-item.active{color:var(--v-lavender);background:rgba(168,85,247,.08);border-left-color:var(--v-violet);}
-    .nav-section{font-family:var(--font-ui);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#3D3050;padding:.5rem 1.5rem;margin-top:.5rem;}
-    .sidebar-bottom{margin-top:auto;padding:1.5rem;border-top:1px solid var(--v-border);}
-    .user-chip{font-family:var(--font-ui);font-size:.85rem;color:var(--v-muted);margin-bottom:1rem;}
-    .user-chip strong{color:var(--v-lavender);display:block;}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     .main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
     .page-title{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
     .two-col{display:grid;grid-template-columns:1fr 1.5fr;gap:2rem;align-items:start;}
@@ -74,15 +98,15 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
     .table-card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--v-border);}
     .table-card-header h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);}
     .table-wrap{overflow-x:auto;}
-    .role-admin{background:rgba(168,85,247,.2);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);}
-    .role-karyawan{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);}
+    
+    
     .btn-sm{font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem .9rem;border-radius:6px;text-decoration:none;display:inline-block;transition:opacity .2s;}
     .btn-sm:hover{opacity:.8;}
     .btn-red{background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.3);}
     .alert-msg{border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;letter-spacing:1px;margin-bottom:1.5rem;}
     .alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;}
     .alert-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;}
-    @media(max-width:768px){.sidebar{display:none;}.main-content{margin-left:0;}.two-col{grid-template-columns:1fr;}}
+    @media(max-width:768px){.main-content{margin-left:0;}.two-col{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -106,8 +130,10 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
   <div class="nav-section">Menu</div>
   <a href="index.php" class="nav-item"><span class="icon">🏠</span> Dashboard</a>
   <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>
+  <a href="laporan.php" class="nav-item"><span class="icon">📊</span> Laporan</a>
   <div class="nav-section">Admin Only</div>
   <a href="master_game.php" class="nav-item"><span class="icon">🎮</span> Master Game</a>
+  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
   <a href="kelola_akun.php" class="nav-item active"><span class="icon">👥</span> Kelola Akun</a>
   <div class="sidebar-bottom">
     <div class="user-chip">Login sebagai<strong><?php echo htmlspecialchars($_SESSION['user']); ?></strong></div>
@@ -149,6 +175,19 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
           </select>
         </div>
         <button type="submit" class="btn-violet" style="width:100%;padding:.75rem;letter-spacing:2px;border-radius:8px;margin-top:.5rem;"><span>Simpan Akun</span></button>
+      </form>
+    </div>
+
+    <!-- Ganti password sendiri -->
+    <div class="form-card" style="margin-top:1.5rem;">
+      <h3>🔑 Ganti Password Saya</h3>
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
+        <input type="hidden" name="aksi" value="ganti_password">
+        <div class="form-group"><label class="v-label">Password Lama</label><input type="password" name="pw_lama" class="v-input" required></div>
+        <div class="form-group"><label class="v-label">Password Baru (min. 8 karakter)</label><input type="password" name="pw_baru" class="v-input" required></div>
+        <div class="form-group"><label class="v-label">Konfirmasi Password Baru</label><input type="password" name="pw_ulang" class="v-input" required></div>
+        <button type="submit" class="btn-violet" style="width:100%;padding:.75rem;letter-spacing:2px;border-radius:8px;"><span>Simpan Password</span></button>
       </form>
     </div>
 

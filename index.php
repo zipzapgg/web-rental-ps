@@ -5,6 +5,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Violet PlayStation — Sewa PS & Playbox Jagakarsa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/jpeg" href="assets/images/logo-violet.jpeg">
   <meta name="description" content="Sewa PS4, PS5, Nintendo Switch & Playbox di Jagakarsa, Jakarta Selatan. Bawa pulang harian, harga terjangkau, promo weekday!">
   <meta property="og:title" content="Violet PlayStation — Sewa PS & Playbox Jagakarsa">
   <meta property="og:description" content="Sewa PS4, PS5, Nintendo Switch & Playbox harian. Booking H-1 via WA. Promo weekday: sewa 2 hari gratis 1 hari!">
@@ -125,6 +128,9 @@
     .modal-game-item img{width:100%;height:100px;object-fit:cover;display:block;}
     .modal-game-item span{display:block;padding:.5rem .6rem;font-family:var(--font-ui);font-size:.78rem;font-weight:600;color:#C4B5D4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
     .modal-empty{text-align:center;padding:3rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.9rem;letter-spacing:1px;}
+    #scroll-top{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:12px;background:rgba(123,47,190,.7);border:1px solid rgba(168,85,247,.4);color:#fff;font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:90;transition:all .25s;box-shadow:0 4px 20px rgba(123,47,190,.4);}
+    #scroll-top:hover{background:var(--v-violet);transform:translateY(-2px);}
+    #scroll-top.show{display:flex;}
 
     .container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
     .row{display:flex;flex-wrap:wrap;gap:1.5rem;}
@@ -243,6 +249,7 @@
       <a href="#unit"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg>Unit</a>
       <a href="#games"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-monitor"/></svg>Game</a>
       <a href="#lokasi"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-pin"/></svg>Lokasi</a>
+      <a href="cek_status.php" style="font-family:var(--font-ui);font-size:.85rem;font-weight:600;letter-spacing:1px;color:var(--v-muted);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='var(--v-lavender)'" onmouseout="this.style.color='var(--v-muted)'">🔍 Cek Status</a>
       <a href="sewa.php" style="padding:.5rem 1.5rem;font-size:.85rem;font-family:var(--font-display);font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:6px;text-decoration:none;background:var(--v-lavender);color:#1a0030;box-shadow:0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25);transition:box-shadow .2s,transform .2s;display:inline-block;" onmouseover="this.style.boxShadow='0 0 28px rgba(192,132,252,.9),0 0 60px rgba(168,85,247,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25)';this.style.transform=''">Sewa Unit</a>
     </div>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleDrawer()">
@@ -255,6 +262,8 @@
   <a href="#unit" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg>Unit</a>
   <a href="#games" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-monitor"/></svg>Game</a>
   <a href="#lokasi" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-pin"/></svg>Lokasi</a>
+  <a href="#faq" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-shield"/></svg>FAQ</a>
+  <a href="cek_status.php" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-calendar"/></svg>Cek Status</a>
   <div class="drawer-cta">
     <a href="sewa.php" class="btn-violet" style="display:inline-flex;align-items:center;justify-content:center;gap:.5rem;width:100%;text-decoration:none;font-size:1.1rem;padding:1rem;border-radius:10px;"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Sewa Unit</span></a>
   </div>
@@ -533,7 +542,16 @@
   <div class="container">
     <div class="section-title">KOLEKSI <span class="neon">GAME</span></div>
     <div class="v-divider"></div>
-    <div class="row" style="margin-top:.5rem;">
+    <!-- Search Game -->
+    <div style="margin-bottom:1.5rem;position:relative;max-width:420px;">
+      <input type="text" id="game-search" class="v-input" placeholder="Cari game... (misal: GTA V)" oninput="cariGame(this.value)" style="padding-left:2.75rem;">
+      <svg width="18" height="18" style="position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--v-muted);pointer-events:none;" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+    <div id="search-result" style="display:none;background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .25s ease both;">
+      <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Hasil Pencarian: <strong id="search-keyword" style="color:var(--v-lavender);"></strong></div>
+      <div id="search-list"></div>
+    </div>
+    <div class="row" style="margin-top:.5rem;" id="games-grid">
       <?php
       $q=mysqli_query($koneksi,"SELECT DISTINCT g.id_game,g.judul_game,g.foto_game,g.kategori_game FROM games g JOIN unit_games ug ON g.id_game=ug.id_game ORDER BY g.judul_game ASC");
       while($g=mysqli_fetch_assoc($q)):
@@ -547,6 +565,7 @@
         </div>
       </div></div>
       <?php endwhile; ?>
+    </div>
     </div>
   </div>
 </section>
@@ -585,6 +604,40 @@
   </div>
 </section>
 
+
+<!-- FAQ -->
+<section style="padding:6rem 0;background:rgba(255,255,255,.015);" id="faq">
+  <div class="container">
+    <div class="section-title">PERTANYAAN <span class="neon">UMUM</span></div>
+    <div class="v-divider"></div>
+    <div style="max-width:720px;margin-top:1rem;" id="faq-list">
+      <?php
+      $faqs = [
+        ['q'=>'Apakah unit diantar ke rumah?','a'=>'Tidak. Unit harus diambil langsung ke toko kami di Jagakarsa. Ini berlaku untuk semua jenis sewa, termasuk Playbox.'],
+        ['q'=>'Apa syarat untuk sewa?','a'=>'KTP dan STNK asli dengan alamat Jagakarsa yang sama. Keduanya ditahan sebagai jaminan selama sewa berlangsung.'],
+        ['q'=>'Apa itu Playbox?','a'=>'Playbox adalah koper gaming all-in-one berisi PS4/PS5/Nintendo, monitor, dan speaker. Tinggal buka koper dan colok listrik — langsung bisa main, tanpa TV atau monitor tambahan.'],
+        ['q'=>'Bagaimana cara booking PS5?','a'=>'PS5 perlu konfirmasi via WhatsApp dulu karena unit yang sama dipakai untuk main di tempat. Hubungi kami di 0858-4783-1078 untuk cek ketersediaan sebelum isi form.'],
+        ['q'=>'Kapan promo weekday berlaku?','a'=>'Setiap Senin sampai Kamis. Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari. Berlaku untuk semua kategori unit Sewa Bawa Pulang.'],
+        ['q'=>'Bagaimana kalau unit rusak saat di tangan saya?','a'=>'Kerusakan dan kehilangan sepenuhnya menjadi tanggung jawab penyewa. Jika segel rusak, dianggap membeli unit. Jaga unit dengan baik ya!'],
+        ['q'=>'Berapa denda keterlambatan?','a'=>'Rp 10.000 per jam untuk keterlambatan 1–6 jam. Lebih dari 6 jam dianggap sewa 1 hari lagi. Untuk Playbox, denda Rp 20.000 per jam.'],
+        ['q'=>'Apakah bisa bayar DP atau transfer?','a'=>'Pembayaran dilakukan di lokasi saat pengambilan unit, setelah pengajuan disetujui. Belum tersedia pembayaran di muka atau transfer.'],
+      ];
+      foreach($faqs as $i=>$f):
+      ?>
+      <div style="border-bottom:1px solid var(--v-border);">
+        <button onclick="toggleFaq(<?php echo $i; ?>)" style="width:100%;background:none;border:none;padding:1.25rem 0;display:flex;justify-content:space-between;align-items:center;gap:1rem;cursor:pointer;text-align:left;">
+          <span style="font-family:var(--font-ui);font-size:.95rem;font-weight:700;color:var(--v-white);letter-spacing:.5px;"><?php echo htmlspecialchars($f['q']); ?></span>
+          <span id="faq-icon-<?php echo $i; ?>" style="color:var(--v-violet);font-size:1.3rem;flex-shrink:0;transition:transform .2s;line-height:1;">+</span>
+        </button>
+        <div id="faq-ans-<?php echo $i; ?>" style="display:none;padding-bottom:1.25rem;">
+          <p style="color:var(--v-muted);font-size:.88rem;line-height:1.7;"><?php echo htmlspecialchars($f['a']); ?></p>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
 <!-- LOKASI -->
 <section class="map-section" id="lokasi">
   <div class="container">
@@ -600,7 +653,7 @@
         <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;margin-top:1.5rem;width:100%;justify-content:center;"><span>Chat WhatsApp</span></a>
       </div></div>
       <div class="col-half"><div class="map-wrap" style="height:100%;min-height:350px;">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5!2d106.8198065!3d-6.3269265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed005178c647%3A0x884731391d96c010!2sViolet%20PlayStation!5e0!3m2!1sid!2sid!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5!2d106.8198065!3d-6.3269265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed005178c647%3A0x884731391d96c010!2sViolet%20PlayStation!5e0!3m2!1sid!2sid!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div></div>
     </div>
   </div>
@@ -626,12 +679,16 @@
           <a href="#games" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Koleksi Game</a>
           <a href="sewa.php" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Form Sewa</a>
           <a href="#lokasi" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Lokasi</a>
+          <a href="#faq" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">FAQ</a>
+          <a href="cek_status.php" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Cek Status Sewa</a>
         </div>
       </div>
     </div>
     <div class="footer-copy">© 2026 Violet PlayStation · Jagakarsa, Jakarta Selatan</div>
   </div>
 </footer>
+
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll ke atas">↑</button>
 
 <!-- MODAL UNIT -->
 <div class="modal-overlay" id="modalUnit">
@@ -647,7 +704,7 @@
       <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:.5rem;">Daftar Game di Unit Ini</div>
       <div id="modal-games"></div>
       <div id="modal-sewa-wrap" style="display:none;margin-top:1.5rem;">
-        <a href="sewa.php" class="btn-violet" style="display:block;text-align:center;text-decoration:none;"><span>Sewa Unit Ini Sekarang</span></a>
+        <a id="modal-sewa-btn" href="sewa.php" class="btn-violet" style="display:block;text-align:center;text-decoration:none;"><span>Sewa Unit Ini Sekarang</span></a>
       </div>
     </div>
   </div>
@@ -670,6 +727,7 @@ function bukaUnit(id,nama,kat,tipe){
   if(!games.length){el.innerHTML='<div class="modal-empty">Belum ada game di unit ini.</div>';}
   else{let h='<div class="modal-games-grid">';games.forEach(g=>{h+=`<div class="modal-game-item"><img src="uploads/games/${g.foto_game}" alt="${g.judul_game}"><span>${g.judul_game}</span></div>`;});h+='</div>';el.innerHTML=h;}
   document.getElementById('modal-sewa-wrap').style.display=tipe==='Sewa Luar'?'block':'none';
+  if(tipe==='Sewa Luar') document.getElementById('modal-sewa-btn').href='sewa.php?unit='+id;
   document.getElementById('modalUnit').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -690,6 +748,56 @@ function switchUnitTab(tab,btn){
 }
 function toggleDrawer(){const d=document.getElementById('navDrawer');const h=document.getElementById('hamburger');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
 function closeDrawer(){document.getElementById('navDrawer').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.body.style.overflow='';}
+
+// Scroll to top button
+window.addEventListener('scroll',function(){
+  const btn=document.getElementById('scroll-top');
+  if(btn) btn.classList.toggle('show', window.scrollY > 400);
+},{passive:true});
+
+function toggleFaq(i){
+  const ans=document.getElementById('faq-ans-'+i);
+  const ico=document.getElementById('faq-icon-'+i);
+  const open=ans.style.display==='block';
+  ans.style.display=open?'none':'block';
+  ico.textContent=open?'+':'−';
+  ico.style.transform=open?'':'rotate(45deg)';
+}
+
+// Search game
+const allGames=<?php
+$gdata=[];
+$qg=mysqli_query($koneksi,"SELECT DISTINCT g.id_game,g.judul_game,g.kategori_game,u.nama_unit,u.id_unit FROM games g JOIN unit_games ug ON g.id_game=ug.id_game JOIN units u ON ug.id_unit=u.id_unit ORDER BY g.judul_game,u.nama_unit");
+while($r=mysqli_fetch_assoc($qg)){
+  $gdata[$r['id_game']]['judul']=$r['judul_game'];
+  $gdata[$r['id_game']]['kat']=$r['kategori_game']??'';
+  $gdata[$r['id_game']]['units'][]=['id'=>$r['id_unit'],'nama'=>$r['nama_unit']];
+}
+echo json_encode(array_values($gdata));
+?>;
+
+function cariGame(q){
+  const keyword=q.trim().toLowerCase();
+  const box=document.getElementById('search-result');
+  const list=document.getElementById('search-list');
+  document.getElementById('search-keyword').textContent=q.trim();
+  if(!keyword){box.style.display='none';return;}
+  const hasil=allGames.filter(g=>g.judul.toLowerCase().includes(keyword));
+  if(!hasil.length){list.innerHTML='<div style="color:var(--v-muted);font-family:var(--font-ui);font-size:.85rem;">Game tidak ditemukan.</div>';box.style.display='block';return;}
+  let h='';
+  hasil.forEach(g=>{
+    const bc=g.kat==='PS5'?'v-badge-ps5':(g.kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
+    const units=g.units.map(u=>`<span style="background:rgba(255,255,255,.04);border:1px solid var(--v-border);border-radius:6px;padding:.2rem .6rem;font-size:.75rem;font-family:var(--font-ui);color:#C4B5D4;">${u.nama}</span>`).join(' ');
+    h+=`<div style="padding:.75rem 0;border-bottom:1px solid var(--v-border);">
+      <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;">
+        <span style="font-family:var(--font-ui);font-size:.95rem;font-weight:700;color:var(--v-white);">${g.judul}</span>
+        ${g.kat?`<span style="font-family:var(--font-ui);font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.15rem .5rem;border-radius:4px;${g.kat==='PS5'?'background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);':g.kat==='Nintendo'?'background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3);':'background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3);'}">${g.kat}</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;">${units}</div>
+    </div>`;
+  });
+  list.innerHTML=h; box.style.display='block';
+}
 </script>
 </body>
 </html>

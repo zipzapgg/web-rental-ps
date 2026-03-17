@@ -23,9 +23,10 @@ $histori = $stmt->get_result();
 $stmt->close();
 
 // Stats unit
-$total_sewa   = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit")->fetch_assoc()['c'];
-$total_selesai = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'")->fetch_assoc()['c'];
-$total_pending = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Pending'")->fetch_assoc()['c'];
+$total_sewa        = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit")->fetch_assoc()['c'];
+$total_selesai     = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'")->fetch_assoc()['c'];
+$total_pending     = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Pending'")->fetch_assoc()['c'];
+$total_pendapatan  = $koneksi->query("SELECT COALESCE(SUM(harga),0) as t FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'")->fetch_assoc()['t'];
 
 $kat = $unit['kategori'];
 $bc  = $kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
@@ -36,17 +37,6 @@ $bc  = $kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'
 <link rel="stylesheet" href="../assets/css/violet.css">
 <style>
 body{display:flex;min-height:100vh;}
-.sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s;}
-.sidebar-brand{padding:0 1.5rem 2rem;border-bottom:1px solid var(--v-border);margin-bottom:1.5rem;}
-.sidebar-brand h2{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
-.sidebar-brand p{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.2rem;}
-.sidebar-brand img{height:40px;margin-bottom:.75rem;filter:drop-shadow(0 0 8px rgba(168,85,247,.5));}
-.nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-family:var(--font-ui);font-size:.95rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;transition:color .2s,background .2s;border-left:3px solid transparent;}
-.nav-item:hover,.nav-item.active{color:var(--v-lavender);background:rgba(168,85,247,.08);border-left-color:var(--v-violet);}
-.nav-section{font-family:var(--font-ui);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#3D3050;padding:.5rem 1.5rem;margin-top:.5rem;}
-.sidebar-bottom{margin-top:auto;padding:1.5rem;border-top:1px solid var(--v-border);}
-.user-chip{font-family:var(--font-ui);font-size:.85rem;color:var(--v-muted);margin-bottom:1rem;}
-.user-chip strong{color:var(--v-lavender);display:block;}
 .main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
 
 .unit-header{background:var(--v-card);border:1px solid var(--v-border);border-radius:16px;padding:2rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
@@ -76,7 +66,7 @@ body{display:flex;min-height:100vh;}
 .btn-purple{background:rgba(168,85,247,.15);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);}
 .back-link{font-family:var(--font-ui);font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:color .2s;margin-bottom:1.5rem;display:block;}
 .back-link:hover{color:var(--v-lavender);}
-@media(max-width:768px){.sidebar{display:none;}.main-content{margin-left:0;}}
+@media(max-width:768px){.main-content{margin-left:0;}}
 </style>
 </head>
 <body>
@@ -99,6 +89,7 @@ body{display:flex;min-height:100vh;}
   <?php if($is_admin): ?>
   <div class="nav-section">Admin Only</div>
   <a href="master_game.php" class="nav-item"><span class="icon">🎮</span> Master Game</a>
+  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
   <a href="kelola_akun.php" class="nav-item"><span class="icon">👥</span> Kelola Akun</a>
   <?php endif; ?>
   <div class="sidebar-bottom">
@@ -108,7 +99,11 @@ body{display:flex;min-height:100vh;}
 </aside>
 
 <main class="main-content">
-  <a href="index.php" class="back-link">← Kembali ke Dashboard</a>
+  <div style="display:flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1.5rem;flex-wrap:wrap;">
+    <a href="index.php" style="color:var(--v-muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--v-lavender)'" onmouseout="this.style.color='var(--v-muted)'">Dashboard</a>
+    <span style="opacity:.4;">›</span>
+    <span style="color:var(--v-lavender);">Histori <?php echo htmlspecialchars($unit['nama_unit']); ?></span>
+  </div>
 
   <!-- Unit Header -->
   <div class="unit-header">
@@ -134,6 +129,7 @@ body{display:flex;min-height:100vh;}
     <div class="stat-mini"><div class="num" style="color:#34d399;"><?php echo $total_selesai; ?></div><div class="lbl">Selesai</div></div>
     <div class="stat-mini"><div class="num" style="color:#fbbf24;"><?php echo $total_pending; ?></div><div class="lbl">Pending</div></div>
     <div class="stat-mini"><div class="num" style="color:#f87171;"><?php echo $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Ditolak'")->fetch_assoc()['c']; ?></div><div class="lbl">Ditolak</div></div>
+    <div class="stat-mini" style="border-color:rgba(16,185,129,.25);"><div class="num" style="color:#34d399;font-size:1.3rem;">Rp <?php echo number_format($total_pendapatan,0,',','.'); ?></div><div class="lbl">Total Pendapatan</div></div>
   </div>
 
   <!-- Histori table -->
@@ -144,10 +140,10 @@ body{display:flex;min-height:100vh;}
     </div>
     <div class="table-wrap">
       <table class="v-table">
-        <thead><tr><th>Tanggal</th><th>Penyewa</th><th>No. WA</th><th>Durasi</th><th>Dokumen</th><th>Status</th><th>Aksi</th></tr></thead>
+        <thead><tr><th>Tanggal</th><th>Penyewa</th><th>No. WA</th><th>Durasi</th><th>Harga</th><th>Dokumen</th><th>Status</th><th>Aksi</th></tr></thead>
         <tbody>
         <?php if($histori->num_rows === 0): ?>
-        <tr><td colspan="7" style="text-align:center;color:var(--v-muted);font-family:var(--font-ui);padding:2rem;">Belum ada histori sewa untuk unit ini.</td></tr>
+        <tr><td colspan="8" style="text-align:center;color:var(--v-muted);font-family:var(--font-ui);padding:2rem;">Belum ada histori sewa untuk unit ini.</td></tr>
         <?php endif; ?>
         <?php while($h=$histori->fetch_assoc()):
           $st=$h['status_pengajuan'];
@@ -159,6 +155,12 @@ body{display:flex;min-height:100vh;}
           <td><strong style="color:var(--v-white);font-size:.9rem;"><?php echo htmlspecialchars($h['nama_penyewa']); ?></strong><br><span style="font-size:.78rem;color:var(--v-muted);max-width:160px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?php echo htmlspecialchars($h['alamat']); ?></span></td>
           <td style="font-size:.85rem;font-family:var(--font-ui);color:#9d8bb0;"><?php echo htmlspecialchars($h['no_wa']); ?></td>
           <td style="font-family:var(--font-ui);font-size:.85rem;color:var(--v-white);white-space:nowrap;"><?php echo htmlspecialchars($h['durasi']??'-'); ?></td>
+          <td style="font-family:var(--font-ui);font-size:.85rem;white-space:nowrap;">
+            <?php if(($h['status_pengajuan']==='Selesai'||$h['status_pengajuan']==='Disetujui') && $h['harga']): ?>
+            <span style="color:#34d399;font-weight:700;">Rp <?php echo number_format($h['harga'],0,',','.'); ?></span>
+            <?php if($h['pakai_playbox']??0): ?><br><span style="font-size:.7rem;color:#6ee7b7;">+ Playbox</span><?php endif; ?>
+            <?php else: ?><span style="color:var(--v-muted);">—</span><?php endif; ?>
+          </td>
           <td>
             <div style="display:flex;flex-direction:column;gap:.3rem;">
               <a href="lihat_berkas.php?file=<?php echo urlencode($h['foto_ktp']); ?>" class="btn-sm btn-purple" target="_blank">🪪 KTP</a>

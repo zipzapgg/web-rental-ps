@@ -2,6 +2,7 @@
 require_once '../config/koneksi.php';
 require_login('login.php');
 
+// Auto logout jika idle 2 jam
 if (isset($_SESSION['login_at']) && (time() - $_SESSION['login_at']) > 7200) {
     session_destroy();
     header("Location: login.php?pesan=timeout");
@@ -12,6 +13,12 @@ $_SESSION['login_at'] = time();
 $is_admin = is_admin();
 
 $total_units   = $koneksi->query("SELECT COUNT(*) as c FROM units")->fetch_assoc()['c'];
+// Libur aktif & mendatang (30 hari ke depan)
+$libur_aktif = $koneksi->query(
+    "SELECT * FROM hari_libur
+     WHERE tgl_selesai >= CURDATE() AND tgl_mulai <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
+     ORDER BY tgl_mulai ASC LIMIT 5"
+);
 $unit_disewa   = $koneksi->query("SELECT COUNT(*) as c FROM units WHERE status='Disewa'")->fetch_assoc()['c'];
 $total_pending = $koneksi->query("SELECT COUNT(*) as c FROM pengajuan WHERE status_pengajuan='Pending'")->fetch_assoc()['c'];
 $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc()['c'];
@@ -20,24 +27,24 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
 <html lang="id">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Violet PlayStation</title>
+  <title>Dashboard — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
   <style>
     body{display:flex;min-height:100vh;}
-    .sidebar{width:240px;flex-shrink:0;background:var(--v-dark);border-right:1px solid var(--v-border);display:flex;flex-direction:column;padding:1.5rem 0;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s;}
-    .sidebar-brand{padding:0 1.5rem 2rem;border-bottom:1px solid var(--v-border);margin-bottom:1.5rem;}
-    .sidebar-brand h2{font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
-    .sidebar-brand p{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.2rem;}
-    .sidebar-brand img{height:40px;margin-bottom:.75rem;filter:drop-shadow(0 0 8px rgba(168,85,247,.5));}
-    .nav-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-family:var(--font-ui);font-size:.95rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;transition:color .2s,background .2s;border-left:3px solid transparent;}
-    .nav-item:hover,.nav-item.active{color:var(--v-lavender);background:rgba(168,85,247,.08);border-left-color:var(--v-violet);}
-    .nav-section{font-family:var(--font-ui);font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#3D3050;padding:.5rem 1.5rem;margin-top:.5rem;}
-    .sidebar-bottom{margin-top:auto;padding:1.5rem;border-top:1px solid var(--v-border);}
-    .user-chip{font-family:var(--font-ui);font-size:.85rem;color:var(--v-muted);margin-bottom:1rem;}
-    .user-chip strong{color:var(--v-lavender);display:block;}
-    .role-badge{display:inline-block;font-family:var(--font-ui);font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;padding:.15rem .5rem;border-radius:4px;margin-top:.25rem;}
-    .role-admin{background:rgba(168,85,247,.2);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);}
-    .role-karyawan{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     .main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
     .page-title{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
     .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-bottom:2.5rem;}
@@ -63,7 +70,20 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
     .btn-sm{font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem .9rem;border-radius:6px;text-decoration:none;display:inline-block;transition:opacity .2s;}
     .btn-sm:hover{opacity:.8;}
     .btn-green{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.3);}
-    @media(max-width:768px){.sidebar{display:none;}.main-content{margin-left:0;}}
+    @media(max-width:768px){.main-content{margin-left:0;}}
+    .ftab{font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.45rem 1.1rem;border-radius:6px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
+    .ftab:hover,.ftab.active{background:rgba(168,85,247,.15);border-color:var(--v-violet);color:var(--v-lavender);}
+    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
+    .modal-overlay.open{display:flex;}
+    .modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;width:100%;max-height:88vh;overflow-y:auto;animation:fadeUp .3s ease both;}
+    .btn-sm{font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem .9rem;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:opacity .2s;cursor:pointer;border:none;white-space:nowrap;}
+    .btn-sm:hover{opacity:.8;}
+    .btn-blue{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);}
+    .btn-green{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.3);}
+    .btn-purple{background:rgba(168,85,247,.15);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);}
+    .s-tersedia{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);}
+    .s-disewa{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);}
+    .s-maint{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
   </style>
 </head>
 <body>
@@ -87,9 +107,11 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   <div class="nav-section">Menu</div>
   <a href="index.php" class="nav-item active"><span class="icon">🏠</span> Dashboard</a>
   <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>
+  <a href="laporan.php" class="nav-item"><span class="icon">📊</span> Laporan</a>
   <?php if($is_admin): ?>
   <div class="nav-section">Admin Only</div>
   <a href="master_game.php" class="nav-item"><span class="icon">🎮</span> Master Game</a>
+  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
   <a href="kelola_akun.php" class="nav-item"><span class="icon">👥</span> Kelola Akun</a>
   <?php endif; ?>
   <div class="sidebar-bottom">
@@ -102,6 +124,18 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   </div>
 </aside>
 <main class="main-content">
+  <?php if(isset($_GET['msg'])&&$_GET['msg']==='edit_ok'): ?><div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✓ Unit berhasil diupdate.</div><?php endif; ?>
+  <?php if(isset($_GET['msg'])&&$_GET['msg']==='hapus_ok'): ?><div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✓ Unit berhasil dihapus.</div><?php endif; ?>
+  <?php if(isset($_GET['msg'])&&$_GET['msg']==='hapus_gagal'): ?><div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#f87171;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✕ Tidak bisa hapus unit — masih ada pengajuan aktif.</div><?php endif; ?>
+  <?php if($total_pending>0): ?>
+  <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:.85rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:.75rem;">
+      <span style="font-size:1.2rem;">⏳</span>
+      <span style="font-family:var(--font-ui);font-size:.9rem;color:#fbbf24;font-weight:700;"><?php echo $total_pending; ?> pengajuan menunggu persetujuan</span>
+    </div>
+    <a href="data_sewa.php?filter=pending" style="font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fbbf24;text-decoration:none;border:1px solid rgba(251,191,36,.4);padding:.3rem .85rem;border-radius:6px;transition:background .2s;">Lihat Sekarang →</a>
+  </div>
+  <?php endif; ?>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;"><div class="page-title" style="margin-bottom:0;">DASHBOARD <span class="neon"><?php echo strtoupper($_SESSION['role']); ?></span></div><?php if($is_admin): ?><a href="tambah_unit.php" class="btn-violet" style="text-decoration:none;"><span>+ Tambah Unit</span></a><?php endif; ?></div>
   <div class="stats-grid">
     <div class="stat-card purple"><div class="stat-num"><?php echo $total_units; ?></div><div class="stat-lbl">Total Unit</div></div>
@@ -109,34 +143,199 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
     <div class="stat-card orange"><div class="stat-num"><?php echo $unit_disewa; ?></div><div class="stat-lbl">Sedang Disewa</div></div>
     <div class="stat-card green"><div class="stat-num"><?php echo $total_pending; ?></div><div class="stat-lbl">Pending</div></div>
   </div>
-  <div class="table-card">
-    <div class="table-card-header">
-      <h3>Semua Unit</h3>
-      <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);"><?php echo $total_games; ?> Game Terdaftar</span>
+  <!-- Unit Tabs -->
+  <div style="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+    <button class="ftab active" id="tab-sewa" onclick="switchTab('sewa')">🎮 Unit Sewa</button>
+    <button class="ftab" id="tab-tempat" onclick="switchTab('tempat')">🏠 Main di Tempat</button>
+  </div>
+
+  <!-- Panel Sewa (Sewa Luar + PS5) -->
+  <div id="panel-sewa">
+    <?php if($libur_aktif && $libur_aktif->num_rows > 0): ?>
+  <div style="background:var(--v-card);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+      <div style="font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fbbf24;">📅 Periode Libur Aktif / Mendatang</div>
+      <a href="hari_libur.php" style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;border:1px solid var(--v-border);padding:.25rem .75rem;border-radius:6px;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--v-lavender)';this.style.borderColor='var(--v-violet)'" onmouseout="this.style.color='var(--v-muted)';this.style.borderColor='var(--v-border)'">Kelola →</a>
     </div>
-    <div class="table-wrap">
-      <table class="v-table">
-        <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Layanan</th><th>Status</th><th>Aksi</th></tr></thead>
-        <tbody>
-        <?php
-        $no=1; $q=$koneksi->query("SELECT * FROM units ORDER BY tipe_layanan DESC, nama_unit ASC");
-        while($d=$q->fetch_assoc()):
-          $kat=$d['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
-          $st=$d['status']; $sc=$st==='Tersedia'?'s-tersedia':($st==='Disewa'?'s-disewa':'s-maint');
-        ?>
-        <tr>
-          <td style="color:var(--v-muted);"><?php echo $no++; ?></td>
-          <td><strong style="color:var(--v-white);"><?php echo htmlspecialchars($d['nama_unit']); ?></strong></td>
-          <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
-          <td style="color:var(--v-muted);font-size:.85rem;"><?php echo $d['tipe_layanan']; ?></td>
-          <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
-          <td><a href="histori_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue">📋 Histori</a><?php if($is_admin): ?>&nbsp;<a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">🎮 Game</a><?php endif; ?></td>
-        </tr>
-        <?php endwhile; ?>
-        </tbody>
-      </table>
+    <div style="display:flex;flex-direction:column;gap:.6rem;">
+    <?php while($lb=$libur_aktif->fetch_assoc()):
+      $n_hari = (int)((strtotime($lb['tgl_selesai'])-strtotime($lb['tgl_mulai']))/86400)+1;
+      $aktif_skrg = $lb['tgl_mulai'] <= date('Y-m-d') && $lb['tgl_selesai'] >= date('Y-m-d');
+    ?>
+    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-radius:8px;padding:.6rem 1rem;flex-wrap:wrap;gap:.5rem;">
+      <div>
+        <span style="font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:<?php echo $aktif_skrg?'#fbbf24':'var(--v-muted)'; ?>;"><?php echo htmlspecialchars($lb['keterangan']); ?></span>
+        <?php if($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif — No Promo</span><?php endif; ?>
+      </div>
+      <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);white-space:nowrap;">
+        <?php echo date('d/m/Y',strtotime($lb['tgl_mulai'])); ?> — <?php echo date('d/m/Y',strtotime($lb['tgl_selesai'])); ?>
+        <span style="color:#fbbf24;"> (<?php echo $n_hari; ?> hari)</span>
+      </span>
+    </div>
+    <?php endwhile; ?>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <div class="table-card">
+      <div class="table-card-header">
+        <h3>Unit Sewa</h3>
+        <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);"><?php echo $total_games; ?> Game Terdaftar</span>
+      </div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody>
+          <?php
+          $no=1;
+          $q=$koneksi->query("SELECT * FROM units WHERE tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5') ORDER BY kategori,nama_unit ASC");
+          while($d=$q->fetch_assoc()):
+            $kat=$d['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
+            $st=$d['status']; $sc=$st==='Tersedia'?'s-tersedia':($st==='Disewa'?'s-disewa':'s-maint');
+          ?>
+          <tr>
+            <td style="color:var(--v-muted);"><?php echo $no++; ?></td>
+            <td>
+              <strong style="color:var(--v-white);"><?php echo htmlspecialchars($d['nama_unit']); ?></strong>
+              <?php if($d['tipe_layanan']==='Main di Tempat'): ?>
+              <span style="font-size:.7rem;color:#60a5fa;font-family:var(--font-ui);display:block;margin-top:.1rem;">WA dulu</span>
+              <?php endif; ?>
+            </td>
+            <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
+            <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
+            <td style="display:flex;gap:.4rem;flex-wrap:wrap;">
+              <a href="histori_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue">📋 Histori</a>
+              <?php if($is_admin): ?>
+              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">🎮 Game</a>
+              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple">✏ Edit</a>
+              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini? Histori transaksinya tetap tersimpan.')">🗑</a>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel Main di Tempat (PS4 only, no history) -->
+  <div id="panel-tempat" style="display:none;">
+    <?php if($libur_aktif && $libur_aktif->num_rows > 0): ?>
+  <div style="background:var(--v-card);border:1px solid rgba(251,191,36,.25);border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+      <div style="font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fbbf24;">📅 Periode Libur Aktif / Mendatang</div>
+      <a href="hari_libur.php" style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;border:1px solid var(--v-border);padding:.25rem .75rem;border-radius:6px;transition:color .2s,border-color .2s;" onmouseover="this.style.color='var(--v-lavender)';this.style.borderColor='var(--v-violet)'" onmouseout="this.style.color='var(--v-muted)';this.style.borderColor='var(--v-border)'">Kelola →</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem;">
+    <?php while($lb=$libur_aktif->fetch_assoc()):
+      $n_hari = (int)((strtotime($lb['tgl_selesai'])-strtotime($lb['tgl_mulai']))/86400)+1;
+      $aktif_skrg = $lb['tgl_mulai'] <= date('Y-m-d') && $lb['tgl_selesai'] >= date('Y-m-d');
+    ?>
+    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-radius:8px;padding:.6rem 1rem;flex-wrap:wrap;gap:.5rem;">
+      <div>
+        <span style="font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:<?php echo $aktif_skrg?'#fbbf24':'var(--v-muted)'; ?>;"><?php echo htmlspecialchars($lb['keterangan']); ?></span>
+        <?php if($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif — No Promo</span><?php endif; ?>
+      </div>
+      <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);white-space:nowrap;">
+        <?php echo date('d/m/Y',strtotime($lb['tgl_mulai'])); ?> — <?php echo date('d/m/Y',strtotime($lb['tgl_selesai'])); ?>
+        <span style="color:#fbbf24;"> (<?php echo $n_hari; ?> hari)</span>
+      </span>
+    </div>
+    <?php endwhile; ?>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <div class="table-card">
+      <div class="table-card-header"><h3>Unit Main di Tempat</h3></div>
+      <div class="table-wrap">
+        <table class="v-table">
+          <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
+          <tbody>
+          <?php
+          $no=1;
+          $q=$koneksi->query("SELECT u.*, COUNT(ug.id_game) as jml_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Main di Tempat' AND u.kategori != 'PS5' GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
+          while($d=$q->fetch_assoc()):
+            $kat=$d['kategori']; $bc=$kat==='Nintendo'?'v-badge-nin':'v-badge-ps4';
+          ?>
+          <tr>
+            <td style="color:var(--v-muted);"><?php echo $no++; ?></td>
+            <td><strong style="color:var(--v-white);"><?php echo htmlspecialchars($d['nama_unit']); ?></strong></td>
+            <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
+            <td style="display:flex;gap:.4rem;flex-wrap:wrap;">
+              <button class="btn-sm btn-purple" onclick="lihatGame(<?php echo $d['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($d['nama_unit'])); ?>')">🎮 Lihat Game (<?php echo $d['jml_game']; ?>)</button>
+              <?php if($is_admin): ?>
+              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">✏ Game</a>
+              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple">✏ Edit</a>
+              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini?')">🗑</a>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </main>
+
+<!-- Modal Game Unit Tempat -->
+<div class="modal-overlay" id="modalGame" style="z-index:200;">
+  <div class="modal-box" style="max-width:580px;">
+    <div style="padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--v-border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--v-card);">
+      <div>
+        <div style="font-family:var(--font-ui);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:.25rem;">Daftar Game</div>
+        <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);" id="mg-nama"></div>
+      </div>
+      <button onclick="document.getElementById('modalGame').classList.remove('open')" style="background:rgba(255,255,255,.05);border:1px solid var(--v-border);border-radius:8px;width:34px;height:34px;cursor:pointer;color:var(--v-muted);font-size:1rem;">✕</button>
+    </div>
+    <div style="padding:1.25rem 1.5rem;" id="mg-list"></div>
+  </div>
+</div>
+
+<?php
+$all_unit_games=[];
+$qug=$koneksi->query("SELECT ug.id_unit,g.judul_game,g.kategori_game FROM unit_games ug JOIN games g ON ug.id_game=g.id_game ORDER BY g.judul_game");
+while($r=$qug->fetch_assoc()) $all_unit_games[$r['id_unit']][]=$r;
+?>
+<script>
+const unitGames=<?php echo json_encode($all_unit_games); ?>;
+
+function lihatGame(id,nama){
+  document.getElementById('mg-nama').textContent=nama;
+  const games=unitGames[id]||[];
+  const el=document.getElementById('mg-list');
+  if(!games.length){
+    el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.85rem;">Belum ada game di unit ini.</div>';
+  } else {
+    el.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:.5rem;">'+
+      games.map(g=>{
+        const bc=g.kategori_game==='PS5'?'v-badge-ps5':(g.kategori_game==='Nintendo'?'v-badge-nin':'v-badge-ps4');
+        return `<span style="background:rgba(255,255,255,.04);border:1px solid var(--v-border);border-radius:8px;padding:.35rem .75rem;font-family:var(--font-ui);font-size:.82rem;color:#C4B5D4;">${g.judul_game}</span>`;
+      }).join('')+
+    '</div>';
+  }
+  document.getElementById('modalGame').classList.add('open');
+}
+document.getElementById('modalGame').addEventListener('click',e=>{if(e.target===document.getElementById('modalGame'))document.getElementById('modalGame').classList.remove('open');});
+
+function switchTab(tab){
+  document.getElementById('panel-sewa').style.display=tab==='sewa'?'block':'none';
+  document.getElementById('panel-tempat').style.display=tab==='tempat'?'block':'none';
+  document.getElementById('tab-sewa').classList.toggle('active',tab==='sewa');
+  document.getElementById('tab-tempat').classList.toggle('active',tab==='tempat');
+}
+function toggleSidebar(){
+  document.querySelector('.sidebar').classList.toggle('mobile-open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+  document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';
+}
+function closeSidebar(){
+  document.querySelector('.sidebar').classList.remove('mobile-open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
 </body>
 </html>
