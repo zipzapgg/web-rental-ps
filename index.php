@@ -15,6 +15,7 @@
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
+  <script src="assets/app.js" defer></script>
   <style>
     .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:6rem 0 4rem;}
     .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 60% at 70% 50%,rgba(123,47,190,.25) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(168,85,247,.1) 0%,transparent 60%),var(--v-black);}
@@ -36,7 +37,7 @@
     .price-tab-nav{display:flex;gap:.6rem;margin-bottom:2.5rem;flex-wrap:wrap;border-bottom:1px solid var(--v-border);padding-bottom:1rem;}
     .price-tab-btn{font-family:var(--font-ui);font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.5rem 1.4rem;border-radius:8px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
     .price-tab-btn:hover{border-color:var(--v-violet);color:var(--v-lavender);}
-    .price-tab-btn.active{background:rgba(168,85,247,.15);border-color:var(--v-violet);color:var(--v-lavender);}
+    .price-tab-btn.active{background:rgba(168,85,247,.18);border-color:var(--v-violet);color:var(--v-lavender);box-shadow:0 0 12px rgba(168,85,247,.2);font-weight:800;}
     .price-tab-panel{display:none;animation:fadeUp .3s ease both;}
     .price-tab-panel.active{display:block;}
     .price-card{background:var(--v-card);border-radius:16px;padding:2.5rem;position:relative;overflow:hidden;}
@@ -578,7 +579,7 @@
         <div class="hero-eyebrow">Layanan Sewa Harian</div>
         <div class="section-title">SEWA <span class="neon">BAWA<br>PULANG</span></div>
         <div class="v-divider"></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-phone"/></svg></div><div class="sewa-feature-text"><h6>Booking via WhatsApp</h6><p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon" style="color:var(--v-violet);"><svg width="22" height="22" aria-hidden="true"><use href="#ico-phone"/></svg></div><div class="sewa-feature-text"><h6>Booking via WhatsApp</h6><p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa — unit tidak diantar.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-idcard"/></svg></div><div class="sewa-feature-text"><h6>Jaminan KTP & STNK</h6><p>Dokumen asli diserahkan saat pengambilan. Alamat KTP & STNK harus Jagakarsa.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari — berlaku Senin s/d Kamis!</p></div></div>

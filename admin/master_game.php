@@ -37,6 +37,7 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Master Game — Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
+  <script src="../assets/app.js" defer></script>
 <style>
 body{display:flex;min-height:100vh;}
 .main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
@@ -82,18 +83,33 @@ body{display:flex;min-height:100vh;}
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <aside class="sidebar">
-  <div class="sidebar-brand"><img src="../assets/images/logo-violet.jpeg" alt="Logo"><h2>VIOLET <span class="neon">PLAYSTATION</span></h2><p>Admin Panel</p></div>
+  <div class="sidebar-brand">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo">
+    <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
+    <p>Admin Panel</p>
+  </div>
   <div class="nav-section">Menu</div>
-  <a href="index.php" class="nav-item"><span class="icon">🏠</span> Dashboard</a>
-  <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>
-   <a href="laporan.php" class="nav-item">📊 Laporan</a>
+  <a href="index.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-home"/></svg> Dashboard</a>
+  <a href="data_sewa.php" class="nav-item" style="justify-content:space-between;">
+    <span style="display:inline-flex;align-items:center;gap:.5rem;"><svg width="16" height="16"><use href="../assets/icons.svg#ico-clipboard"/></svg> Data Sewa</span>
+    <?php if($total_pending??0>0): ?><span class="nav-badge"><?php echo $total_pending; ?></span><?php endif; ?>
+  </a>
+  <a href="laporan.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-chart"/></svg> Laporan</a>
+  <?php if(is_admin()): ?>
   <div class="nav-section">Admin Only</div>
-  <a href="master_game.php" class="nav-item active"><span class="icon">🎮</span> Master Game</a>
-  <a href="hari_libur.php" class="nav-item"><span class="icon">📅</span> Hari Libur</a>
-  <a href="kelola_akun.php" class="nav-item"><span class="icon">👥</span> Kelola Akun</a>
+  <a href="master_game.php" class="nav-item active"><svg width="16" height="16"><use href="../assets/icons.svg#ico-gamepad"/></svg> Master Game</a>
+  <a href="hari_libur.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-calendar"/></svg> Hari Libur</a>
+  <a href="kelola_akun.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-users"/></svg> Kelola Akun</a>
+  <?php endif; ?>
   <div class="sidebar-bottom">
-    <div class="user-chip">Login sebagai<strong><?php echo htmlspecialchars($_SESSION['user']); ?></strong></div>
-    <a href="logout.php" class="btn-violet" style="display:block;text-align:center;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')"><span>Logout</span></a>
+    <div class="user-chip">Login sebagai
+      <strong><?php echo htmlspecialchars($_SESSION["nama"]??$_SESSION["user"]); ?></strong>
+      <span class="role-badge role-<?php echo $_SESSION["role"]; ?>"><?php echo ucfirst($_SESSION["role"]); ?></span>
+    </div>
+    <a href="logout.php" class="btn-violet" style="display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')" >
+      <svg width="14" height="14"><use href="../assets/icons.svg#ico-logout"/></svg>
+      <span>Logout</span>
+    </a>
   </div>
 </aside>
 <main class="main-content">

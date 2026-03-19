@@ -75,6 +75,7 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelola Akun — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
+  <script src="../assets/app.js" defer></script>
   <style>
     body{display:flex;min-height:100vh;}
     
@@ -128,16 +129,27 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
     <p>Admin Panel</p>
   </div>
   <div class="nav-section">Menu</div>
-  <a href="index.php" class="nav-item"><span class="icon">🏠</span> Dashboard</a>
-  <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>
-  <a href="laporan.php" class="nav-item"><span class="icon">📊</span> Laporan</a>
+  <a href="index.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-home"/></svg> Dashboard</a>
+  <a href="data_sewa.php" class="nav-item" style="justify-content:space-between;">
+    <span style="display:inline-flex;align-items:center;gap:.5rem;"><svg width="16" height="16"><use href="../assets/icons.svg#ico-clipboard"/></svg> Data Sewa</span>
+    <?php if($total_pending??0>0): ?><span class="nav-badge"><?php echo $total_pending; ?></span><?php endif; ?>
+  </a>
+  <a href="laporan.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-chart"/></svg> Laporan</a>
+  <?php if(is_admin()): ?>
   <div class="nav-section">Admin Only</div>
-  <a href="master_game.php" class="nav-item"><span class="icon">🎮</span> Master Game</a>
-  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
-  <a href="kelola_akun.php" class="nav-item active"><span class="icon">👥</span> Kelola Akun</a>
+  <a href="master_game.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-gamepad"/></svg> Master Game</a>
+  <a href="hari_libur.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-calendar"/></svg> Hari Libur</a>
+  <a href="kelola_akun.php" class="nav-item active"><svg width="16" height="16"><use href="../assets/icons.svg#ico-users"/></svg> Kelola Akun</a>
+  <?php endif; ?>
   <div class="sidebar-bottom">
-    <div class="user-chip">Login sebagai<strong><?php echo htmlspecialchars($_SESSION['user']); ?></strong></div>
-    <a href="logout.php" class="btn-violet" style="display:block;text-align:center;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')"><span>Logout</span></a>
+    <div class="user-chip">Login sebagai
+      <strong><?php echo htmlspecialchars($_SESSION["nama"]??$_SESSION["user"]); ?></strong>
+      <span class="role-badge role-<?php echo $_SESSION["role"]; ?>"><?php echo ucfirst($_SESSION["role"]); ?></span>
+    </div>
+    <a href="logout.php" class="btn-violet" style="display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')" >
+      <svg width="14" height="14"><use href="../assets/icons.svg#ico-logout"/></svg>
+      <span>Logout</span>
+    </a>
   </div>
 </aside>
 
@@ -165,7 +177,12 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
         </div>
         <div class="form-group">
           <label class="v-label">Password (min. 8 karakter, harus ada huruf & angka)</label>
-          <input type="password" name="password" class="v-input" minlength="6" required>
+          <div class="input-wrap">
+          <input type="password" name="password" id="inp-pw-baru" class="v-input" minlength="8" required>
+          <button type="button" class="btn-eye" onclick="togglePassword('inp-pw-baru',this)" tabindex="-1">
+            <svg width="16" height="16"><use href="../assets/icons.svg#ico-eye"/></svg>
+          </button>
+        </div>
         </div>
         <div class="form-group">
           <label class="v-label">Role</label>
@@ -184,9 +201,9 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
       <form method="POST">
         <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
         <input type="hidden" name="aksi" value="ganti_password">
-        <div class="form-group"><label class="v-label">Password Lama</label><input type="password" name="pw_lama" class="v-input" required></div>
-        <div class="form-group"><label class="v-label">Password Baru (min. 8 karakter)</label><input type="password" name="pw_baru" class="v-input" required></div>
-        <div class="form-group"><label class="v-label">Konfirmasi Password Baru</label><input type="password" name="pw_ulang" class="v-input" required></div>
+        <div class="form-group"><label class="v-label">Password Lama</label><div class="input-wrap"><input type="password" name="pw_lama" id="inp-pw-lama" class="v-input" required><button type="button" class="btn-eye" onclick="togglePassword('inp-pw-lama',this)" tabindex="-1"><svg width="16" height="16"><use href="../assets/icons.svg#ico-eye"/></svg></button></div></div>
+        <div class="form-group"><label class="v-label">Password Baru (min. 8 karakter)</label><div class="input-wrap"><input type="password" name="pw_baru" id="inp-pw-baru2" class="v-input" required><button type="button" class="btn-eye" onclick="togglePassword('inp-pw-baru2',this)" tabindex="-1"><svg width="16" height="16"><use href="../assets/icons.svg#ico-eye"/></svg></button></div></div>
+        <div class="form-group"><label class="v-label">Konfirmasi Password Baru</label><div class="input-wrap"><input type="password" name="pw_ulang" id="inp-pw-ulang" class="v-input" required><button type="button" class="btn-eye" onclick="togglePassword('inp-pw-ulang',this)" tabindex="-1"><svg width="16" height="16"><use href="../assets/icons.svg#ico-eye"/></svg></button></div></div>
         <button type="submit" class="btn-violet" style="width:100%;padding:.75rem;letter-spacing:2px;border-radius:8px;"><span>Simpan Password</span></button>
       </form>
     </div>

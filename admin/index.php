@@ -29,6 +29,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
+  <script src="../assets/app.js" defer></script>
   <style>
     body{display:flex;min-height:100vh;}
     
@@ -87,6 +88,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   </style>
 </head>
 <body>
+<?php include_once "../config/svg_sprite_admin.php"; ?>
 <!-- Mobile topbar -->
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">
@@ -98,31 +100,7 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
   </button>
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<aside class="sidebar">
-  <div class="sidebar-brand">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo">
-    <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
-    <p>Admin Panel</p>
-  </div>
-  <div class="nav-section">Menu</div>
-  <a href="index.php" class="nav-item active"><span class="icon">🏠</span> Dashboard</a>
-  <a href="data_sewa.php" class="nav-item"><span class="icon">📋</span> Data Sewa</a>
-  <a href="laporan.php" class="nav-item"><span class="icon">📊</span> Laporan</a>
-  <?php if($is_admin): ?>
-  <div class="nav-section">Admin Only</div>
-  <a href="master_game.php" class="nav-item"><span class="icon">🎮</span> Master Game</a>
-  <a href="hari_libur.php" class="nav-item">📅 Hari Libur</a>
-  <a href="kelola_akun.php" class="nav-item"><span class="icon">👥</span> Kelola Akun</a>
-  <?php endif; ?>
-  <div class="sidebar-bottom">
-    <div class="user-chip">
-      Login sebagai
-      <strong><?php echo htmlspecialchars($_SESSION['nama'] ?: $_SESSION['user']); ?></strong>
-      <span class="role-badge role-<?php echo $_SESSION['role']; ?>"><?php echo ucfirst($_SESSION['role']); ?></span>
-    </div>
-    <a href="logout.php" class="btn-violet" style="display:block;text-align:center;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')"><span>Logout</span></a>
-  </div>
-</aside>
+<?php $active_page = 'dashboard'; include __DIR__.'/sidebar.php'; ?>
 <main class="main-content">
   <?php if(isset($_GET['msg'])&&$_GET['msg']==='edit_ok'): ?><div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✓ Unit berhasil diupdate.</div><?php endif; ?>
   <?php if(isset($_GET['msg'])&&$_GET['msg']==='hapus_ok'): ?><div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✓ Unit berhasil dihapus.</div><?php endif; ?>

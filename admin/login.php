@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Admin — Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
+  <script src="../assets/app.js" defer></script>
   <style>
     html, body {
       height: 100%;
@@ -125,9 +126,19 @@
         </div>
         <div class="form-group">
           <label class="v-label">Password</label>
-          <input type="password" name="pass" class="v-input" placeholder="••••••••" autocomplete="current-password" required>
+          <div class="input-wrap">
+          <input type="password" name="pass" id="inp-pass" class="v-input" placeholder="••••••••" autocomplete="current-password" required>
+          <button type="button" class="btn-eye" onclick="togglePassword('inp-pass',this)" tabindex="-1" aria-label="Tampilkan password">
+            <svg width="18" height="18" style="color:var(--v-muted)"><use href="../assets/icons.svg#ico-eye"/></svg>
+          </button>
         </div>
-        <button type="submit" class="btn-violet btn-login"><span>🔐 Login</span></button>
+        </div>
+        <button type="submit" class="btn-violet btn-login">
+          <span style="display:inline-flex;align-items:center;gap:.5rem;">
+            <svg width="16" height="16"><use href="../assets/icons.svg#ico-lock"/></svg>
+            Login
+          </span>
+        </button>
       </form>
     </div>
 

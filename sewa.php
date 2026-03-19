@@ -18,6 +18,7 @@ $libur_ranges = get_libur_ranges($koneksi);
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
+  <script src="assets/app.js" defer></script>
   <style>
     body{background:var(--v-black);}
     .form-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 50% 60% at 10% 20%,rgba(123,47,190,.15) 0%,transparent 60%),var(--v-black);}
@@ -30,11 +31,10 @@ $libur_ranges = get_libur_ranges($koneksi);
     .form-section-label{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--v-border);display:flex;align-items:center;gap:.75rem;}
     .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
     .form-group{margin-bottom:1.25rem;}
-    .file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
+    .file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:140px;}
     .file-upload-box:hover{border-color:var(--v-violet);background:rgba(168,85,247,.05);}
-    .file-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-    .file-upload-box .upload-icon{font-size:2rem;margin-bottom:.5rem;}
-    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:1rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
+    .file-upload-box.has-file{border-color:var(--v-violet);border-style:solid;padding:0;}
+    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
     .file-upload-box .upload-hint{font-size:.75rem;color:#4B3F6B;margin-top:.25rem;}
     .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(168,85,247,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
     .syarat-box .syarat-title{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-violet);margin-bottom:.75rem;}
@@ -82,6 +82,7 @@ $libur_ranges = get_libur_ranges($koneksi);
   </style>
 </head>
 <body>
+<?php include_once "config/svg_sprite.php"; ?>
 <div class="form-bg"></div><div class="form-bg-grid"></div>
 <nav class="v-navbar">
   <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
@@ -106,10 +107,11 @@ $libur_ranges = get_libur_ranges($koneksi);
 
   <div class="form-card">
     <form action="proses_sewa.php" method="POST" enctype="multipart/form-data" id="sewaForm">
+      <input type="hidden" name="kirim" value="1">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
       <input type="hidden" name="harga" id="input_harga" value="0">
 
-      <div class="form-section-label"><span>👤</span> Data Diri</div>
+      <div class="form-section-label"><svg width="18" height="18" style="color:var(--v-lavender)"><use href="#ico-user"/></svg> Data Diri</div>
       <div class="form-grid-2">
         <div class="form-group"><label class="v-label">Nama Lengkap (Sesuai KTP)</label><input type="text" name="nama" class="v-input" autocomplete="name" placeholder="John Doe" required maxlength="100" oninput="updateCounter(this,'cnt-nama',100)"><div id="cnt-nama" style="font-family:var(--font-ui);font-size:.72rem;color:var(--v-muted);text-align:right;margin-top:.2rem;">0/100</div></div>
         <div class="form-group">
@@ -126,10 +128,10 @@ $libur_ranges = get_libur_ranges($koneksi);
       </div>
       <div class="form-group"><label class="v-label">Alamat Lengkap</label><textarea name="alamat" class="v-input" autocomplete="street-address" rows="2" required style="resize:vertical;" maxlength="300" oninput="updateCounter(this,'cnt-alamat',300)"></textarea><div id="cnt-alamat" style="font-family:var(--font-ui);font-size:.72rem;color:var(--v-muted);text-align:right;margin-top:.2rem;">0/300</div></div>
 
-      <div class="form-section-label" style="margin-top:2rem;"><span>🎮</span> Pilih Unit & Durasi</div>
+      <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)"><use href="#ico-gamepad"/></svg> Pilih Unit & Durasi</div>
       <div class="form-grid-2">
         <div class="form-group"><label class="v-label">Unit PS</label>
-          <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga()">
+          <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga();updatePromoBanner();">
             <option value="">-- Pilih Unit --</option>
             <?php
             $stmt=$koneksi->prepare("SELECT * FROM units WHERE (tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5')) AND status='Tersedia' ORDER BY kategori,nama_unit");
@@ -145,7 +147,7 @@ $libur_ranges = get_libur_ranges($koneksi);
           </select>
         </div>
         <div class="form-group"><label class="v-label">Durasi Sewa</label>
-          <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga()">
+          <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga();updatePromoBanner();">
             <option value="1">1 Hari</option>
             <option value="2">2 Hari</option>
             <option value="3">3 Hari</option>
@@ -153,9 +155,20 @@ $libur_ranges = get_libur_ranges($koneksi);
           <div id="durasi_promo_hint" style="font-size:.78rem;color:#fbbf24;font-family:var(--font-ui);margin-top:.35rem;display:none;"></div>
         </div>
       </div>
+      <!-- Promo banner realtime -->
+      <div id="promo-banner-form" style="display:none;background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(245,158,11,.08));border:1px solid rgba(251,191,36,.35);border-radius:12px;padding:.9rem 1.25rem;margin-bottom:1.25rem;animation:fadeUp .3s ease both;">
+        <div style="display:flex;align-items:center;gap:.75rem;">
+          <svg width="22" height="22" style="color:#fbbf24;flex-shrink:0;"><use href="#ico-gift"/></svg>
+          <div>
+            <div id="promo-banner-title" style="font-family:var(--font-ui);font-size:.9rem;font-weight:700;letter-spacing:.5px;color:#fbbf24;"></div>
+            <div id="promo-banner-sub" style="font-family:var(--font-body);font-size:.8rem;color:#d97706;margin-top:.15rem;"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="v-label">Rencana Tanggal Ambil</label>
-        <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required min="<?php echo date('Y-m-d'); ?>" style="padding:.75rem 1rem;" onchange="hitungHarga()">
+        <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required min="<?php echo date('Y-m-d'); ?>" style="padding:.75rem 1rem;" onchange="hitungHarga();updatePromoBanner();">
         <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);margin-top:.35rem;">📅 Booking minimal H-1. Konfirmasi final via WhatsApp.</div>
         <div id="promo-info" style="display:none;margin-top:.6rem;"></div>
       </div>
@@ -186,13 +199,35 @@ $libur_ranges = get_libur_ranges($koneksi);
         </div>
       </div>
 
-      <div class="form-section-label" style="margin-top:2rem;"><span>📄</span> Upload Dokumen</div>
+      <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)"><use href="#ico-file"/></svg> Upload Dokumen</div>
       <div class="form-grid-2">
         <div class="form-group"><label class="v-label">Foto KTP Asli</label>
-          <div class="file-upload-box" id="ktp-box"><input type="file" name="ktp" accept="image/*" required onchange="previewFile(this,'ktp-box','ktp-text')"><div class="upload-icon">🪪</div><div class="upload-text" id="ktp-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+          <div class="file-upload-box" id="ktp-box" style="position:relative;min-height:140px;">
+            <input type="file" name="ktp" accept="image/*" required onchange="previewBox(this,'ktp-box','ktp-prev')" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2;">
+            <div id="ktp-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
+              <svg width="32" height="32" style="color:var(--v-muted)"><use href="#ico-idcard"/></svg>
+              <div class="upload-text">Klik untuk upload KTP</div>
+              <div class="upload-hint">JPG, PNG · Max 5MB</div>
+            </div>
+            <div id="ktp-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
+              <img id="ktp-img" src="" alt="Preview KTP" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+              <button type="button" onclick="clearBox('ktp-box','ktp-prev','ktp-placeholder','input[name=ktp]')" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
+            </div>
+          </div>
         </div>
         <div class="form-group"><label class="v-label">Foto STNK Asli</label>
-          <div class="file-upload-box" id="stnk-box"><input type="file" name="stnk" accept="image/*" required onchange="previewFile(this,'stnk-box','stnk-text')"><div class="upload-icon">🚗</div><div class="upload-text" id="stnk-text">Klik untuk upload</div><div class="upload-hint">JPG, PNG · Max 5MB</div></div>
+          <div class="file-upload-box" id="stnk-box" style="position:relative;min-height:140px;">
+            <input type="file" name="stnk" accept="image/*" required onchange="previewBox(this,'stnk-box','stnk-prev')" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2;">
+            <div id="stnk-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
+              <svg width="32" height="32" style="color:var(--v-muted)"><use href="#ico-motor"/></svg>
+              <div class="upload-text">Klik untuk upload STNK</div>
+              <div class="upload-hint">JPG, PNG · Max 5MB</div>
+            </div>
+            <div id="stnk-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
+              <img id="stnk-img" src="" alt="Preview STNK" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+              <button type="button" onclick="clearBox('stnk-box','stnk-prev','stnk-placeholder','input[name=stnk]')" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -214,6 +249,11 @@ $libur_ranges = get_libur_ranges($koneksi);
 </div>
 
 <script>
+// ── Konstanta global ──
+const hargaPS4=100000, hargaPS5=195000, hargaNin=100000, hargaPlaybox=30000;
+var hariLibur=<?php echo json_encode($libur_ranges); ?>;
+
+// ── Utilities ──
 function updateCounter(el, counterId, max){
   const len = el.value.length;
   const counter = document.getElementById(counterId);
@@ -221,9 +261,6 @@ function updateCounter(el, counterId, max){
   counter.textContent = len + '/' + max;
   counter.style.color = len > max * 0.9 ? '#f87171' : 'var(--v-muted)';
 }
-
-const hargaPS4=100000, hargaPS5=195000, hargaNin=100000, hargaPlaybox=30000;
-const hariLibur=<?php echo json_encode($libur_ranges); ?>;
 
 function isPromoWeekday(tgl){
   if(!tgl) return false;
@@ -241,38 +278,8 @@ function getLiburKet(tgl){
   return null;
 }
 
-function updatePromoInfo(){
-  const tgl = document.querySelector('input[name="tgl_ambil"]')?.value;
-  const box = document.getElementById('promo-info');
-  if(!box) return;
-  if(!tgl){ box.style.display='none'; return; }
-  const promo = isPromoWeekday(tgl);
-  const d     = new Date(tgl);
-  const hari  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][d.getDay()];
-  const libur = getLiburKet(tgl);
-  if(promo){
-    box.innerHTML='<div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:8px;padding:.6rem .9rem;font-family:var(--font-ui);font-size:.8rem;color:#fbbf24;">🎉 '+hari+' — <strong>Promo Weekday berlaku!</strong> Sewa 2 hari gratis 1, sewa 3 hari gratis 2.</div>';
-  } else if(libur){
-    box.innerHTML='<div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);border-radius:8px;padding:.6rem .9rem;font-family:var(--font-ui);font-size:.8rem;color:#f87171;">🚫 '+hari+' ('+libur+') — Promo tidak berlaku pada hari libur panjang.</div>';
-  } else {
-    box.innerHTML='<div style="background:rgba(255,255,255,.04);border:1px solid var(--v-border);border-radius:8px;padding:.6rem .9rem;font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);">'+hari+' — Bukan weekday, promo tidak berlaku.</div>';
-  }
-  box.style.display='block';
-  hitungHarga();
-}
-const hariLibur=<?php echo json_encode($libur_ranges); ?>; // array of {tgl_mulai,tgl_selesai,keterangan}
 
-function isPromoWeekday(tglStr){
-  if(!tglStr) return false;
-  const d=new Date(tglStr+'T00:00:00');
-  const hari=d.getDay(); // 0=Min,1=Sen,...,4=Kam,5=Jum,6=Sab
-  if(hari===0||hari>=5) return false;
-  // Cek apakah masuk range libur
-  for(const r of hariLibur){
-    if(tglStr >= r.tgl_mulai && tglStr <= r.tgl_selesai) return false;
-  }
-  return true;
-}
+
 
 
 
@@ -359,13 +366,44 @@ function hitungHarga(){
 
   document.getElementById('row_total').textContent = fmt(total);
   document.getElementById('input_harga').value = total;
-  // Hint di bawah select durasi
+
+  // Update hint di bawah select durasi
   const hint = document.getElementById('durasi_promo_hint');
   if(hint){
     if(promo){ hint.style.display='block'; hint.textContent='🎁 Weekday: bayar '+durasi+' hari → dapat '+hariDapat+' hari'; }
     else { hint.style.display='none'; }
   }
+
+
   preview.classList.add('show');
+}
+
+function updatePromoBanner(){
+  const durasi = parseInt(document.getElementById('sel_durasi').value)||1;
+  const tgl    = document.getElementById('tgl_ambil_input')?.value||'';
+  const banner = document.getElementById('promo-banner-form');
+  if(!banner) return;
+
+  const promo     = isPromoWeekday(tgl) && durasi >= 2;
+  const hariDapat = promo ? (2*durasi - 1) : durasi;
+
+  if(promo && tgl){
+    const hariNames = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const d = new Date(tgl+'T00:00:00');
+    const namaHari = hariNames[d.getDay()];
+    const hUnit = durasi===1?hargaPS4: // default PS4 untuk estimasi banner
+      (document.getElementById('sel_unit').value ? getHargaUnit() : hargaPS4);
+    const hSehari = hUnit + (document.getElementById('chk_playbox')?.checked ? hargaPlaybox : 0);
+    const hemat   = hSehari * (hariDapat - durasi);
+    document.getElementById('promo-banner-title').textContent =
+      'Promo Weekday! Bayar ' + durasi + ' hari, dapat ' + hariDapat + ' hari';
+    document.getElementById('promo-banner-sub').textContent =
+      namaHari + ' ' + new Date(tgl+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'}) +
+      (hemat > 0 ? ' — Gratis ' + (hariDapat-durasi) + ' hari!' : '');
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
 }
 
 function togglePlaybox(cb){
@@ -375,25 +413,55 @@ function togglePlaybox(cb){
 
 function fmt(n){return 'Rp '+n.toLocaleString('id-ID');}
 
-function previewFile(input,boxId,textId){
-  const f=input.files[0];
-  if(f){
-    document.getElementById(textId).textContent=f.name;
-    document.getElementById(boxId).style.borderColor='var(--v-violet)';
-    document.getElementById(boxId).style.background='rgba(168,85,247,.08)';
-  }
+document.getElementById('sel_unit').addEventListener('change', hitungHarga);
+document.getElementById('sel_durasi').addEventListener('change', function(){ hitungHarga(); updatePromoBanner(); });
+document.getElementById('tgl_ambil_input')?.addEventListener('change', function(){ hitungHarga(); updatePromoBanner(); });
+// Auto hitung jika unit sudah pre-selected dari URL
+if(document.getElementById('sel_unit').value){ hitungHarga(); updatePromoBanner(); }
+// Cek apakah ada unit tersedia
+const selUnit = document.getElementById('sel_unit');
+if(selUnit && selUnit.options.length <= 1){
+  selUnit.style.borderColor='rgba(239,68,68,.4)';
+  const warn=document.createElement('div');
+  warn.style.cssText='background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .9rem;margin-top:.4rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
+  warn.textContent='⚠ Semua unit saat ini sedang disewa. Hubungi kami via WhatsApp.';
+  selUnit.parentNode.appendChild(warn);
 }
 
-document.getElementById('sel_unit').addEventListener('change',hitungHarga);
-document.getElementById('sel_durasi').addEventListener('change',hitungHarga);
-document.querySelector('input[name="tgl_ambil"]')?.addEventListener('change', updatePromoInfo);
-// Auto hitung jika unit sudah pre-selected dari URL
-if(document.getElementById('sel_unit').value){ hitungHarga(); }
+function previewBox(input, boxId, prevId){
+  const f = input.files[0];
+  if(!f) return;
+  const box = document.getElementById(boxId);
+  const prev = document.getElementById(prevId);
+  const ph = document.getElementById(boxId.replace('-box','-placeholder'));
+  const img = prev ? prev.querySelector('img') : null;
+  if(!box || !prev || !img) return;
+  img.src = URL.createObjectURL(f);
+  box.classList.add('has-file');
+  box.style.padding = '0';
+  box.style.borderColor = 'var(--v-violet)';
+  box.style.borderStyle = 'solid';
+  if(ph) ph.style.display = 'none';
+  prev.style.display = 'block';
+}
+
+function clearBox(boxId, prevId, phId, inputSel){
+  const box = document.getElementById(boxId);
+  const prev = document.getElementById(prevId);
+  const ph = document.getElementById(phId);
+  const inp = document.querySelector(inputSel);
+  if(prev){ const img=prev.querySelector('img'); if(img) img.src=''; prev.style.display='none'; }
+  if(ph) ph.style.display = 'flex';
+  if(box){ box.classList.remove('has-file'); box.style.padding='1.5rem'; box.style.borderColor=''; box.style.borderStyle=''; }
+  if(inp) inp.value = '';
+}
 
 document.getElementById('sewaForm').addEventListener('submit', function(){
   const btn = document.getElementById('btn-submit');
   const txt = document.getElementById('btn-submit-text');
-  if(btn){ btn.disabled=true; btn.style.opacity='.6'; }
+  // Jangan disabled - akan menghilangkan name="kirim" dari POST
+  // Gunakan pointer-events:none + opacity saja
+  if(btn){ btn.style.pointerEvents='none'; btn.style.opacity='.6'; }
   if(txt){ txt.textContent='⏳ Memproses...'; }
 });
 </script>
