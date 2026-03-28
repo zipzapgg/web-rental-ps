@@ -17,8 +17,8 @@ $hari_dapat= $p['hari_dapat'] ?? $hari_bayar;
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="description" content="Pengajuan sewa berhasil dikirim — Violet PlayStation Jagakarsa.">
-  <title>Pengajuan Berhasil — Violet PlayStation</title>
+  <meta name="description" content="Pengajuan sewa berhasil dikirim Violet PlayStation Jagakarsa.">
+  <title>Pengajuan Berhasil Violet PlayStation</title>
   <link rel="icon" type="image/jpeg" href="assets/images/logo-violet.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

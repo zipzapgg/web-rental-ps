@@ -24,7 +24,7 @@ $r->close();
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Game Unit <?php echo htmlspecialchars($unit['nama_unit']); ?> — Violet PlayStation</title>
+<title>Game Unit <?php echo htmlspecialchars($unit['nama_unit']); ?> Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>
@@ -243,7 +243,7 @@ body{display:flex;min-height:100vh;}
   <div style="display:flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1.5rem;">
     <a href="index.php" style="color:var(--v-muted);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--v-lavender)'" onmouseout="this.style.color='var(--v-muted)'">Dashboard</a>
     <span style="opacity:.4;">›</span>
-    <span style="color:var(--v-lavender);">Game Unit — <?php echo htmlspecialchars($unit['nama_unit']); ?></span>
+    <span style="color:var(--v-lavender);">Game Unit <?php echo htmlspecialchars($unit['nama_unit']); ?></span>
   </div>
 
   <?php if($msg==='ok'): ?><div class="alert-msg alert-success">✓ Game berhasil diperbarui.</div><?php endif; ?>

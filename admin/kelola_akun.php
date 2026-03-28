@@ -73,7 +73,7 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
 <html lang="id">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kelola Akun — Violet PlayStation</title>
+  <title>Kelola Akun Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
   <style>

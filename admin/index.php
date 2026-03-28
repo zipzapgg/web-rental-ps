@@ -85,7 +85,9 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
     .s-tersedia{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);}
     .s-disewa{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);}
     .s-maint{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
-  </style>
+      .row-extra{ animation: fadeUp .2s ease both; }
+    tfoot td { background: transparent; }
+</style>
 </head>
 <body>
 <?php include_once "../config/svg_sprite_admin.php"; ?>
@@ -163,15 +165,18 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
       <div class="table-wrap">
         <table class="v-table">
           <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead>
-          <tbody>
+          <tbody id="tbody-sewa">
           <?php
           $no=1;
           $q=$koneksi->query("SELECT * FROM units WHERE tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5') ORDER BY kategori,nama_unit ASC");
-          while($d=$q->fetch_assoc()):
+          $all_sewa=[]; while($r=$q->fetch_assoc()) $all_sewa[]=$r;
+          $total_sewa = count($all_sewa);
+          foreach($all_sewa as $idx_s=>$d):
             $kat=$d['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
             $st=$d['status']; $sc=$st==='Tersedia'?'s-tersedia':($st==='Disewa'?'s-disewa':'s-maint');
+            $hidden = $idx_s >= 5 ? 'class="row-extra row-extra-sewa" style="display:none;"' : '';
           ?>
-          <tr>
+          <tr <?php echo $hidden; ?>>
             <td style="color:var(--v-muted);"><?php echo $no++; ?></td>
             <td>
               <strong style="color:var(--v-white);"><?php echo htmlspecialchars($d['nama_unit']); ?></strong>
@@ -182,16 +187,26 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
             <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
             <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
             <td style="display:flex;gap:.4rem;flex-wrap:wrap;">
-              <a href="histori_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue">📋 Histori</a>
+              <a href="histori_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-blue"><svg width="12" height="12"><use href="#ico-clipboard"/></svg> Histori</a>
               <?php if($is_admin): ?>
-              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">🎮 Game</a>
-              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple">✏ Edit</a>
-              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini? Histori transaksinya tetap tersimpan.')">🗑</a>
+              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green"><svg width="12" height="12"><use href="#ico-gamepad"/></svg> Game</a>
+              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple"><svg width="12" height="12"><use href="#ico-edit"/></svg> Edit</a>
+              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini? Histori transaksinya tetap tersimpan.')"><svg width="12" height="12"><use href="#ico-trash"/></svg></a>
               <?php endif; ?>
             </td>
           </tr>
-          <?php endwhile; ?>
+          <?php endforeach; ?>
           </tbody>
+          <?php if($total_sewa > 5): ?>
+          <tfoot>
+            <tr><td colspan="5" style="padding:.75rem 1rem;text-align:center;border-top:1px solid var(--v-border);">
+              <button onclick="toggleRows('sewa')" id="btn-viewall-sewa" class="btn-sm btn-purple" style="padding:.4rem 1.25rem;font-size:.78rem;">
+                <svg width="12" height="12" style="transition:transform .3s;" id="ico-expand-sewa"><use href="#ico-plus"/></svg>
+                Lihat Semua <span id="lbl-sewa"><?php echo $total_sewa-5; ?> unit lainnya</span>
+              </button>
+            </td></tr>
+          </tfoot>
+          <?php endif; ?>
         </table>
       </div>
     </div>
@@ -230,28 +245,41 @@ $total_games   = $koneksi->query("SELECT COUNT(*) as c FROM games")->fetch_assoc
       <div class="table-wrap">
         <table class="v-table">
           <thead><tr><th>#</th><th>Nama Unit</th><th>Kategori</th><th>Aksi</th></tr></thead>
-          <tbody>
+          <tbody id="tbody-tempat">
           <?php
           $no=1;
           $q=$koneksi->query("SELECT u.*, COUNT(ug.id_game) as jml_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Main di Tempat' AND u.kategori != 'PS5' GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
-          while($d=$q->fetch_assoc()):
+          $all_tempat=[]; while($r=$q->fetch_assoc()) $all_tempat[]=$r;
+          $total_tempat = count($all_tempat);
+          foreach($all_tempat as $idx_t=>$d):
             $kat=$d['kategori']; $bc=$kat==='Nintendo'?'v-badge-nin':'v-badge-ps4';
+            $hidden_t = $idx_t >= 5 ? 'class="row-extra row-extra-tempat" style="display:none;"' : '';
           ?>
-          <tr>
+          <tr <?php echo $hidden_t; ?>>
             <td style="color:var(--v-muted);"><?php echo $no++; ?></td>
             <td><strong style="color:var(--v-white);"><?php echo htmlspecialchars($d['nama_unit']); ?></strong></td>
             <td><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></td>
             <td style="display:flex;gap:.4rem;flex-wrap:wrap;">
-              <button class="btn-sm btn-purple" onclick="lihatGame(<?php echo $d['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($d['nama_unit'])); ?>')">🎮 Lihat Game (<?php echo $d['jml_game']; ?>)</button>
+              <button class="btn-sm btn-purple" onclick="lihatGame(<?php echo $d['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($d['nama_unit'])); ?>')"><svg width="12" height="12"><use href="#ico-gamepad"/></svg> Game (<?php echo $d['jml_game']; ?>)</button>
               <?php if($is_admin): ?>
-              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green">✏ Game</a>
-              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple">✏ Edit</a>
-              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini?')">🗑</a>
+              <a href="isi_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-green"><svg width="12" height="12"><use href="#ico-edit"/></svg> Isi</a>
+              <a href="edit_unit.php?id=<?php echo $d['id_unit']; ?>" class="btn-sm btn-purple"><svg width="12" height="12"><use href="#ico-edit"/></svg> Edit</a>
+              <a href="hapus_unit.php?id=<?php echo $d['id_unit']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus unit ini?')"><svg width="12" height="12"><use href="#ico-trash"/></svg></a>
               <?php endif; ?>
             </td>
           </tr>
-          <?php endwhile; ?>
+          <?php endforeach; ?>
           </tbody>
+          <?php if($total_tempat > 5): ?>
+          <tfoot>
+            <tr><td colspan="4" style="padding:.75rem 1rem;text-align:center;border-top:1px solid var(--v-border);">
+              <button onclick="toggleRows('tempat')" id="btn-viewall-tempat" class="btn-sm btn-purple" style="padding:.4rem 1.25rem;font-size:.78rem;">
+                <svg width="12" height="12" style="transition:transform .3s;" id="ico-expand-tempat"><use href="#ico-plus"/></svg>
+                Lihat Semua <span id="lbl-tempat"><?php echo $total_tempat-5; ?> unit lainnya</span>
+              </button>
+            </td></tr>
+          </tfoot>
+          <?php endif; ?>
         </table>
       </div>
     </div>
@@ -304,6 +332,32 @@ function switchTab(tab){
   document.getElementById('tab-sewa').classList.toggle('active',tab==='sewa');
   document.getElementById('tab-tempat').classList.toggle('active',tab==='tempat');
 }
+
+function toggleRows(group){
+  const rows   = document.querySelectorAll('.row-extra-'+group);
+  const btn    = document.getElementById('btn-viewall-'+group);
+  const lbl    = document.getElementById('lbl-'+group);
+  const ico    = document.getElementById('ico-expand-'+group);
+  const isOpen = rows[0]?.style.display !== 'none';
+
+  rows.forEach(r => {
+    r.style.display = isOpen ? 'none' : '';
+  });
+
+  if(isOpen){
+    const n = rows.length;
+    lbl.textContent = n+' unit lainnya';
+    ico.style.transform = 'rotate(0deg)';
+    btn.querySelector('use').setAttribute('href','#ico-plus');
+    // Scroll ke tombol supaya user tahu sudah collapse
+    btn.scrollIntoView({behavior:'smooth', block:'nearest'});
+  } else {
+    lbl.textContent = 'Sembunyikan';
+    ico.style.transform = 'rotate(45deg)';
+    btn.querySelector('use').setAttribute('href','#ico-x');
+  }
+}
+
 function toggleSidebar(){
   document.querySelector('.sidebar').classList.toggle('mobile-open');
   document.getElementById('sidebarOverlay').classList.toggle('open');

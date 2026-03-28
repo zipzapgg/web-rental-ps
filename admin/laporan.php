@@ -47,7 +47,7 @@ $bulan_list = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Laporan — Violet PlayStation</title>
+<title>Laporan Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>
@@ -157,7 +157,7 @@ body{display:flex;min-height:100vh;}
 
   <!-- Chart pendapatan per hari -->
   <div class="card">
-    <div class="card-header"><h3>Pendapatan Harian — <?php echo $bulan_list[$bulan-1].' '.$tahun; ?></h3></div>
+    <div class="card-header"><h3>Pendapatan Harian <?php echo $bulan_list[$bulan-1].' '.$tahun; ?></h3></div>
     <div class="card-body">
       <?php
       $max_val = max(array_values($chart_data)) ?: 1;

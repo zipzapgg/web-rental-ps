@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="description" content="Cek status pengajuan sewa PS di Violet PlayStation Jagakarsa dengan nomor WhatsApp kamu.">
-  <meta property="og:title" content="Cek Status Sewa — Violet PlayStation">
+  <meta property="og:title" content="Cek Status Sewa Violet PlayStation">
   <meta property="og:description" content="Masukkan nomor WhatsApp untuk cek status pengajuan sewamu.">
   <link rel="icon" type="image/jpeg" href="assets/images/logo-violet.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <title>Cek Status Pengajuan — Violet PlayStation</title>
+  <title>Cek Status Pengajuan Violet PlayStation</title>
   <link rel="stylesheet" href="assets/css/violet.css">
   <style>
     body{background:var(--v-black);}

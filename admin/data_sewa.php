@@ -103,7 +103,7 @@ foreach (['Pending','Disetujui','Ditolak','Selesai'] as $st) {
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Data Sewa — Violet PlayStation</title>
+<title>Data Sewa Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>
@@ -259,7 +259,7 @@ body{display:flex;min-height:100vh;}
               <button class="btn-sm btn-red" onclick="bukaModalTolak(<?php echo $d['id_pengajuan']; ?>,'<?php echo htmlspecialchars(addslashes($d['nama_penyewa'])); ?>')">✕ Tolak</button>
 
             <?php elseif($st==='Disetujui'): ?>
-              <?php $pm=urlencode("Halo *{$d['nama_penyewa']}* 👋\n\nPengajuan sewa *{$d['nama_unit']}* kamu sudah *DISETUJUI* ✅\n\nSilakan ambil ke toko. Bawa *KTP, STNK asli, dan motor* ya.\n\nTerima kasih! — Violet PlayStation"); ?>
+              <?php $pm=urlencode("Halo *{$d['nama_penyewa']}* 👋\n\nPengajuan sewa *{$d['nama_unit']}* kamu sudah *DISETUJUI* ✅\n\nSilakan ambil ke toko. Bawa *KTP, STNK asli, dan motor* ya.\n\nTerima kasih! Violet PlayStation"); ?>
               <a href="https://wa.me/<?php echo $wa; ?>?text=<?php echo $pm; ?>" target="_blank" class="btn-sm btn-wa">
                 <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><use href="#ico-wa"/></svg>
                 Chat Penyewa

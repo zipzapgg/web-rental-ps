@@ -5,7 +5,7 @@ $games = $koneksi->query("SELECT * FROM games ORDER BY kategori_game, judul_game
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Tambah Unit — Violet PlayStation</title>
+<title>Tambah Unit Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>

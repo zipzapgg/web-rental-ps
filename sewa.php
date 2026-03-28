@@ -12,9 +12,9 @@ $libur_ranges = get_libur_ranges($koneksi);
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <title>Form Sewa — Violet PlayStation</title>
+  <title>Form Sewa Violet PlayStation</title>
   <meta name="description" content="Ajukan sewa PS4, PS5, Nintendo Switch & Playbox di Violet PlayStation Jagakarsa.">
-  <meta property="og:title" content="Form Sewa — Violet PlayStation">
+  <meta property="og:title" content="Form Sewa Violet PlayStation">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
@@ -121,7 +121,7 @@ $libur_ranges = get_libur_ranges($koneksi);
             <span style="font-size:1rem;flex-shrink:0;">⚠️</span>
             <p style="font-size:.78rem;color:#f87171;font-family:var(--font-body);line-height:1.6;margin:0;">
               <strong style="font-family:var(--font-ui);letter-spacing:.5px;">Wajib nomor pribadi.</strong>
-              Nomor kamu akan dicek di <strong>GetContact</strong> — minimal <strong>50 tag</strong> dari orang lain sebagai verifikasi identitas. Nomor baru atau nomor tidak dikenal tidak dapat memproses sewa.
+              Nomor kamu akan dicek di <strong>GetContact</strong> minimal <strong>50 tag</strong> dari orang lain sebagai verifikasi identitas. Nomor baru atau nomor tidak dikenal tidak dapat memproses sewa.
             </p>
           </div>
         </div>
@@ -138,7 +138,7 @@ $libur_ranges = get_libur_ranges($koneksi);
             $stmt->execute(); $units=$stmt->get_result();
             while($u=$units->fetch_assoc()){
               $label = htmlspecialchars($u['nama_unit']).' ('.$u['kategori'].')';
-              if($u['tipe_layanan']==='Main di Tempat') $label .= ' — WA dulu';
+              if($u['tipe_layanan']==='Main di Tempat') $label .= ' WA dulu';
               $sel = (isset($_GET['unit']) && intval($_GET['unit'])===$u['id_unit']) ? ' selected' : '';
             echo "<option value='".(int)$u['id_unit']."' data-kategori='".htmlspecialchars($u['kategori'])."'$sel>$label</option>";
             }
@@ -195,7 +195,7 @@ $libur_ranges = get_libur_ranges($koneksi);
         <div class="bayar-info">
           <span>💳</span>
           <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>
-          Pembayaran dilakukan langsung saat kamu mengambil unit di toko, setelah pengajuan disetujui admin. Nominal di atas adalah estimasi — konfirmasi final via WhatsApp.</p>
+          Pembayaran dilakukan langsung saat kamu mengambil unit di toko, setelah pengajuan disetujui admin. Nominal di atas adalah estimasi konfirmasi final via WhatsApp.</p>
         </div>
       </div>
 
@@ -235,7 +235,7 @@ $libur_ranges = get_libur_ranges($koneksi);
         <div class="syarat-title">⚠ Syarat & Ketentuan</div>
         <ul>
           <li>Unit diambil langsung ke toko kami di Jagakarsa</li>
-          <li>Nomor WA wajib <strong>nomor pribadi</strong> dengan minimal <strong>50 tag GetContact</strong> — nomor baru/tidak dikenal tidak dapat menyewa</li>
+          <li>Nomor WA wajib <strong>nomor pribadi</strong> dengan minimal <strong>50 tag GetContact</strong> nomor baru/tidak dikenal tidak dapat menyewa</li>
           <li>KTP & STNK asli wajib dibawa saat pengambilan sebagai jaminan</li>
           <li>Unit dikembalikan tepat waktu sesuai durasi yang dipilih</li>
           <li>Kerusakan akibat kelalaian menjadi tanggung jawab penyewa</li>
@@ -360,7 +360,7 @@ function hitungHarga(){
       liburEl.style.cssText='background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.65rem 1rem;margin-top:.75rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
       document.getElementById('harga_preview').appendChild(liburEl);
     }
-    liburEl.textContent = '⚠ Tanggal ini masuk periode libur ('+liburKet+') — promo weekday tidak berlaku.';
+    liburEl.textContent = '⚠ Tanggal ini masuk periode libur ('+liburKet+') promo weekday tidak berlaku.';
     liburEl.style.display='block';
   } else if(liburEl){ liburEl.style.display='none'; }
 

@@ -35,7 +35,7 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Master Game — Violet PlayStation</title>
+<title>Master Game Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>
@@ -165,7 +165,7 @@ document.getElementById('modalTambah').addEventListener('click',function(e){if(e
 <div class="modal-overlay" id="modalUnassign">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('modalUnassign').classList.remove('open')">✕</button>
-    <div class="modal-title">🔗 KELOLA UNIT — <span id="ua-judul" style="color:#fbbf24;"></span></div>
+    <div class="modal-title">🔗 KELOLA UNIT <span id="ua-judul" style="color:#fbbf24;"></span></div>
     <p style="color:var(--v-muted);font-size:.85rem;margin-bottom:1.25rem;">Centang unit yang ingin <strong style="color:#f87171;">dihapus</strong> game ini, lalu klik Simpan.</p>
     <form method="POST" id="unassignForm">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">

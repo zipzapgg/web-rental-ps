@@ -163,81 +163,14 @@
       .nin-center-wrap{max-width:100% !important;}
       .playbox-intro{flex-direction:column;gap:.75rem;}
     }
-  </style>
+      .nav-link{font-family:var(--font-ui);font-size:.85rem;font-weight:600;letter-spacing:1px;color:var(--v-muted);text-decoration:none;text-transform:uppercase;transition:color .2s;display:inline-flex;align-items:center;}
+    .nav-link:hover{color:var(--v-lavender);}
+</style>
 </head>
 <body>
 
 <!-- SVG Icon Sprite -->
-<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <!-- home (filled style) -->
-  <symbol id="ico-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><polyline points="9 21 9 12 15 12 15 21"/>
-  </symbol>
-  <!-- gamepad/stick -->
-  <symbol id="ico-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="6" width="20" height="12" rx="4"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="6" y1="12" x2="10" y2="12"/><circle cx="16" cy="10.5" r=".8" fill="currentColor" stroke="none"/><circle cx="18.5" cy="12" r=".8" fill="currentColor" stroke="none"/><circle cx="16" cy="13.5" r=".8" fill="currentColor" stroke="none"/><circle cx="13.5" cy="12" r=".8" fill="currentColor" stroke="none"/>
-  </symbol>
-  <!-- tag/price -->
-  <symbol id="ico-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="currentColor" stroke="none"/>
-  </symbol>
-  <!-- location pin -->
-  <symbol id="ico-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/>
-  </symbol>
-  <!-- clock -->
-  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-  </symbol>
-  <!-- phone/wa -->
-  <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 01.01 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-  </symbol>
-  <!-- shield/security -->
-  <symbol id="ico-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-  </symbol>
-  <!-- calendar -->
-  <symbol id="ico-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-  </symbol>
-  <!-- gift/promo -->
-  <symbol id="ico-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
-  </symbol>
-  <!-- store/shop -->
-  <symbol id="ico-store" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M3 9l1-6h16l1 6"/><path d="M3 9a2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2 2 2 0 002 2 2 2 0 002-2"/><path d="M5 11v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/>
-  </symbol>
-  <!-- id card/ktp -->
-  <symbol id="ico-idcard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 9h4M14 12h4M14 15h2"/>
-  </symbol>
-  <!-- warning triangle -->
-  <symbol id="ico-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-  </symbol>
-  <!-- briefcase/koper -->
-  <symbol id="ico-case" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="12"/><path d="M2 12h20"/>
-  </symbol>
-  <!-- users/2 orang -->
-  <symbol id="ico-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
-  </symbol>
-  <!-- motorcycle -->
-  <symbol id="ico-motor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6h-3l-2 5H5.5"/><path d="M9 11l2-5h5l2 3.5"/><path d="M15 6l2 5.5"/>
-  </symbol>
-  <!-- monitor -->
-  <symbol id="ico-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-  </symbol>
-  <!-- zap/bolt (plug&play) -->
-  <symbol id="ico-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-  </symbol>
-</svg>
+<?php include_once "config/svg_sprite.php"; ?>
 <!-- NAVBAR -->
 <nav class="v-navbar">
   <div class="container" style="display:flex;justify-content:space-between;align-items:center;padding:0 1.25rem;">
@@ -250,7 +183,7 @@
       <a href="#unit"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg>Unit</a>
       <a href="#games"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-monitor"/></svg>Game</a>
       <a href="#lokasi"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-pin"/></svg>Lokasi</a>
-      <a href="cek_status.php" style="font-family:var(--font-ui);font-size:.85rem;font-weight:600;letter-spacing:1px;color:var(--v-muted);text-decoration:none;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='var(--v-lavender)'" onmouseout="this.style.color='var(--v-muted)'">🔍 Cek Status</a>
+      <a href="cek_status.php" class="nav-link"><svg width="14" height="14" style="vertical-align:middle;margin-right:.3rem;"><use href="#ico-search"/></svg>Cek Status</a>
       <a href="sewa.php" style="padding:.5rem 1.5rem;font-size:.85rem;font-family:var(--font-display);font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:6px;text-decoration:none;background:var(--v-lavender);color:#1a0030;box-shadow:0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25);transition:box-shadow .2s,transform .2s;display:inline-block;" onmouseover="this.style.boxShadow='0 0 28px rgba(192,132,252,.9),0 0 60px rgba(168,85,247,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='0 0 18px rgba(192,132,252,.55),0 0 40px rgba(168,85,247,.25)';this.style.transform=''">Sewa Unit</a>
     </div>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleDrawer()">
@@ -493,15 +426,21 @@
     <!-- Panel Sewa -->
     <div class="units-panel active" id="upanel-sewa">
       <div class="ps5-note"><svg width="16" height="16" style="flex-shrink:0;margin-top:.1rem;"><use href="#ico-warn"/></svg><span>Unit PS5 di bawah adalah unit yang biasa dipakai main di tempat. Karena itu, <strong style="color:#93c5fd;">hubungi WA dulu sebelum booking</strong> untuk pastikan unit tidak sedang terpakai.</span></div>
-      <div class="units-grid">
-        <?php
-        $q = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Sewa Luar' OR (u.tipe_layanan='Main di Tempat' AND u.kategori='PS5') GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
-        while($u=mysqli_fetch_assoc($q)):
+      <?php
+      $q_sewa = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Sewa Luar' OR (u.tipe_layanan='Main di Tempat' AND u.kategori='PS5') GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
+      $arr_sewa=[]; while($u=mysqli_fetch_assoc($q_sewa)) $arr_sewa[]=$u;
+      $total_sewa_pub = count($arr_sewa);
+      $limit_sewa = 6;
+      ?>
+      <div class="units-grid" id="grid-sewa-pub">
+        <?php foreach($arr_sewa as $i=>$u):
           $kat=$u['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'); $disewa=$u['status']==='Disewa';
           $is_ps5_tempat = ($u['tipe_layanan']==='Main di Tempat' && $kat==='PS5');
+          $extra = $i>=$limit_sewa ? 'pub-unit-extra pub-unit-extra-sewa" style="display:none;' : '';
         ?>
-        <div class="unit-card <?php echo $disewa?'disewa':''; ?>" <?php if(!$disewa): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
-          <div class="unit-icon"><svg width="28" height="28" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg></div>
+        <div class="unit-card <?php echo $disewa?'disewa':''; ?> <?php echo $extra; ?>"
+          <?php if(!$disewa): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
+          <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
           <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
           <div class="unit-meta">
             <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
@@ -510,8 +449,16 @@
             <?php if($is_ps5_tempat): ?><span style="font-size:.68rem;color:#60a5fa;font-family:var(--font-ui);display:flex;align-items:center;gap:.25rem;"><svg width="10" height="10"><use href="#ico-phone"/></svg>WA dulu</span><?php endif; ?>
           </div>
         </div>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       </div>
+      <?php if($total_sewa_pub > $limit_sewa): ?>
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button onclick="togglePubUnits('sewa')" id="btn-pub-sewa" class="btn-outline-violet" style="padding:.6rem 2rem;font-family:var(--font-ui);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);border-radius:8px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;">
+          <svg width="14" height="14" id="ico-pub-sewa" style="transition:transform .3s;"><use href="#ico-plus"/></svg>
+          <span id="lbl-pub-sewa">Lihat Semua (<?php echo $total_sewa_pub-$limit_sewa; ?> lainnya)</span>
+        </button>
+      </div>
+      <?php endif; ?>
 
 
 
@@ -519,21 +466,34 @@
 
     <!-- Panel Tempat -->
     <div class="units-panel" id="upanel-tempat">
-      <div class="units-grid">
-        <?php
-        $q = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Main di Tempat' GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
-        while($u=mysqli_fetch_assoc($q)):
-          $kat=$u['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'); $disewa=$u['status']==='Disewa';
+      <?php
+      $q_tempat = mysqli_query($koneksi,"SELECT u.*,COUNT(ug.id_game) as jumlah_game FROM units u LEFT JOIN unit_games ug ON u.id_unit=ug.id_unit WHERE u.tipe_layanan='Main di Tempat' GROUP BY u.id_unit ORDER BY u.kategori,u.nama_unit ASC");
+      $arr_tempat=[]; while($u=mysqli_fetch_assoc($q_tempat)) $arr_tempat[]=$u;
+      $total_tempat_pub = count($arr_tempat);
+      $limit_tempat = 6;
+      ?>
+      <div class="units-grid" id="grid-tempat-pub">
+        <?php foreach($arr_tempat as $i=>$u):
+          $kat=$u['kategori']; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
+          $extra = $i>=$limit_tempat ? 'pub-unit-extra pub-unit-extra-tempat" style="display:none;' : '';
         ?>
-        <div class="unit-card" onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')">
-          <div class="unit-icon"><svg width="28" height="28" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg></div>
+        <div class="unit-card <?php echo $extra; ?>" onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')">
+          <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
           <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
           <div class="unit-meta">
             <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
           </div>
         </div>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
       </div>
+      <?php if($total_tempat_pub > $limit_tempat): ?>
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button onclick="togglePubUnits('tempat')" id="btn-pub-tempat" class="btn-outline-violet" style="padding:.6rem 2rem;font-family:var(--font-ui);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);border-radius:8px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;">
+          <svg width="14" height="14" id="ico-pub-tempat" style="transition:transform .3s;"><use href="#ico-plus"/></svg>
+          <span id="lbl-pub-tempat">Lihat Semua (<?php echo $total_tempat_pub-$limit_tempat; ?> lainnya)</span>
+        </button>
+      </div>
+      <?php endif; ?>
     </div>
   </div>
 </section>
@@ -552,21 +512,34 @@
       <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Hasil Pencarian: <strong id="search-keyword" style="color:var(--v-lavender);"></strong></div>
       <div id="search-list"></div>
     </div>
+    <?php
+    $q_games = mysqli_query($koneksi,"SELECT DISTINCT g.id_game,g.judul_game,g.foto_game,g.kategori_game FROM games g JOIN unit_games ug ON g.id_game=ug.id_game ORDER BY g.judul_game ASC");
+    $arr_games=[]; while($g=mysqli_fetch_assoc($q_games)) $arr_games[]=$g;
+    $total_games_pub = count($arr_games);
+    $limit_games = 12;
+    ?>
     <div class="row" style="margin-top:.5rem;" id="games-grid">
-      <?php
-      $q=mysqli_query($koneksi,"SELECT DISTINCT g.id_game,g.judul_game,g.foto_game,g.kategori_game FROM games g JOIN unit_games ug ON g.id_game=ug.id_game ORDER BY g.judul_game ASC");
-      while($g=mysqli_fetch_assoc($q)):
+      <?php foreach($arr_games as $i=>$g):
         $kat=$g['kategori_game']??''; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4');
+        $extra_g = $i>=$limit_games ? ' pub-game-extra" style="display:none;' : '';
       ?>
-      <div class="col-6game"><div class="game-card">
+      <div class="col-6game <?php echo $extra_g; ?>"><div class="game-card">
         <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>">
         <div class="game-card-body">
           <?php if($kat): ?><span class="v-badge <?php echo $bc; ?>" style="font-size:.65rem;padding:.1rem .4rem;margin-bottom:.4rem;display:inline-block;"><?php echo $kat; ?></span><?php endif; ?>
           <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?php echo htmlspecialchars($g['judul_game']); ?></div>
         </div>
       </div></div>
-      <?php endwhile; ?>
+      <?php endforeach; ?>
     </div>
+    <?php if($total_games_pub > $limit_games): ?>
+    <div style="text-align:center;margin-top:1.75rem;">
+      <button onclick="togglePubGames()" id="btn-pub-games" style="padding:.65rem 2rem;font-family:var(--font-ui);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);border-radius:8px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;" onmouseover="this.style.borderColor='var(--v-violet)';this.style.color='var(--v-lavender)';" onmouseout="this.style.borderColor='var(--v-border)';this.style.color='var(--v-muted)';">
+        <svg width="14" height="14" id="ico-pub-games" style="transition:transform .3s;"><use href="#ico-plus"/></svg>
+        <span id="lbl-pub-games">Lihat Semua (<?php echo $total_games_pub-$limit_games; ?> game lainnya)</span>
+      </button>
+    </div>
+    <?php endif; ?>
     </div>
   </div>
 </section>
@@ -749,6 +722,46 @@ function switchUnitTab(tab,btn){
 }
 function toggleDrawer(){const d=document.getElementById('navDrawer');const h=document.getElementById('hamburger');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
 function closeDrawer(){document.getElementById('navDrawer').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.body.style.overflow='';}
+
+function togglePubUnits(group){
+  const items  = document.querySelectorAll('.pub-unit-extra-'+group);
+  const btn    = document.getElementById('btn-pub-'+group);
+  const lbl    = document.getElementById('lbl-pub-'+group);
+  const ico    = document.getElementById('ico-pub-'+group);
+  if(!items.length) return;
+  const isOpen = items[0].style.display !== 'none';
+  items.forEach(el => el.style.display = isOpen ? 'none' : '');
+  if(isOpen){
+    const n = items.length;
+    lbl.textContent = 'Lihat Semua ('+n+' lainnya)';
+    ico.style.transform = 'rotate(0deg)';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+  } else {
+    lbl.textContent = 'Sembunyikan';
+    ico.style.transform = 'rotate(45deg)';
+    btn.style.borderColor = 'var(--v-violet)';
+    btn.style.color = 'var(--v-lavender)';
+  }
+}
+
+function togglePubGames(){
+  const items = document.querySelectorAll('.pub-game-extra');
+  const btn   = document.getElementById('btn-pub-games');
+  const lbl   = document.getElementById('lbl-pub-games');
+  const ico   = document.getElementById('ico-pub-games');
+  if(!items.length) return;
+  const isOpen = items[0].style.display !== 'none';
+  items.forEach(el => el.style.display = isOpen ? 'none' : '');
+  if(isOpen){
+    const n = items.length;
+    lbl.textContent = 'Lihat Semua ('+n+' game lainnya)';
+    ico.style.transform = 'rotate(0deg)';
+  } else {
+    lbl.textContent = 'Sembunyikan';
+    ico.style.transform = 'rotate(45deg)';
+  }
+}
 
 // Scroll to top button
 window.addEventListener('scroll',function(){

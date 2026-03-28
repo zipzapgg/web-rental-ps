@@ -33,7 +33,7 @@ $bc  = $kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Histori <?php echo htmlspecialchars($unit['nama_unit']); ?> — Violet PlayStation</title>
+<title>Histori <?php echo htmlspecialchars($unit['nama_unit']); ?> Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>

@@ -29,7 +29,7 @@ $nama_hari = ['','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
 ?>
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Hari Libur — Violet PlayStation</title>
+<title>Hari Libur Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css">
   <script src="../assets/app.js" defer></script>
 <style>
