@@ -45,31 +45,32 @@ if ($koneksi->connect_error) {
 }
 $koneksi->set_charset("utf8mb4");
 
-function csrf_token() {
+// ── CSRF ────────────────────────────────────────────────────────────────────
+
+function csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
     return $_SESSION['csrf_token'];
 }
 
-function csrf_check() {
-    $sent    = $_POST['csrf_token'] ?? '';
-    $stored  = $_SESSION['csrf_token'] ?? '';
+function csrf_check(): void {
+    $sent   = $_POST['csrf_token'] ?? '';
+    $stored = $_SESSION['csrf_token'] ?? '';
     if (empty($sent) || empty($stored) || !hash_equals($stored, $sent)) {
         http_response_code(403);
         die("Request tidak valid.");
     }
 }
 
-
-function csrf_get_token() {
+function csrf_get_token(): string {
     if (empty($_SESSION['csrf_get_token'])) {
         $_SESSION['csrf_get_token'] = bin2hex(random_bytes(24));
     }
     return $_SESSION['csrf_get_token'];
 }
 
-function csrf_get_check() {
+function csrf_get_check(): void {
     $sent   = $_GET['_token'] ?? '';
     $stored = $_SESSION['csrf_get_token'] ?? '';
     if (empty($sent) || empty($stored) || !hash_equals($stored, $sent)) {
@@ -78,28 +79,39 @@ function csrf_get_check() {
     }
 }
 
-function is_logged_in() {
+/**
+ * Rotate kedua CSRF token — dipanggil setelah login berhasil.
+ */
+function csrf_rotate(): void {
+    unset($_SESSION['csrf_token'], $_SESSION['csrf_get_token']);
+}
+
+// ── Auth helpers ─────────────────────────────────────────────────────────────
+
+function is_logged_in(): bool {
     return isset($_SESSION['status']) && $_SESSION['status'] === 'login';
 }
 
-function is_admin() {
+function is_admin(): bool {
     return is_logged_in() && ($_SESSION['role'] ?? '') === 'admin';
 }
 
-function require_login($redirect = 'login.php') {
+function require_login(string $redirect = 'login.php'): void {
     if (!is_logged_in()) {
         header("Location: $redirect?pesan=belum_login");
         exit();
     }
 }
 
-function require_admin($redirect = 'index.php') {
+function require_admin(string $redirect = 'index.php'): void {
     require_login();
     if (!is_admin()) {
         header("Location: $redirect?pesan=akses_ditolak");
         exit();
     }
 }
+
+// ── Upload helpers ───────────────────────────────────────────────────────────
 
 function ext_from_mime(string $mime): ?string {
     return [
@@ -109,4 +121,10 @@ function ext_from_mime(string $mime): ?string {
     ][$mime] ?? null;
 }
 
+// ── Path constants ───────────────────────────────────────────────────────────
+
 define('UPLOAD_PATH', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'uploads_violet' . DIRECTORY_SEPARATOR);
+
+// ── Load konstanta harga ─────────────────────────────────────────────────────
+
+require_once __DIR__ . '/harga.php';

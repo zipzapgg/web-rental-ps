@@ -12,8 +12,9 @@ $user = trim($_POST['user'] ?? '');
 $pass = trim($_POST['pass'] ?? '');
 $ip   = $_SERVER['REMOTE_ADDR'];
 
+// ── Rate limiting ──────────────────────────────────────────────────────────
 $stmt = $koneksi->prepare(
-    "SELECT COUNT(*) as c FROM login_attempts 
+    "SELECT COUNT(*) as c FROM login_attempts
      WHERE ip_address = ? AND attempted_at > DATE_SUB(NOW(), INTERVAL 15 MINUTE)"
 );
 $stmt->bind_param("s", $ip);
@@ -31,7 +32,7 @@ $stmt->bind_param("s", $ip);
 $stmt->execute();
 $stmt->close();
 
-
+// ── Cek kredensial ─────────────────────────────────────────────────────────
 $stmt = $koneksi->prepare("SELECT * FROM admin WHERE username = ? LIMIT 1");
 $stmt->bind_param("s", $user);
 $stmt->execute();
@@ -40,12 +41,16 @@ $admin  = $result->fetch_assoc();
 $stmt->close();
 
 if ($admin && password_verify($pass, $admin['password'])) {
+    // Bersihkan attempt
     $stmt = $koneksi->prepare("DELETE FROM login_attempts WHERE ip_address = ?");
     $stmt->bind_param("s", $ip);
     $stmt->execute();
     $stmt->close();
 
+    // Regenerate session ID + rotate CSRF token
     session_regenerate_id(true);
+    csrf_rotate();
+
     $_SESSION['status']   = 'login';
     $_SESSION['user']     = $admin['username'];
     $_SESSION['role']     = $admin['role'];

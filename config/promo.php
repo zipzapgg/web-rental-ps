@@ -20,10 +20,12 @@ function is_promo_weekday(mysqli $db, string $tgl): bool {
 
 /**
  * Hitung durasi aktual (hari yang didapat) dan harga dari promo.
- * Promo weekday: bayar N hari → dapat N + (N-1) hari = 2N-1 hari
+ * Promo weekday: bayar N hari → dapat 2N-1 hari
  *   - bayar 2 → dapat 3 hari
  *   - bayar 3 → dapat 5 hari
  * Tanpa promo: dapat = bayar
+ *
+ * Pakai konstanta dari config/harga.php (sudah di-require di koneksi.php)
  */
 function hitung_sewa(int $hari_bayar, int $hpp, bool $promo): array {
     $hari_dapat = $promo ? (2 * $hari_bayar - 1) : $hari_bayar;
@@ -33,12 +35,14 @@ function hitung_sewa(int $hari_bayar, int $hpp, bool $promo): array {
         'hari_dapat' => $hari_dapat,
         'harga'      => $harga,
         'durasi_str' => $hari_dapat . ' Hari',
-        'label'      => $promo ? "Bayar $hari_bayar hari, dapat $hari_dapat hari 🎁" : "$hari_bayar Hari",
+        'label'      => $promo
+            ? "Bayar $hari_bayar hari, dapat $hari_dapat hari 🎁"
+            : "$hari_bayar Hari",
     ];
 }
 
 /**
- * Ambil semua range libur yang aktif/mendatang untuk JS
+ * Ambil semua range libur yang aktif/mendatang untuk JS.
  */
 function get_libur_ranges(mysqli $db): array {
     $r = $db->query(

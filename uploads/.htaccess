@@ -1,0 +1,12 @@
+# Blokir eksekusi PHP dan script di folder uploads
+# Letakkan file ini di: uploads/.htaccess
+
+php_flag engine off
+Options -ExecCGI -Indexes
+AddType text/plain .php .php3 .php4 .php5 .php7 .phtml .phar
+RemoveHandler .php .php3 .php4 .php5 .php7 .phtml .phar
+
+<FilesMatch "\.(php|php3|php4|php5|php7|phtml|phar|pl|py|cgi|sh|rb)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

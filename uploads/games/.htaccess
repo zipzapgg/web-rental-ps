@@ -1,0 +1,16 @@
+# Blokir eksekusi PHP di folder uploads/games
+# Hanya izinkan akses file gambar
+
+php_flag engine off
+Options -ExecCGI -Indexes
+
+<FilesMatch "\.(php|php3|php4|php5|php7|phtml|phar|pl|py|cgi|sh|rb)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Hanya izinkan format gambar
+<FilesMatch "\.(jpg|jpeg|png|webp|gif)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
