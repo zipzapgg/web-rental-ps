@@ -17,14 +17,25 @@ function showToast(msg, type='info', duration=3500){
   setTimeout(()=>{ t.style.animation='toastOut .3s ease both'; setTimeout(()=>t.remove(), 300); }, duration);
 }
 
-/* Password show/hide toggle */
+/* Password show/hide toggle
+ * PERBAIKAN: Hapus hardcode path '/violet-ps/' — gunakan path relatif dari href existing
+ */
 function togglePassword(inputId, btn){
   const input = document.getElementById(inputId);
   if(!input) return;
   const isText = input.type === 'text';
   input.type = isText ? 'password' : 'text';
+
+  // Cari elemen use di dalam btn
   const eyeUse = btn.querySelector('use');
-  if(eyeUse) eyeUse.setAttribute('href', isText ? '/violet-ps/assets/icons.svg#ico-eye' : '/violet-ps/assets/icons.svg#ico-eye-off');
+  if(eyeUse){
+    // Ambil href existing, ganti hanya bagian fragment (#ico-xxx)
+    const existingHref = eyeUse.getAttribute('href') || eyeUse.getAttribute('xlink:href') || '';
+    const basePath = existingHref.includes('#') ? existingHref.split('#')[0] : existingHref;
+    const newFragment = isText ? 'ico-eye' : 'ico-eye-off';
+    const newHref = basePath ? basePath + '#' + newFragment : '#' + newFragment;
+    eyeUse.setAttribute('href', newHref);
+  }
 }
 
 /* Image preview for file inputs */
@@ -53,7 +64,7 @@ function removePreview(previewId, inputSelector){
   if(box){ box.style.borderColor=''; box.style.background=''; }
 }
 
-/* Confirm dialog yang lebih proper */
+/* Confirm dialog */
 function confirmAction(msg, callback){
   if(window.confirm(msg)) callback();
 }

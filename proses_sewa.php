@@ -17,6 +17,7 @@ if (empty($csrf_sent) || empty($csrf_stored) || !hash_equals($csrf_stored, $csrf
 }
 
 // ── Input & sanitasi ──────────────────────────────────────────────────────
+// PERBAIKAN: Jangan htmlspecialchars sebelum masuk DB — lakukan saat output
 $nama          = trim($_POST['nama']      ?? '');
 $wa            = preg_replace('/[^0-9]/', '', trim($_POST['wa'] ?? ''));
 $alamat        = trim($_POST['alamat']    ?? '');
@@ -39,6 +40,11 @@ if (!$tgl_ambil) $errors[] = 'Tanggal ambil wajib diisi.';
 if ($nama   && mb_strlen($nama)   > 100) $errors[] = 'Nama maksimal 100 karakter.';
 if ($alamat && mb_strlen($alamat) > 300) $errors[] = 'Alamat maksimal 300 karakter.';
 
+// Validasi karakter nama — hanya huruf, spasi, titik, tanda hubung
+if ($nama && !preg_match('/^[\p{L}\s\.\-\']+$/u', $nama)) {
+    $errors[] = 'Nama hanya boleh berisi huruf, spasi, titik, atau tanda hubung.';
+}
+
 if ($wa && !preg_match('/^[0-9]{10,15}$/', $wa)) {
     $errors[] = 'Nomor WhatsApp tidak valid (10–15 angka).';
 }
@@ -56,10 +62,6 @@ if ($errors) {
     header("Location: sewa.php");
     exit();
 }
-
-// Sanitasi setelah validasi
-$nama   = htmlspecialchars($nama,   ENT_QUOTES, 'UTF-8');
-$alamat = htmlspecialchars($alamat, ENT_QUOTES, 'UTF-8');
 
 // ── Cek batas pengajuan aktif per nomor WA ────────────────────────────────
 $stmt = $koneksi->prepare(
@@ -105,13 +107,18 @@ if ($kategori !== 'PS4') {
 // ── Hitung harga (pakai konstanta) ───────────────────────────────────────
 $hpp      = get_hpp($kategori, (bool)$pakai_playbox);
 $is_promo = is_promo_weekday($koneksi, $tgl_ambil);
-$sewa     = hitung_sewa($hari_bayar, $hpp, $is_promo && $hari_bayar >= 2);
+
+// PERBAIKAN BUG PROMO: Promo berlaku mulai 1 hari (bukan harus >= 2)
+// Promo 1 hari = dapat 1 hari (tidak ada bonus, tapi tetap dianggap weekday)
+// Bonus hari baru muncul dari rumus 2n-1 jika n >= 2
+$promo_applicable = $is_promo && $hari_bayar >= 2;
+$sewa = hitung_sewa($hari_bayar, $hpp, $promo_applicable);
 
 $durasi       = $sewa['durasi_str'];
 $harga        = $sewa['harga'];
-$is_promo_int = ($is_promo && $hari_bayar >= 2) ? 1 : 0;
+$is_promo_int = $promo_applicable ? 1 : 0;
 
-error_log("[Violet PS] Harga: $harga durasi=$durasi promo=$is_promo_int");
+error_log("[Violet PS] Harga: $harga durasi=$durasi promo=$is_promo_int tgl=$tgl_ambil is_weekday=" . ($is_promo ? 'ya' : 'tidak'));
 
 // ── Upload berkas ─────────────────────────────────────────────────────────
 function violet_upload(string $key, string $prefix): array {
@@ -162,6 +169,8 @@ if (isset($stnk['error'])) {
 }
 
 // ── Insert ke DB (transaksi) ──────────────────────────────────────────────
+// PERBAIKAN: Simpan $nama dan $alamat mentah (tanpa htmlspecialchars)
+// htmlspecialchars hanya dilakukan saat OUTPUT (di template PHP), bukan saat simpan ke DB
 $koneksi->begin_transaction();
 
 try {

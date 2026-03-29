@@ -2,14 +2,12 @@
 require_once 'config/koneksi.php';
 require_once 'config/promo.php';
 
-// Ambil error dari session (dikirim oleh proses_sewa.php redirect)
 $form_error = '';
 if (!empty($_SESSION['form_error'])) {
     $form_error = $_SESSION['form_error'];
     unset($_SESSION['form_error']);
 }
 
-// Ambil range libur mendatang untuk JS
 $libur_ranges = get_libur_ranges($koneksi);
 ?>
 <!DOCTYPE html>
@@ -21,8 +19,6 @@ $libur_ranges = get_libur_ranges($koneksi);
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Form Sewa Violet PlayStation</title>
   <meta name="description" content="Ajukan sewa PS4, PS5, Nintendo Switch &amp; Playbox di Violet PlayStation Jagakarsa.">
-  <meta property="og:title" content="Form Sewa Violet PlayStation">
-  <meta property="og:type" content="website">
   <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
   <script src="assets/app.js" defer></script>
@@ -71,9 +67,14 @@ $libur_ranges = get_libur_ranges($koneksi);
     .back-link:hover{color:var(--v-lavender);}
     .container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
     .form-container{max-width:760px;margin:0 auto;padding:0 1.5rem 5rem;}
-    /* Flash error */
     .flash-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:.75rem;align-items:flex-start;animation:fadeUp .3s ease both;}
     .flash-error p{font-size:.88rem;color:#f87171;line-height:1.6;font-family:var(--font-body);}
+
+    /* Promo status indicator */
+    .promo-status{border-radius:10px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.82rem;margin-top:.5rem;display:none;}
+    .promo-status.active{display:flex;align-items:center;gap:.6rem;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:#fbbf24;}
+    .promo-status.inactive{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--v-border);color:var(--v-muted);}
+
     @media(max-width:540px){.form-grid-2{grid-template-columns:1fr;}.form-card{padding:1.5rem;}}
   </style>
 </head>
@@ -95,7 +96,6 @@ $libur_ranges = get_libur_ranges($koneksi);
 
 <div class="form-container">
 
-  <!-- Flash error dari redirect proses_sewa.php -->
   <?php if ($form_error): ?>
   <div class="flash-error" role="alert">
     <span style="font-size:1.2rem;flex-shrink:0;">⚠️</span>
@@ -103,11 +103,9 @@ $libur_ranges = get_libur_ranges($koneksi);
   </div>
   <?php endif; ?>
 
-  <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:.75rem;align-items:flex-start;">
-    <div>
-      <strong style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#60a5fa;display:block;margin-bottom:.2rem;">Ambil di Toko</strong>
-      <p style="font-size:.85rem;color:#93c5fd;line-height:1.6;">Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp untuk konfirmasi waktu pengambilan.</p>
-    </div>
+  <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
+    <strong style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#60a5fa;display:block;margin-bottom:.2rem;">Ambil di Toko</strong>
+    <p style="font-size:.85rem;color:#93c5fd;line-height:1.6;">Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp.</p>
   </div>
 
   <div class="form-card">
@@ -115,6 +113,7 @@ $libur_ranges = get_libur_ranges($koneksi);
       <input type="hidden" name="kirim" value="1">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
+      <!-- Data Diri -->
       <div class="form-section-label"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-user"/></svg> Data Diri</div>
       <div class="form-grid-2">
         <div class="form-group">
@@ -127,10 +126,7 @@ $libur_ranges = get_libur_ranges($koneksi);
           <input type="tel" name="wa" id="inp-wa" class="v-input" autocomplete="tel" inputmode="numeric" placeholder="08xxxxxxxxxx" required>
           <div style="display:flex;gap:.5rem;align-items:flex-start;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .85rem;margin-top:.45rem;">
             <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">⚠️</span>
-            <p style="font-size:.78rem;color:#f87171;font-family:var(--font-body);line-height:1.6;margin:0;">
-              <strong style="font-family:var(--font-ui);letter-spacing:.5px;">Wajib nomor pribadi.</strong>
-              Nomor kamu akan dicek di <strong>GetContact</strong> minimal <strong>50 tag</strong> dari orang lain sebagai verifikasi identitas.
-            </p>
+            <p style="font-size:.78rem;color:#f87171;font-family:var(--font-body);line-height:1.6;margin:0;"><strong style="font-family:var(--font-ui);letter-spacing:.5px;">Wajib nomor pribadi.</strong> Nomor kamu akan dicek di <strong>GetContact</strong> minimal <strong>50 tag</strong> dari orang lain.</p>
           </div>
         </div>
       </div>
@@ -140,17 +136,18 @@ $libur_ranges = get_libur_ranges($koneksi);
         <div id="cnt-alamat" style="font-family:var(--font-ui);font-size:.72rem;color:var(--v-muted);text-align:right;margin-top:.2rem;" aria-live="polite">0/300</div>
       </div>
 
+      <!-- Pilih Unit & Durasi -->
       <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-gamepad"/></svg> Pilih Unit &amp; Durasi</div>
       <div class="form-grid-2">
         <div class="form-group">
           <label class="v-label" for="sel_unit">Unit PS</label>
-          <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga();updatePromoBanner();">
+          <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga()">
             <option value="">-- Pilih Unit --</option>
             <?php
             $stmt = $koneksi->prepare(
                 "SELECT * FROM units
                  WHERE (tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5'))
-                 AND status='Tersedia' ORDER BY kategori,nama_unit"
+                 AND status='Tersedia' ORDER BY kategori, nama_unit"
             );
             $stmt->execute();
             $units = $stmt->get_result();
@@ -166,31 +163,25 @@ $libur_ranges = get_libur_ranges($koneksi);
         </div>
         <div class="form-group">
           <label class="v-label" for="sel_durasi">Durasi Sewa</label>
-          <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga();updatePromoBanner();">
+          <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga()">
             <?php for ($d = 1; $d <= MAX_DURASI_HARI; $d++): ?>
             <option value="<?php echo $d; ?>"><?php echo $d; ?> Hari</option>
             <?php endfor; ?>
           </select>
-          <div id="durasi_promo_hint" style="font-size:.78rem;color:#fbbf24;font-family:var(--font-ui);margin-top:.35rem;display:none;" aria-live="polite"></div>
         </div>
       </div>
 
-      <!-- Promo banner realtime -->
-      <div id="promo-banner-form" style="display:none;background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(245,158,11,.08));border:1px solid rgba(251,191,36,.35);border-radius:12px;padding:.9rem 1.25rem;margin-bottom:1.25rem;animation:fadeUp .3s ease both;" role="status" aria-live="polite">
-        <div style="display:flex;align-items:center;gap:.75rem;">
-          <svg width="22" height="22" style="color:#fbbf24;flex-shrink:0;" aria-hidden="true"><use href="#ico-gift"/></svg>
-          <div>
-            <div id="promo-banner-title" style="font-family:var(--font-ui);font-size:.9rem;font-weight:700;letter-spacing:.5px;color:#fbbf24;"></div>
-            <div id="promo-banner-sub" style="font-family:var(--font-body);font-size:.8rem;color:#d97706;margin-top:.15rem;"></div>
-          </div>
-        </div>
-      </div>
-
+      <!-- Tanggal Ambil -->
       <div class="form-group">
         <label class="v-label" for="tgl_ambil_input">Rencana Tanggal Ambil</label>
-        <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required min="<?php echo date('Y-m-d'); ?>" style="padding:.75rem 1rem;" onchange="hitungHarga();updatePromoBanner();">
+        <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required
+               min="<?php echo date('Y-m-d'); ?>"
+               style="padding:.75rem 1rem;"
+               onchange="hitungHarga()">
         <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);margin-top:.35rem;">📅 Booking minimal H-1. Konfirmasi final via WhatsApp.</div>
-        <div id="promo-info" style="display:none;margin-top:.6rem;" aria-live="polite"></div>
+
+        <!-- BARU: Indikator status promo yang jelas -->
+        <div id="promo-status" class="promo-status"></div>
       </div>
 
       <!-- Playbox checkbox — hanya PS4 -->
@@ -210,15 +201,16 @@ $libur_ranges = get_libur_ranges($koneksi);
         <h4>💰 Estimasi Biaya</h4>
         <div class="harga-row"><span class="lbl">Sewa Unit</span><span class="val" id="row_unit">—</span></div>
         <div class="harga-row" id="row_playbox_wrap" style="display:none;"><span class="lbl">Playbox</span><span class="val" id="row_playbox">—</span></div>
-        <div class="harga-row"><span class="lbl">Durasi</span><span class="val" id="row_durasi">—</span></div>
+        <div class="harga-row"><span class="lbl">Durasi dibayar</span><span class="val" id="row_durasi">—</span></div>
+        <!-- Row promo & hari dapat ditambah oleh JS -->
         <div class="harga-total"><span class="total-lbl">TOTAL</span><span class="total-val" id="row_total">—</span></div>
         <div class="bayar-info">
           <span aria-hidden="true">💳</span>
-          <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>
-          Pembayaran dilakukan langsung saat kamu mengambil unit di toko. Nominal di atas adalah estimasi — konfirmasi final via WhatsApp.</p>
+          <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>Estimasi di atas — konfirmasi final via WhatsApp.</p>
         </div>
       </div>
 
+      <!-- Upload Dokumen -->
       <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-file"/></svg> Upload Dokumen</div>
       <div class="form-grid-2">
         <div class="form-group">
@@ -273,215 +265,234 @@ $libur_ranges = get_libur_ranges($koneksi);
 </div>
 
 <script>
-// ── Konstanta dari PHP ──────────────────────────────────────────────────────
+// ── Konstanta dari PHP ─────────────────────────────────────────────────────
 const HARGA_PS4      = <?php echo HARGA_PS4; ?>;
 const HARGA_PS5      = <?php echo HARGA_PS5; ?>;
 const HARGA_NINTENDO = <?php echo HARGA_NINTENDO; ?>;
 const HARGA_PLAYBOX  = <?php echo HARGA_PLAYBOX; ?>;
-const DENDA_PER_JAM  = <?php echo DENDA_PER_JAM; ?>;
 const MAX_DURASI     = <?php echo MAX_DURASI_HARI; ?>;
-const hariLibur      = <?php echo json_encode($libur_ranges); ?>;
 
-function updateCounter(el, counterId, max) {
-    const len = el.value.length;
-    const counter = document.getElementById(counterId);
-    if (!counter) return;
-    counter.textContent = len + '/' + max;
-    counter.style.color = len > max * 0.9 ? '#f87171' : 'var(--v-muted)';
+// Range libur dari DB — dipakai untuk cek apakah promo berlaku
+const hariLibur = <?php echo json_encode($libur_ranges); ?>;
+
+// ── PERBAIKAN BUG PROMO: Gunakan UTC-aware date parsing ────────────────────
+// JavaScript `new Date('2025-01-13')` menghasilkan UTC midnight,
+// sehingga `.getDay()` bisa menghasilkan hari yang salah di timezone WIB (+7).
+// Solusi: parse tanggal secara manual dari string YYYY-MM-DD.
+function parseLocalDate(tglStr) {
+  // tglStr format: "YYYY-MM-DD"
+  if (!tglStr) return null;
+  const parts = tglStr.split('-');
+  if (parts.length !== 3) return null;
+  // Buat Date di local timezone dengan constructor (tahun, bulan-1, hari)
+  return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
 }
 
 function isPromoWeekday(tgl) {
-    if (!tgl) return false;
-    const d    = new Date(tgl + 'T00:00:00');
-    const hari = d.getDay(); // 0=Min,6=Sab
-    if (hari === 0 || hari === 5 || hari === 6) return false;
-    return !getLiburKet(tgl);
+  if (!tgl) return false;
+  const d    = parseLocalDate(tgl);
+  if (!d) return false;
+  const hari = d.getDay(); // 0=Min, 1=Sen, 2=Sel, 3=Rab, 4=Kam, 5=Jum, 6=Sab
+  // Promo hanya Senin (1) sampai Kamis (4)
+  if (hari < 1 || hari > 4) return false;
+  // Cek apakah tanggal masuk dalam periode libur
+  return !getLiburKet(tgl);
 }
 
 function getLiburKet(tgl) {
-    if (!tgl || !Array.isArray(hariLibur)) return null;
-    for (const r of hariLibur) {
-        if (tgl >= r.tgl_mulai && tgl <= r.tgl_selesai) return r.keterangan;
-    }
-    return null;
+  if (!tgl || !Array.isArray(hariLibur)) return null;
+  for (const r of hariLibur) {
+    if (tgl >= r.tgl_mulai && tgl <= r.tgl_selesai) return r.keterangan;
+  }
+  return null;
+}
+
+function getNamaHari(tgl) {
+  const d = parseLocalDate(tgl);
+  if (!d) return '';
+  return ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][d.getDay()];
 }
 
 function getHargaUnit() {
-    const sel = document.getElementById('sel_unit');
-    const opt = sel.options[sel.selectedIndex];
-    if (!opt || !opt.value) return 0;
-    const kat = opt.dataset.kategori || '';
-    if (kat === 'PS5')      return HARGA_PS5;
-    if (kat === 'Nintendo') return HARGA_NINTENDO;
-    return HARGA_PS4;
+  const sel = document.getElementById('sel_unit');
+  const opt = sel.options[sel.selectedIndex];
+  if (!opt || !opt.value) return 0;
+  const kat = opt.dataset.kategori || '';
+  if (kat === 'PS5')      return HARGA_PS5;
+  if (kat === 'Nintendo') return HARGA_NINTENDO;
+  return HARGA_PS4;
 }
 
+// ── Hitung harga & update UI ────────────────────────────────────────────────
 function hitungHarga() {
-    const durasi  = parseInt(document.getElementById('sel_durasi').value) || 1;
-    const unitVal = document.getElementById('sel_unit').value;
-    const tgl     = document.getElementById('tgl_ambil_input')?.value || '';
-    const preview = document.getElementById('harga_preview');
+  const durasi   = parseInt(document.getElementById('sel_durasi').value) || 1;
+  const unitVal  = document.getElementById('sel_unit').value;
+  const tgl      = document.getElementById('tgl_ambil_input')?.value || '';
+  const preview  = document.getElementById('harga_preview');
+  const sel      = document.getElementById('sel_unit');
+  const kat      = sel.options[sel.selectedIndex]?.dataset?.kategori || '';
+  const pbWrap   = document.getElementById('playbox_wrap');
+  const chk      = document.getElementById('chk_playbox');
 
-    const sel = document.getElementById('sel_unit');
-    const kat = (sel.options[sel.selectedIndex]?.dataset?.kategori || '');
-    const pbWrap = document.getElementById('playbox_wrap');
-    const chk    = document.getElementById('chk_playbox');
+  // Playbox hanya PS4
+  if (kat === 'PS4') {
+    pbWrap.style.display = 'block';
+  } else {
+    pbWrap.style.display = 'none';
+    chk.checked = false;
+    document.getElementById('playbox_label')?.classList.remove('active');
+  }
 
-    // Playbox hanya untuk PS4
-    if (kat === 'PS4') {
-        pbWrap.style.display = 'block';
-    } else {
-        pbWrap.style.display = 'none';
-        chk.checked = false;
-        document.getElementById('playbox_label')?.classList.remove('active');
-    }
+  if (!unitVal) { preview.classList.remove('show'); updatePromoStatus(tgl, durasi); return; }
 
-    if (!unitVal) { preview.classList.remove('show'); return; }
+  const pakai     = chk.checked;
+  const hUnit     = getHargaUnit();
+  const hPb       = pakai ? HARGA_PLAYBOX : 0;
+  const hSehari   = hUnit + hPb;
 
-    const pakai   = chk.checked;
-    const hUnit   = getHargaUnit();
-    const hPb     = pakai ? HARGA_PLAYBOX : 0;
-    const hSehari = hUnit + hPb;
-    const promo     = isPromoWeekday(tgl) && durasi >= 2;
-    const hariDapat = promo ? (2 * durasi - 1) : durasi;
-    const total     = hSehari * durasi;
+  // PERBAIKAN: Sinkronkan logika promo dengan PHP (harus >= 2 hari untuk dapat bonus)
+  const isPromo         = isPromoWeekday(tgl);
+  const promoApplicable = isPromo && durasi >= 2;
+  const hariDapat       = promoApplicable ? (2 * durasi - 1) : durasi;
+  const total           = hSehari * durasi; // yang dibayar = durasi asli
 
-    document.getElementById('row_unit').textContent  = fmt(hUnit) + '/hari';
-    document.getElementById('row_durasi').textContent = durasi + ' hari dibayar';
-    document.getElementById('row_playbox_wrap').style.display = pakai ? 'flex' : 'none';
-    if (pakai) document.getElementById('row_playbox').textContent = fmt(hPb) + '/hari';
+  document.getElementById('row_unit').textContent   = fmt(hUnit) + '/hari';
+  document.getElementById('row_durasi').textContent = durasi + ' hari';
+  document.getElementById('row_playbox_wrap').style.display = pakai ? 'flex' : 'none';
+  if (pakai) document.getElementById('row_playbox').textContent = fmt(hPb) + '/hari';
 
-    // Row promo
-    let promoEl = document.getElementById('row_promo_wrap');
-    if (!promoEl) {
-        promoEl = document.createElement('div');
-        promoEl.id = 'row_promo_wrap';
-        promoEl.className = 'harga-row';
-        promoEl.innerHTML = '<span class="lbl">🎁 Promo Weekday</span><span id="row_promo" style="color:#fbbf24;font-weight:700;"></span>';
-        document.getElementById('row_total').closest('.harga-total').before(promoEl);
-    }
-    let dapatEl = document.getElementById('row_dapat_wrap');
-    if (!dapatEl) {
-        dapatEl = document.createElement('div');
-        dapatEl.id = 'row_dapat_wrap';
-        dapatEl.className = 'harga-row';
-        dapatEl.innerHTML = '<span class="lbl" style="color:#34d399;">✓ Total hari didapat</span><span id="row_dapat" style="color:#34d399;font-weight:800;font-size:1rem;"></span>';
-        document.getElementById('row_total').closest('.harga-total').before(dapatEl);
-    }
-    if (promo) {
-        promoEl.style.display = 'flex';
-        document.getElementById('row_promo').textContent = 'Bayar ' + durasi + ' hari, dapat ' + hariDapat + ' hari!';
-        dapatEl.style.display = 'flex';
-        document.getElementById('row_dapat').textContent = hariDapat + ' Hari';
-    } else {
-        promoEl.style.display = 'none';
-        dapatEl.style.display = 'none';
-    }
+  // Row promo
+  ensureRow('row_promo_wrap', '<span class="lbl">🎁 Promo Weekday</span><span id="row_promo" style="color:#fbbf24;font-weight:700;"></span>');
+  ensureRow('row_dapat_wrap', '<span class="lbl" style="color:#34d399;">✓ Total hari didapat</span><span id="row_dapat" style="color:#34d399;font-weight:800;font-size:1rem;"></span>');
 
-    // Info libur
-    let liburEl = document.getElementById('promo_libur_info');
-    const liburKet = getLiburKet(tgl);
-    if (liburKet) {
-        if (!liburEl) {
-            liburEl = document.createElement('div');
-            liburEl.id = 'promo_libur_info';
-            liburEl.style.cssText = 'background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.65rem 1rem;margin-top:.75rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
-            document.getElementById('harga_preview').appendChild(liburEl);
-        }
-        liburEl.textContent = '⚠ Tanggal ini masuk periode libur (' + liburKet + ') — promo weekday tidak berlaku.';
-        liburEl.style.display = 'block';
-    } else if (liburEl) {
-        liburEl.style.display = 'none';
-    }
+  const promoRow  = document.getElementById('row_promo_wrap');
+  const dapatRow  = document.getElementById('row_dapat_wrap');
 
-    document.getElementById('row_total').textContent = fmt(total);
-    // Tidak perlu set input hidden — harga dihitung ulang di backend
-    const hint = document.getElementById('durasi_promo_hint');
-    if (hint) {
-        if (promo) { hint.style.display = 'block'; hint.textContent = '🎁 Weekday: bayar ' + durasi + ' hari → dapat ' + hariDapat + ' hari'; }
-        else        { hint.style.display = 'none'; }
-    }
-    preview.classList.add('show');
+  if (promoApplicable) {
+    promoRow.style.display = 'flex';
+    document.getElementById('row_promo').textContent = 'Bayar ' + durasi + ' hari, dapat ' + hariDapat + ' hari!';
+    dapatRow.style.display = 'flex';
+    document.getElementById('row_dapat').textContent = hariDapat + ' Hari';
+  } else {
+    promoRow.style.display = 'none';
+    dapatRow.style.display = 'none';
+  }
+
+  document.getElementById('row_total').textContent = fmt(total);
+  preview.classList.add('show');
+
+  // Update status promo
+  updatePromoStatus(tgl, durasi);
 }
 
-function updatePromoBanner() {
-    const durasi = parseInt(document.getElementById('sel_durasi').value) || 1;
-    const tgl    = document.getElementById('tgl_ambil_input')?.value || '';
-    const banner = document.getElementById('promo-banner-form');
-    if (!banner) return;
-    const promo     = isPromoWeekday(tgl) && durasi >= 2;
-    const hariDapat = promo ? (2 * durasi - 1) : durasi;
-    if (promo && tgl) {
-        const hariNames = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-        const d = new Date(tgl + 'T00:00:00');
-        const namaHari = hariNames[d.getDay()];
-        document.getElementById('promo-banner-title').textContent = 'Promo Weekday! Bayar ' + durasi + ' hari, dapat ' + hariDapat + ' hari';
-        document.getElementById('promo-banner-sub').textContent   =
-            namaHari + ' ' + d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) +
-            ' — Gratis ' + (hariDapat - durasi) + ' hari!';
-        banner.style.display = 'block';
-    } else {
-        banner.style.display = 'none';
-    }
+// Helper: buat row harga jika belum ada
+function ensureRow(id, html) {
+  if (!document.getElementById(id)) {
+    const el = document.createElement('div');
+    el.id = id;
+    el.className = 'harga-row';
+    el.innerHTML = html;
+    el.style.display = 'none';
+    document.getElementById('row_total').closest('.harga-total').before(el);
+  }
+}
+
+// ── Indikator promo yang jelas ────────────────────────────────────────────
+function updatePromoStatus(tgl, durasi) {
+  const statusEl = document.getElementById('promo-status');
+  if (!statusEl) return;
+
+  if (!tgl) {
+    statusEl.className = 'promo-status';
+    return;
+  }
+
+  const isPromo   = isPromoWeekday(tgl);
+  const liburKet  = getLiburKet(tgl);
+  const namaHari  = getNamaHari(tgl);
+
+  if (liburKet) {
+    statusEl.className = 'promo-status inactive';
+    statusEl.innerHTML = `⛔ <span>Tanggal ini masuk periode libur <strong>${liburKet}</strong> — promo tidak berlaku, harga normal.</span>`;
+  } else if (isPromo && durasi >= 2) {
+    const hariDapat = 2 * durasi - 1;
+    statusEl.className = 'promo-status active';
+    statusEl.innerHTML = `🎁 <span><strong>Promo weekday aktif!</strong> ${namaHari} bukan hari libur. Bayar ${durasi} hari → dapat ${hariDapat} hari.</span>`;
+  } else if (isPromo && durasi < 2) {
+    statusEl.className = 'promo-status active';
+    statusEl.innerHTML = `✅ <span><strong>${namaHari}</strong> adalah hari weekday. Tambah durasi jadi 2+ hari untuk dapat promo bonus.</span>`;
+  } else {
+    statusEl.className = 'promo-status inactive';
+    statusEl.innerHTML = `📅 <span><strong>${namaHari}</strong> bukan hari promo. Promo berlaku Senin–Kamis (bukan hari libur).</span>`;
+  }
 }
 
 function togglePlaybox(cb) {
-    cb.closest('.playbox-toggle').classList.toggle('active', cb.checked);
-    hitungHarga();
+  cb.closest('.playbox-toggle').classList.toggle('active', cb.checked);
+  hitungHarga();
+}
+
+function updateCounter(el, counterId, max) {
+  const len     = el.value.length;
+  const counter = document.getElementById(counterId);
+  if (!counter) return;
+  counter.textContent  = len + '/' + max;
+  counter.style.color  = len > max * 0.9 ? '#f87171' : 'var(--v-muted)';
 }
 
 function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
 
+// Event listeners
 document.getElementById('sel_unit').addEventListener('change', hitungHarga);
-document.getElementById('sel_durasi').addEventListener('change', function() { hitungHarga(); updatePromoBanner(); });
-document.getElementById('tgl_ambil_input')?.addEventListener('change', function() { hitungHarga(); updatePromoBanner(); });
+document.getElementById('sel_durasi').addEventListener('change', hitungHarga);
+document.getElementById('tgl_ambil_input')?.addEventListener('change', hitungHarga);
 
-// Auto hitung jika unit sudah pre-selected dari URL
-if (document.getElementById('sel_unit').value) { hitungHarga(); updatePromoBanner(); }
+// Auto hitung jika unit pre-selected
+if (document.getElementById('sel_unit').value) hitungHarga();
 
-// Cek apakah ada unit tersedia
+// Cek unit tersedia
 const selUnit = document.getElementById('sel_unit');
 if (selUnit && selUnit.options.length <= 1) {
-    selUnit.style.borderColor = 'rgba(239,68,68,.4)';
-    const warn = document.createElement('div');
-    warn.style.cssText = 'background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .9rem;margin-top:.4rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
-    warn.textContent = '⚠ Semua unit saat ini sedang disewa. Hubungi kami via WhatsApp.';
-    selUnit.parentNode.appendChild(warn);
+  selUnit.style.borderColor = 'rgba(239,68,68,.4)';
+  const warn = document.createElement('div');
+  warn.style.cssText = 'background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .9rem;margin-top:.4rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
+  warn.textContent = '⚠ Semua unit saat ini sedang disewa. Hubungi kami via WhatsApp.';
+  selUnit.parentNode.appendChild(warn);
 }
 
 function previewBox(input, boxId, prevId) {
-    const f = input.files[0];
-    if (!f) return;
-    const box = document.getElementById(boxId);
-    const prev = document.getElementById(prevId);
-    const ph = document.getElementById(boxId.replace('-box', '-placeholder'));
-    const img = prev ? prev.querySelector('img') : null;
-    if (!box || !prev || !img) return;
-    img.src = URL.createObjectURL(f);
-    box.classList.add('has-file');
-    box.style.padding = '0';
-    box.style.borderColor = 'var(--v-violet)';
-    box.style.borderStyle = 'solid';
-    if (ph) ph.style.display = 'none';
-    prev.style.display = 'block';
+  const f    = input.files[0];
+  if (!f) return;
+  const box  = document.getElementById(boxId);
+  const prev = document.getElementById(prevId);
+  const ph   = document.getElementById(boxId.replace('-box', '-placeholder'));
+  const img  = prev ? prev.querySelector('img') : null;
+  if (!box || !prev || !img) return;
+  img.src = URL.createObjectURL(f);
+  box.classList.add('has-file');
+  box.style.padding = '0';
+  box.style.borderColor = 'var(--v-violet)';
+  box.style.borderStyle = 'solid';
+  if (ph) ph.style.display = 'none';
+  prev.style.display = 'block';
 }
 
 function clearBox(boxId, prevId, phId, inputSel) {
-    const box  = document.getElementById(boxId);
-    const prev = document.getElementById(prevId);
-    const ph   = document.getElementById(phId);
-    const inp  = document.querySelector(inputSel);
-    if (prev) { const img = prev.querySelector('img'); if (img) img.src = ''; prev.style.display = 'none'; }
-    if (ph)   ph.style.display = 'flex';
-    if (box)  { box.classList.remove('has-file'); box.style.padding = '1.5rem'; box.style.borderColor = ''; box.style.borderStyle = ''; }
-    if (inp)  inp.value = '';
+  const box  = document.getElementById(boxId);
+  const prev = document.getElementById(prevId);
+  const ph   = document.getElementById(phId);
+  const inp  = document.querySelector(inputSel);
+  if (prev) { const img = prev.querySelector('img'); if (img) img.src = ''; prev.style.display = 'none'; }
+  if (ph)   ph.style.display = 'flex';
+  if (box)  { box.classList.remove('has-file'); box.style.padding = '1.5rem'; box.style.borderColor = ''; box.style.borderStyle = ''; }
+  if (inp)  inp.value = '';
 }
 
 document.getElementById('sewaForm').addEventListener('submit', function() {
-    const btn = document.getElementById('btn-submit');
-    const txt = document.getElementById('btn-submit-text');
-    if (btn) { btn.style.pointerEvents = 'none'; btn.style.opacity = '.6'; }
-    if (txt) { txt.textContent = '⏳ Memproses...'; }
+  const btn = document.getElementById('btn-submit');
+  const txt = document.getElementById('btn-submit-text');
+  if (btn) { btn.style.pointerEvents = 'none'; btn.style.opacity = '.6'; }
+  if (txt) txt.textContent = '⏳ Memproses...';
 });
 </script>
 </body>

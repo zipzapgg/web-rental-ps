@@ -24,26 +24,36 @@ $stmt->execute();
 $histori = $stmt->get_result();
 $stmt->close();
 
-// ── PERBAIKAN: Gunakan nama variabel berbeda agar tidak konflik dengan sidebar ──
-$unit_total_sewa = $koneksi->query(
-    "SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit"
-)->fetch_assoc()['c'];
+// ── PERBAIKAN: Gunakan prepared statement untuk semua query stats ──────────
+$stmt = $koneksi->prepare("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=?");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$unit_total_sewa = $stmt->get_result()->fetch_assoc()['c'];
+$stmt->close();
 
-$unit_total_selesai = $koneksi->query(
-    "SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'"
-)->fetch_assoc()['c'];
+$stmt = $koneksi->prepare("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=? AND status_pengajuan='Selesai'");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$unit_total_selesai = $stmt->get_result()->fetch_assoc()['c'];
+$stmt->close();
 
-$unit_total_pending = $koneksi->query(
-    "SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Pending'"
-)->fetch_assoc()['c'];
+$stmt = $koneksi->prepare("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=? AND status_pengajuan='Pending'");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$unit_total_pending = $stmt->get_result()->fetch_assoc()['c'];
+$stmt->close();
 
-$unit_total_ditolak = $koneksi->query(
-    "SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Ditolak'"
-)->fetch_assoc()['c'];
+$stmt = $koneksi->prepare("SELECT COUNT(*) as c FROM pengajuan WHERE id_unit=? AND status_pengajuan='Ditolak'");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$unit_total_ditolak = $stmt->get_result()->fetch_assoc()['c'];
+$stmt->close();
 
-$unit_total_pendapatan = $koneksi->query(
-    "SELECT COALESCE(SUM(harga),0) as t FROM pengajuan WHERE id_unit=$id_unit AND status_pengajuan='Selesai'"
-)->fetch_assoc()['t'];
+$stmt = $koneksi->prepare("SELECT COALESCE(SUM(harga),0) as t FROM pengajuan WHERE id_unit=? AND status_pengajuan='Selesai'");
+$stmt->bind_param("i", $id_unit);
+$stmt->execute();
+$unit_total_pendapatan = $stmt->get_result()->fetch_assoc()['t'];
+$stmt->close();
 
 $kat = $unit['kategori'];
 $bc  = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
@@ -99,7 +109,6 @@ body{display:flex;min-height:100vh;}
     <span style="color:var(--v-lavender);">Histori <?php echo htmlspecialchars($unit['nama_unit']); ?></span>
   </div>
 
-  <!-- Unit Header -->
   <div class="unit-header">
     <div class="unit-icon-big"><?php echo $kat === 'Nintendo' ? '🕹️' : '🎮'; ?></div>
     <div class="unit-header-info">
@@ -117,7 +126,6 @@ body{display:flex;min-height:100vh;}
     </div>
   </div>
 
-  <!-- Stats — menggunakan variabel unit_* agar tidak bentrok dengan sidebar -->
   <div class="stats-row">
     <div class="stat-mini"><div class="num"><?php echo $unit_total_sewa; ?></div><div class="lbl">Total Pengajuan</div></div>
     <div class="stat-mini"><div class="num" style="color:#34d399;"><?php echo $unit_total_selesai; ?></div><div class="lbl">Selesai</div></div>
@@ -129,7 +137,6 @@ body{display:flex;min-height:100vh;}
     </div>
   </div>
 
-  <!-- Histori table -->
   <div class="table-card">
     <div class="table-card-header">
       <h3>Histori Sewa</h3>
@@ -138,11 +145,11 @@ body{display:flex;min-height:100vh;}
     <div class="table-wrap">
       <table class="v-table">
         <thead>
-          <tr><th>Tanggal</th><th>Penyewa</th><th>No. WA</th><th>Durasi</th><th>Harga</th><th>Dokumen</th><th>Status</th><th>Aksi</th></tr>
+          <tr><th>Tanggal</th><th>Penyewa</th><th>No. WA</th><th>Durasi</th><th>Harga</th><th>Promo</th><th>Dokumen</th><th>Status</th><th>Aksi</th></tr>
         </thead>
         <tbody>
         <?php if ($histori->num_rows === 0): ?>
-          <tr><td colspan="8" class="empty-td">Belum ada histori sewa untuk unit ini.</td></tr>
+          <tr><td colspan="9" class="empty-td">Belum ada histori sewa untuk unit ini.</td></tr>
         <?php endif; ?>
         <?php while ($h = $histori->fetch_assoc()):
           $st = $h['status_pengajuan'];
@@ -166,6 +173,13 @@ body{display:flex;min-height:100vh;}
               <?php if ($h['pakai_playbox'] ?? 0): ?><br><span style="font-size:.7rem;color:#6ee7b7;">+ Playbox</span><?php endif; ?>
             <?php else: ?>
               <span style="color:var(--v-muted);">—</span>
+            <?php endif; ?>
+          </td>
+          <td>
+            <?php if ($h['is_promo'] ?? 0): ?>
+              <span style="background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.3);font-family:var(--font-ui);font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:4px;">🎁 Promo</span>
+            <?php else: ?>
+              <span style="color:var(--v-muted);font-size:.8rem;">—</span>
             <?php endif; ?>
           </td>
           <td>

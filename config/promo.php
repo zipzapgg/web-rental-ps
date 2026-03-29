@@ -1,13 +1,21 @@
 <?php
 /**
  * Cek apakah tanggal berhak dapat promo weekday.
- * Promo berlaku jika: hari Senin–Kamis DAN tidak dalam range libur manapun.
+ * Promo berlaku: Senin–Kamis DAN tidak dalam periode libur.
  */
 function is_promo_weekday(mysqli $db, string $tgl): bool {
     if (!$tgl) return false;
-    $hari = intval(date('N', strtotime($tgl))); // 1=Sen ... 7=Min
+
+    $ts = strtotime($tgl);
+    if ($ts === false) return false;
+
+    // date('N'): 1=Senin, 2=Selasa, 3=Rabu, 4=Kamis, 5=Jumat, 6=Sabtu, 7=Minggu
+    $hari = intval(date('N', $ts));
+
+    // Hanya Senin–Kamis (1–4) yang dapat promo
     if ($hari < 1 || $hari > 4) return false;
 
+    // Cek apakah tanggal masuk periode libur
     $s = $db->prepare(
         "SELECT id_libur FROM hari_libur WHERE ? BETWEEN tgl_mulai AND tgl_selesai LIMIT 1"
     );
@@ -15,17 +23,14 @@ function is_promo_weekday(mysqli $db, string $tgl): bool {
     $s->execute();
     $ada = $s->get_result()->num_rows > 0;
     $s->close();
+
     return !$ada;
 }
 
 /**
- * Hitung durasi aktual (hari yang didapat) dan harga dari promo.
- * Promo weekday: bayar N hari → dapat 2N-1 hari
- *   - bayar 2 → dapat 3 hari
- *   - bayar 3 → dapat 5 hari
- * Tanpa promo: dapat = bayar
- *
- * Pakai konstanta dari config/harga.php (sudah di-require di koneksi.php)
+ * Hitung durasi dan harga sewa.
+ * Promo: bayar N hari → dapat 2N-1 hari.
+ * Tanpa promo: dapat = bayar.
  */
 function hitung_sewa(int $hari_bayar, int $hpp, bool $promo): array {
     $hari_dapat = $promo ? (2 * $hari_bayar - 1) : $hari_bayar;
@@ -42,7 +47,7 @@ function hitung_sewa(int $hari_bayar, int $hpp, bool $promo): array {
 }
 
 /**
- * Ambil semua range libur yang aktif/mendatang untuk JS.
+ * Ambil semua range libur aktif/mendatang untuk kalkulasi JS.
  */
 function get_libur_ranges(mysqli $db): array {
     $r = $db->query(

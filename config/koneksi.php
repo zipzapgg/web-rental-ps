@@ -11,6 +11,9 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
+// Fix timezone — root cause bug promo weekday
+date_default_timezone_set('Asia/Jakarta');
+
 if (session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly',  1);
     ini_set('session.cookie_samesite', 'Strict');
@@ -44,8 +47,8 @@ if ($koneksi->connect_error) {
     die("Layanan sementara tidak tersedia. Silakan coba lagi nanti.");
 }
 $koneksi->set_charset("utf8mb4");
-
-// ── CSRF ────────────────────────────────────────────────────────────────────
+// Sync timezone MySQL
+$koneksi->query("SET time_zone = '+07:00'");
 
 function csrf_token(): string {
     if (empty($_SESSION['csrf_token'])) {
@@ -79,14 +82,9 @@ function csrf_get_check(): void {
     }
 }
 
-/**
- * Rotate kedua CSRF token — dipanggil setelah login berhasil.
- */
 function csrf_rotate(): void {
     unset($_SESSION['csrf_token'], $_SESSION['csrf_get_token']);
 }
-
-// ── Auth helpers ─────────────────────────────────────────────────────────────
 
 function is_logged_in(): bool {
     return isset($_SESSION['status']) && $_SESSION['status'] === 'login';
@@ -111,8 +109,6 @@ function require_admin(string $redirect = 'index.php'): void {
     }
 }
 
-// ── Upload helpers ───────────────────────────────────────────────────────────
-
 function ext_from_mime(string $mime): ?string {
     return [
         'image/jpeg' => 'jpg',
@@ -121,10 +117,28 @@ function ext_from_mime(string $mime): ?string {
     ][$mime] ?? null;
 }
 
-// ── Path constants ───────────────────────────────────────────────────────────
+// Konstanta harga terpusat
+define('HARGA_PS4',        100000);
+define('HARGA_PS5',        195000);
+define('HARGA_NINTENDO',   100000);
+define('HARGA_PLAYBOX',     30000);
+define('DENDA_PER_JAM',     10000);
+define('BATAS_JAM_DENDA',       6);
+define('MAX_DURASI_HARI',       3);
+define('MAX_PERPANJANG_HARI',   7);
+
+function get_hpp(string $kategori, bool $pakai_playbox = false): int {
+    $base = match(strtoupper($kategori)) {
+        'PS5'      => HARGA_PS5,
+        'NINTENDO' => HARGA_NINTENDO,
+        default    => HARGA_PS4,
+    };
+    return $base + ($pakai_playbox ? HARGA_PLAYBOX : 0);
+}
+
+function hitung_denda(int $jam_telat, int $hpp): int {
+    if ($jam_telat <= 0) return 0;
+    return $jam_telat > BATAS_JAM_DENDA ? $hpp : $jam_telat * DENDA_PER_JAM;
+}
 
 define('UPLOAD_PATH', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'uploads_violet' . DIRECTORY_SEPARATOR);
-
-// ── Load konstanta harga ─────────────────────────────────────────────────────
-
-require_once __DIR__ . '/harga.php';
