@@ -163,7 +163,7 @@ while ($r = $res_pb->fetch_assoc()) {
             $units = $stmt->get_result();
             while ($u = $units->fetch_assoc()) {
                 $label = htmlspecialchars($u['nama_unit']) . ' (' . $u['kategori'] . ')';
-                if ($u['tipe_layanan'] === 'Main di Tempat') $label .= ' — WA dulu';
+                if ($u['tipe_layanan'] === 'Main di Tempat') $label .= ' WA dulu';
                 $sel = (isset($_GET['unit']) && intval($_GET['unit']) === $u['id_unit']) ? ' selected' : '';
                 echo "<option value='" . (int)$u['id_unit'] . "' data-kategori='" . htmlspecialchars($u['kategori']) . "'$sel>$label</option>";
             }
@@ -194,13 +194,13 @@ while ($r = $res_pb->fetch_assoc()) {
         <div id="promo-status" class="promo-status"></div>
       </div>
 
-      <!-- Playbox checkbox — hanya PS4 -->
+      <!-- Playbox checkbox hanya PS4 -->
 <div id="playbox_wrap" style="display:none; grid-column: 1 / -1;">
         <label class="playbox-toggle" id="playbox_label" for="chk_playbox" style="margin-bottom: 0.25rem;">
           <input type="checkbox" name="pakai_playbox" id="chk_playbox" value="1" onchange="togglePlaybox(this)">
           <div class="playbox-toggle-label">
             <strong id="pb-status-text">🎒 Tambah Playbox (+Rp <?php echo number_format(HARGA_PLAYBOX, 0, ',', '.'); ?>/hari)</strong>
-            <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 motor saat ambil.</span>
+            <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 orang jika naik motor saat ambil.</span>
           </div>
         </label>
         <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);padding-left:.25rem;margin-bottom:1.25rem;">⚠ Playbox hanya tersedia untuk unit PS4</div>
@@ -216,7 +216,7 @@ while ($r = $res_pb->fetch_assoc()) {
         <div class="harga-total"><span class="total-lbl">TOTAL</span><span class="total-val" id="row_total">—</span></div>
         <div class="bayar-info">
           <span aria-hidden="true">💳</span>
-          <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>Estimasi di atas — konfirmasi final via WhatsApp.</p>
+          <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>Estimasi di atas konfirmasi final via WhatsApp.</p>
         </div>
       </div>
 
@@ -470,7 +470,7 @@ function updatePromoStatus(tgl, durasi) {
 
   if (liburKet) {
     statusEl.className = 'promo-status inactive';
-    statusEl.innerHTML = `⛔ <span>Tanggal ini masuk periode libur <strong>${liburKet}</strong> — promo tidak berlaku, harga normal.</span>`;
+    statusEl.innerHTML = `⛔ <span>Tanggal ini masuk periode libur <strong>${liburKet}</strong> promo tidak berlaku, harga normal.</span>`;
   } else if (isPromo && durasi >= 2) {
     const hariDapat = 2 * durasi - 1;
     statusEl.className = 'promo-status active';
