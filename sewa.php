@@ -9,6 +9,16 @@ if (!empty($_SESSION['form_error'])) {
 }
 
 $libur_ranges = get_libur_ranges($koneksi);
+$pb_aktif = [];
+$res_pb = $koneksi->query("SELECT tgl_ambil, durasi FROM pengajuan WHERE pakai_playbox=1 AND status_pengajuan IN ('Pending', 'Disetujui')");
+while ($r = $res_pb->fetch_assoc()) {
+    preg_match('/(\d+)/', $r['durasi'], $m);
+    $hari = intval($m[1] ?? 1);
+    $pb_aktif[] = [
+        'start' => $r['tgl_ambil'],
+        'end'   => date('Y-m-d', strtotime($r['tgl_ambil'] . " + $hari days"))
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -185,15 +195,15 @@ $libur_ranges = get_libur_ranges($koneksi);
       </div>
 
       <!-- Playbox checkbox — hanya PS4 -->
-      <div id="playbox_wrap" style="display:none;">
-        <label class="playbox-toggle" id="playbox_label" for="chk_playbox">
+<div id="playbox_wrap" style="display:none; grid-column: 1 / -1;">
+        <label class="playbox-toggle" id="playbox_label" for="chk_playbox" style="margin-bottom: 0.25rem;">
           <input type="checkbox" name="pakai_playbox" id="chk_playbox" value="1" onchange="togglePlaybox(this)">
           <div class="playbox-toggle-label">
-            <strong>🎒 Tambah Playbox (+Rp <?php echo number_format(HARGA_PLAYBOX, 0, ',', '.'); ?>/hari)</strong>
-            <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 orang motor saat ambil.</span>
+            <strong id="pb-status-text">🎒 Tambah Playbox (+Rp <?php echo number_format(HARGA_PLAYBOX, 0, ',', '.'); ?>/hari)</strong>
+            <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 motor saat ambil.</span>
           </div>
         </label>
-        <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);margin-top:-.75rem;margin-bottom:1.25rem;padding:0 .25rem;">⚠ Playbox hanya tersedia untuk unit PS4</div>
+        <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);padding-left:.25rem;margin-bottom:1.25rem;">⚠ Playbox hanya tersedia untuk unit PS4</div>
       </div>
 
       <!-- Kalkulasi Harga -->
@@ -265,38 +275,26 @@ $libur_ranges = get_libur_ranges($koneksi);
 </div>
 
 <script>
-// ── Konstanta dari PHP ─────────────────────────────────────────────────────
-const HARGA_PS4      = <?php echo HARGA_PS4; ?>;
-const HARGA_PS5      = <?php echo HARGA_PS5; ?>;
-const HARGA_NINTENDO = <?php echo HARGA_NINTENDO; ?>;
-const HARGA_PLAYBOX  = <?php echo HARGA_PLAYBOX; ?>;
-const MAX_DURASI     = <?php echo MAX_DURASI_HARI; ?>;
+// ── Konstanta & Data dari PHP ─────────────────────────────────────────────
+const HARGA_PS4       = <?php echo HARGA_PS4; ?>;
+const HARGA_PS5       = <?php echo HARGA_PS5; ?>;
+const HARGA_NINTENDO  = <?php echo HARGA_NINTENDO; ?>;
+const HARGA_PS4_LIBUR = <?php echo defined('HARGA_PS4_LIBUR') ? HARGA_PS4_LIBUR : 135000; ?>;
+const HARGA_PS5_LIBUR = <?php echo defined('HARGA_PS5_LIBUR') ? HARGA_PS5_LIBUR : 230000; ?>;
+const HARGA_NIN_LIBUR = <?php echo defined('HARGA_NINTENDO_LIBUR') ? HARGA_NINTENDO_LIBUR : 135000; ?>;
+const HARGA_PLAYBOX   = <?php echo HARGA_PLAYBOX; ?>;
+const MAX_DURASI      = <?php echo MAX_DURASI_HARI; ?>;
+const TOTAL_PLAYBOX   = <?php echo defined('TOTAL_PLAYBOX') ? TOTAL_PLAYBOX : 1; ?>;
+const activePlaybox   = <?php echo json_encode($pb_aktif ?? []); ?>;
+const hariLibur       = <?php echo json_encode($libur_ranges ?? []); ?>;
 
-// Range libur dari DB — dipakai untuk cek apakah promo berlaku
-const hariLibur = <?php echo json_encode($libur_ranges); ?>;
-
-// ── PERBAIKAN BUG PROMO: Gunakan UTC-aware date parsing ────────────────────
-// JavaScript `new Date('2025-01-13')` menghasilkan UTC midnight,
-// sehingga `.getDay()` bisa menghasilkan hari yang salah di timezone WIB (+7).
-// Solusi: parse tanggal secara manual dari string YYYY-MM-DD.
+// ── Helper Functions ──────────────────────────────────────────────────────
 function parseLocalDate(tglStr) {
-  // tglStr format: "YYYY-MM-DD"
   if (!tglStr) return null;
   const parts = tglStr.split('-');
   if (parts.length !== 3) return null;
-  // Buat Date di local timezone dengan constructor (tahun, bulan-1, hari)
-  return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-}
-
-function isPromoWeekday(tgl) {
-  if (!tgl) return false;
-  const d    = parseLocalDate(tgl);
-  if (!d) return false;
-  const hari = d.getDay(); // 0=Min, 1=Sen, 2=Sel, 3=Rab, 4=Kam, 5=Jum, 6=Sab
-  // Promo hanya Senin (1) sampai Kamis (4)
-  if (hari < 1 || hari > 4) return false;
-  // Cek apakah tanggal masuk dalam periode libur
-  return !getLiburKet(tgl);
+  // Radix 10 wajib agar 08/09 tidak terbaca sebagai oktal di browser lawas
+  return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
 }
 
 function getLiburKet(tgl) {
@@ -307,23 +305,72 @@ function getLiburKet(tgl) {
   return null;
 }
 
+function isPromoWeekday(tgl) {
+  if (!tgl) return false;
+  const d = parseLocalDate(tgl);
+  if (!d) return false;
+  const hari = d.getDay(); // 0=Min, 1=Sen, 2=Sel, 3=Rab, 4=Kam, 5=Jum, 6=Sab
+  if (hari < 1 || hari > 4) return false;
+  return getLiburKet(tgl) === null; // Promo hangus jika hari libur manual
+}
+
 function getNamaHari(tgl) {
   const d = parseLocalDate(tgl);
   if (!d) return '';
   return ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'][d.getDay()];
 }
 
-function getHargaUnit() {
-  const sel = document.getElementById('sel_unit');
-  const opt = sel.options[sel.selectedIndex];
-  if (!opt || !opt.value) return 0;
-  const kat = opt.dataset.kategori || '';
-  if (kat === 'PS5')      return HARGA_PS5;
-  if (kat === 'Nintendo') return HARGA_NINTENDO;
-  return HARGA_PS4;
+function getHargaUnit(kat, isLibur) {
+  const k = kat.toUpperCase();
+  if (isLibur) {
+      if (k === 'PS5') return HARGA_PS5_LIBUR;
+      if (k === 'NINTENDO') return HARGA_NIN_LIBUR;
+      return HARGA_PS4_LIBUR;
+  } else {
+      if (k === 'PS5') return HARGA_PS5;
+      if (k === 'NINTENDO') return HARGA_NINTENDO;
+      return HARGA_PS4;
+  }
 }
 
-// ── Hitung harga & update UI ────────────────────────────────────────────────
+function isPlayboxAvailable(tgl_start, durasi_hari) {
+    if (!tgl_start) return true;
+    const d_start = parseLocalDate(tgl_start);
+    const d_end   = parseLocalDate(tgl_start);
+    d_end.setDate(d_end.getDate() + durasi_hari);
+    
+    let overlapCount = 0;
+    activePlaybox.forEach(pb => {
+        const pb_start = parseLocalDate(pb.start);
+        const pb_end   = parseLocalDate(pb.end);
+        if (d_start < pb_end && d_end > pb_start) overlapCount++;
+    });
+    return overlapCount < TOTAL_PLAYBOX;
+}
+
+function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+
+function updateCounter(el, counterId, max) {
+  const len     = el.value.length;
+  const counter = document.getElementById(counterId);
+  if (!counter) return;
+  counter.textContent = len + '/' + max;
+  counter.style.color = len > max * 0.9 ? '#f87171' : 'var(--v-muted)';
+}
+
+function ensureRow(id, html) {
+  if (!document.getElementById(id)) {
+    const el = document.createElement('div');
+    el.id = id;
+    el.className = 'harga-row';
+    el.innerHTML = html;
+    el.style.display = 'none';
+    const totalRow = document.getElementById('row_total');
+    if(totalRow) totalRow.closest('.harga-total').before(el);
+  }
+}
+
+// ── Core Logic: Hitung Harga & UI Toggle ──────────────────────────────────
 function hitungHarga() {
   const durasi   = parseInt(document.getElementById('sel_durasi').value) || 1;
   const unitVal  = document.getElementById('sel_unit').value;
@@ -333,35 +380,55 @@ function hitungHarga() {
   const kat      = sel.options[sel.selectedIndex]?.dataset?.kategori || '';
   const pbWrap   = document.getElementById('playbox_wrap');
   const chk      = document.getElementById('chk_playbox');
+  const lblPb    = document.getElementById('playbox_label');
+  const txtPb    = document.getElementById('pb-status-text');
 
-  // Playbox hanya PS4
+  const isLiburStatus = getLiburKet(tgl) !== null;
+
+  // 1. Logika Tampilan Playbox (Khusus PS4)
   if (kat === 'PS4') {
-    pbWrap.style.display = 'block';
+      pbWrap.style.display = 'block';
+      if (!isPlayboxAvailable(tgl, durasi)) {
+          chk.disabled = true; chk.checked = false;
+          lblPb.classList.remove('active');
+          lblPb.style.opacity = '0.5'; lblPb.style.cursor = 'not-allowed';
+          txtPb.innerHTML = '<span style="color:#f87171;">❌ Playbox Sedang Dipinjam Pada Tanggal Ini</span>';
+      } else {
+          chk.disabled = false;
+          lblPb.style.opacity = '1'; lblPb.style.cursor = 'pointer';
+          txtPb.innerHTML = '🎒 Tambah Playbox (+Rp ' + HARGA_PLAYBOX.toLocaleString('id-ID') + '/hari)';
+      }
   } else {
-    pbWrap.style.display = 'none';
-    chk.checked = false;
-    document.getElementById('playbox_label')?.classList.remove('active');
+      pbWrap.style.display = 'none'; 
+      chk.checked = false;
+      if (lblPb) lblPb.classList.remove('active');
   }
 
-  if (!unitVal) { preview.classList.remove('show'); updatePromoStatus(tgl, durasi); return; }
+  if (!unitVal) { 
+      preview.classList.remove('show'); 
+      updatePromoStatus(tgl, durasi); 
+      return; 
+  }
 
-  const pakai     = chk.checked;
-  const hUnit     = getHargaUnit();
-  const hPb       = pakai ? HARGA_PLAYBOX : 0;
-  const hSehari   = hUnit + hPb;
+  // 2. Kalkulasi Harga
+  const pakai   = chk.checked;
+  const hUnit   = getHargaUnit(kat, isLiburStatus);
+  const hPb     = pakai ? HARGA_PLAYBOX : 0;
+  const hSehari = hUnit + hPb;
 
-  // PERBAIKAN: Sinkronkan logika promo dengan PHP (harus >= 2 hari untuk dapat bonus)
-  const isPromo         = isPromoWeekday(tgl);
+  const isPromo         = !isLiburStatus && isPromoWeekday(tgl);
   const promoApplicable = isPromo && durasi >= 2;
   const hariDapat       = promoApplicable ? (2 * durasi - 1) : durasi;
-  const total           = hSehari * durasi; // yang dibayar = durasi asli
+  const total           = hSehari * durasi;
 
+  // 3. Render ke UI
   document.getElementById('row_unit').textContent   = fmt(hUnit) + '/hari';
   document.getElementById('row_durasi').textContent = durasi + ' hari';
+  
+  ensureRow('row_playbox_wrap', '<span class="lbl">Playbox</span><span class="val" id="row_playbox">—</span>');
   document.getElementById('row_playbox_wrap').style.display = pakai ? 'flex' : 'none';
   if (pakai) document.getElementById('row_playbox').textContent = fmt(hPb) + '/hari';
 
-  // Row promo
   ensureRow('row_promo_wrap', '<span class="lbl">🎁 Promo Weekday</span><span id="row_promo" style="color:#fbbf24;font-weight:700;"></span>');
   ensureRow('row_dapat_wrap', '<span class="lbl" style="color:#34d399;">✓ Total hari didapat</span><span id="row_dapat" style="color:#34d399;font-weight:800;font-size:1rem;"></span>');
 
@@ -380,36 +447,26 @@ function hitungHarga() {
 
   document.getElementById('row_total').textContent = fmt(total);
   preview.classList.add('show');
-
-  // Update status promo
+  
   updatePromoStatus(tgl, durasi);
 }
 
-// Helper: buat row harga jika belum ada
-function ensureRow(id, html) {
-  if (!document.getElementById(id)) {
-    const el = document.createElement('div');
-    el.id = id;
-    el.className = 'harga-row';
-    el.innerHTML = html;
-    el.style.display = 'none';
-    document.getElementById('row_total').closest('.harga-total').before(el);
-  }
-}
-
-// ── Indikator promo yang jelas ────────────────────────────────────────────
+// ── Indikator Status Promo UI ──────────────────────────────────────────────
 function updatePromoStatus(tgl, durasi) {
   const statusEl = document.getElementById('promo-status');
   if (!statusEl) return;
 
   if (!tgl) {
     statusEl.className = 'promo-status';
+    statusEl.style.display = 'none';
     return;
   }
 
   const isPromo   = isPromoWeekday(tgl);
   const liburKet  = getLiburKet(tgl);
   const namaHari  = getNamaHari(tgl);
+
+  statusEl.style.display = 'flex';
 
   if (liburKet) {
     statusEl.className = 'promo-status inactive';
@@ -423,45 +480,19 @@ function updatePromoStatus(tgl, durasi) {
     statusEl.innerHTML = `✅ <span><strong>${namaHari}</strong> adalah hari weekday. Tambah durasi jadi 2+ hari untuk dapat promo bonus.</span>`;
   } else {
     statusEl.className = 'promo-status inactive';
-    statusEl.innerHTML = `📅 <span><strong>${namaHari}</strong> bukan hari promo. Promo berlaku Senin–Kamis (bukan hari libur).</span>`;
+    statusEl.innerHTML = `📅 <span><strong>${namaHari}</strong> bukan hari promo. Promo berlaku Senin–Kamis.</span>`;
   }
 }
 
+// ── UI Interactions ───────────────────────────────────────────────────────
 function togglePlaybox(cb) {
-  cb.closest('.playbox-toggle').classList.toggle('active', cb.checked);
+  const lbl = cb.closest('.playbox-toggle');
+  if (lbl) lbl.classList.toggle('active', cb.checked);
   hitungHarga();
 }
 
-function updateCounter(el, counterId, max) {
-  const len     = el.value.length;
-  const counter = document.getElementById(counterId);
-  if (!counter) return;
-  counter.textContent  = len + '/' + max;
-  counter.style.color  = len > max * 0.9 ? '#f87171' : 'var(--v-muted)';
-}
-
-function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
-
-// Event listeners
-document.getElementById('sel_unit').addEventListener('change', hitungHarga);
-document.getElementById('sel_durasi').addEventListener('change', hitungHarga);
-document.getElementById('tgl_ambil_input')?.addEventListener('change', hitungHarga);
-
-// Auto hitung jika unit pre-selected
-if (document.getElementById('sel_unit').value) hitungHarga();
-
-// Cek unit tersedia
-const selUnit = document.getElementById('sel_unit');
-if (selUnit && selUnit.options.length <= 1) {
-  selUnit.style.borderColor = 'rgba(239,68,68,.4)';
-  const warn = document.createElement('div');
-  warn.style.cssText = 'background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .9rem;margin-top:.4rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
-  warn.textContent = '⚠ Semua unit saat ini sedang disewa. Hubungi kami via WhatsApp.';
-  selUnit.parentNode.appendChild(warn);
-}
-
 function previewBox(input, boxId, prevId) {
-  const f    = input.files[0];
+  const f = input.files[0];
   if (!f) return;
   const box  = document.getElementById(boxId);
   const prev = document.getElementById(prevId);
@@ -488,11 +519,35 @@ function clearBox(boxId, prevId, phId, inputSel) {
   if (inp)  inp.value = '';
 }
 
-document.getElementById('sewaForm').addEventListener('submit', function() {
-  const btn = document.getElementById('btn-submit');
-  const txt = document.getElementById('btn-submit-text');
-  if (btn) { btn.style.pointerEvents = 'none'; btn.style.opacity = '.6'; }
-  if (txt) txt.textContent = '⏳ Memproses...';
+// ── Event Listeners ───────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    const selUnit = document.getElementById('sel_unit');
+    const selDurasi = document.getElementById('sel_durasi');
+    const tglInput = document.getElementById('tgl_ambil_input');
+    const form = document.getElementById('sewaForm');
+
+    if (selUnit) selUnit.addEventListener('change', hitungHarga);
+    if (selDurasi) selDurasi.addEventListener('change', hitungHarga);
+    if (tglInput) tglInput.addEventListener('change', hitungHarga);
+
+    if (selUnit && selUnit.value) hitungHarga();
+
+    if (selUnit && selUnit.options.length <= 1) {
+      selUnit.style.borderColor = 'rgba(239,68,68,.4)';
+      const warn = document.createElement('div');
+      warn.style.cssText = 'background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .9rem;margin-top:.4rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);';
+      warn.textContent = '⚠ Semua unit saat ini sedang disewa. Hubungi kami via WhatsApp.';
+      selUnit.parentNode.appendChild(warn);
+    }
+
+    if (form) {
+        form.addEventListener('submit', function() {
+            const btn = document.getElementById('btn-submit');
+            const txt = document.getElementById('btn-submit-text');
+            if (btn) { btn.style.pointerEvents = 'none'; btn.style.opacity = '.6'; }
+            if (txt) txt.textContent = '⏳ Memproses...';
+        });
+    }
 });
 </script>
 </body>

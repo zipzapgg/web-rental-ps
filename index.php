@@ -331,7 +331,7 @@
           <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;">
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">Monitor built-in</span>
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">🔊 Speaker built-in</span>
-            <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">PS4 / PS5 / Nintendo</span>
+            <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">Khusus PS4</span>
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">⚡ Plug & Play</span>
           </div>
         </div>
@@ -349,7 +349,7 @@
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 390.000</span></div>
           <div class="price-note green">Monitor + speaker + 2 controller included</div>
         </div></div>
-        <div class="col-half"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
+     <div class="col-half" style="display:none;"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
           <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
             <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
             <span class="v-badge v-badge-ps5">PS5</span>
@@ -362,7 +362,7 @@
           <div class="price-note blue">Monitor + speaker + 2 controller included</div>
         </div></div>
       </div>
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
+      <div style="display:none;justify-content:center;margin-bottom:2rem;">
         <div style="width:100%;max-width:calc(50% - .75rem);">
           <div class="price-card nin" style="border-color:rgba(248,113,113,.2);position:relative;">
             <div class="same-price-badge">= Harga sama dengan PS4</div>
@@ -517,20 +517,27 @@
       <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Hasil Pencarian: <strong id="search-keyword" style="color:var(--v-lavender);"></strong></div>
       <div id="search-list"></div>
     </div>
+
     <?php
-    $q_games = mysqli_query($koneksi, "SELECT DISTINCT g.id_game,g.judul_game,g.foto_game,g.kategori_game FROM games g JOIN unit_games ug ON g.id_game=ug.id_game ORDER BY g.judul_game ASC");
+    // Logika Query: Bersih dari DISTINCT/JOIN agar urutan Abjad (A-Z) mutlak bekerja
+    $q_games = mysqli_query($koneksi, "SELECT id_game, judul_game, foto_game, kategori_game FROM games ORDER BY judul_game ASC");
     $arr_games = [];
     while ($g = mysqli_fetch_assoc($q_games)) $arr_games[] = $g;
     $total_games = count($arr_games);
-    $limit_games = 12;
+    $limit_games =6;
     ?>
+
     <div class="row" style="margin-top:.5rem;" id="games-grid">
       <?php foreach ($arr_games as $i => $g):
         $kat    = $g['kategori_game'] ?? '';
         $bc     = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
         $hidden = $i >= $limit_games;
+        
+        // Penggabungan Class & Style yang Benar (Tidak ada class ganda)
+        $class_extra = $hidden ? ' pub-game-extra' : '';
+        $style_extra = $hidden ? ' style="display:none;"' : '';
       ?>
-      <div class="col-6game" <?php echo $hidden ? 'class="pub-game-extra" style="display:none;"' : ''; ?>>
+      <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?>>
         <div class="game-card">
           <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>">
           <div class="game-card-body">
@@ -541,6 +548,7 @@
       </div>
       <?php endforeach; ?>
     </div>
+
     <?php if ($total_games > $limit_games): ?>
     <div style="text-align:center;margin-top:1.75rem;">
       <button onclick="togglePubGames()" id="btn-pub-games" style="padding:.65rem 2rem;font-family:var(--font-ui);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);border-radius:8px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;" onmouseover="this.style.borderColor='var(--v-violet)';this.style.color='var(--v-lavender)';" onmouseout="this.style.borderColor='var(--v-border)';this.style.color='var(--v-muted)';">
@@ -693,7 +701,7 @@
 
 <?php
 $all_unit_games = [];
-$qug = mysqli_query($koneksi, "SELECT ug.id_unit,g.judul_game,g.foto_game,g.kategori_game FROM unit_games ug JOIN games g ON ug.id_game=g.id_game");
+$qug = mysqli_query($koneksi, "SELECT ug.id_unit,g.judul_game,g.foto_game,g.kategori_game FROM unit_games ug JOIN games g ON ug.id_game=g.id_game ORDER BY g.judul_game ASC");
 while ($row = mysqli_fetch_assoc($qug)) $all_unit_games[$row['id_unit']][] = $row;
 ?>
 <script>
@@ -800,9 +808,12 @@ function togglePubGames() {
   const btn   = document.getElementById('btn-pub-games');
   const lbl   = document.getElementById('lbl-pub-games');
   const ico   = document.getElementById('ico-pub-games');
+  
   if (!items.length) return;
+  
   const isOpen = items[0].style.display !== 'none';
   items.forEach(el => el.style.display = isOpen ? 'none' : '');
+  
   if (isOpen) {
     lbl.textContent = 'Lihat Semua (' + items.length + ' game lainnya)';
     ico.style.transform = 'rotate(0deg)';

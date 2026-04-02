@@ -117,28 +117,7 @@ function ext_from_mime(string $mime): ?string {
     ][$mime] ?? null;
 }
 
-// Konstanta harga terpusat
-define('HARGA_PS4',        100000);
-define('HARGA_PS5',        195000);
-define('HARGA_NINTENDO',   100000);
-define('HARGA_PLAYBOX',     30000);
-define('DENDA_PER_JAM',     10000);
-define('BATAS_JAM_DENDA',       6);
-define('MAX_DURASI_HARI',       3);
-define('MAX_PERPANJANG_HARI',   7);
+require_once __DIR__ . '/harga.php';
 
-function get_hpp(string $kategori, bool $pakai_playbox = false): int {
-    $base = match(strtoupper($kategori)) {
-        'PS5'      => HARGA_PS5,
-        'NINTENDO' => HARGA_NINTENDO,
-        default    => HARGA_PS4,
-    };
-    return $base + ($pakai_playbox ? HARGA_PLAYBOX : 0);
-}
-
-function hitung_denda(int $jam_telat, int $hpp): int {
-    if ($jam_telat <= 0) return 0;
-    return $jam_telat > BATAS_JAM_DENDA ? $hpp : $jam_telat * DENDA_PER_JAM;
-}
 
 define('UPLOAD_PATH', dirname(dirname(dirname(__DIR__))) . DIRECTORY_SEPARATOR . 'uploads_violet' . DIRECTORY_SEPARATOR);

@@ -329,3 +329,61 @@ button:focus-visible, a:focus-visible {
 .txt-muted { color: var(--v-muted); }
 .txt-white { color: var(--v-white); }
 .empty-td { text-align: center; color: var(--v-muted); font-family: var(--font-ui); padding: 2rem; }
+/* MOBILE ADMIN FIX */
+@media (max-width: 768px) {
+  /* 1. Z-INDEX (Amankan Sidebar & Topbar agar tidak tertiban tabel) */
+  .sidebar { z-index: 1000 !important; }
+  .sidebar-overlay { z-index: 999 !important; }
+  .admin-topbar { z-index: 900 !important; }
+
+  /* 2. STATS GRID (Pastikan kotak angka terbagi 2 dengan rapi) */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.75rem !important;
+  }
+  .stat-card { padding: 1rem !important; }
+  .stat-num { font-size: 1.5rem !important; }
+
+  /* 3. TABEL ANTI-GENCET (Bisa di-swipe halus ke samping) */
+  .table-wrap {
+    margin: 0 -1.25rem; /* Tarik tabel mentok ke tepi layar HP */
+    padding: 0 1.25rem 1rem 1.25rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .v-table { min-width: 850px !important; }
+  .v-table th, .v-table td {
+    white-space: nowrap !important; /* KUNCI UTAMA: Teks tidak akan turun baris/terlipat */
+  }
+  /* Cegah tombol aksi turun baris */
+  .v-table td[style*="display:flex"] {
+    flex-wrap: nowrap !important;
+  }
+
+  /* 4. HEADER & TOMBOL TAMBAH UNIT */
+  .page-title { font-size: 1.4rem !important; }
+  .admin-header-wrap { 
+    flex-direction: column !important; 
+    align-items: flex-start !important; 
+    gap: 0.8rem !important; 
+  }
+  .admin-header-wrap .btn-violet { 
+    width: 100%; 
+    justify-content: center; 
+  }
+
+  /* 5. TAB MENU (Bisa discroll ke samping seperti menu Gojek) */
+  div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .ftab { flex-shrink: 0; }
+}
+/* 5. FIX HAMBURGER MENU (TOPBAR) TERGENCET */
+  body {
+    flex-direction: column !important;
+  }
+  .admin-topbar {
+    width: 100% !important;
+  }

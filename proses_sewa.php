@@ -104,21 +104,42 @@ if ($kategori !== 'PS4') {
     $pakai_playbox = 0;
 }
 
-// ── Hitung harga (pakai konstanta) ───────────────────────────────────────
-$hpp      = get_hpp($kategori, (bool)$pakai_playbox);
-$is_promo = is_promo_weekday($koneksi, $tgl_ambil);
+// ── Cek Status Libur Manual ───────────────────────────────────────────────
+$stmt_libur = $koneksi->prepare("SELECT 1 FROM hari_libur WHERE ? BETWEEN tgl_mulai AND tgl_selesai");
+$stmt_libur->bind_param("s", $tgl_ambil);
+$stmt_libur->execute();
+$is_libur_manual = $stmt_libur->get_result()->num_rows > 0;
+$stmt_libur->close();
 
-// PERBAIKAN BUG PROMO: Promo berlaku mulai 1 hari (bukan harus >= 2)
-// Promo 1 hari = dapat 1 hari (tidak ada bonus, tapi tetap dianggap weekday)
-// Bonus hari baru muncul dari rumus 2n-1 jika n >= 2
+// ── Validasi Irisan Tanggal Playbox (Anti-Bypass) ─────────────────────────
+if ($pakai_playbox) {
+    $tgl_kembali = date('Y-m-d', strtotime($tgl_ambil . " + $hari_bayar days"));
+    $stmt_pb = $koneksi->prepare("
+        SELECT COUNT(*) as c FROM pengajuan
+        WHERE pakai_playbox = 1 AND status_pengajuan IN ('Pending', 'Disetujui')
+        AND tgl_ambil < ? AND DATE_ADD(tgl_ambil, INTERVAL CAST(SUBSTRING_INDEX(durasi, ' ', 1) AS UNSIGNED) DAY) > ?
+    ");
+    // Syarat overlapping: StartA < EndB AND EndA > StartB
+    $stmt_pb->bind_param("ss", $tgl_kembali, $tgl_ambil);
+    $stmt_pb->execute();
+    $pb_pakai = $stmt_pb->get_result()->fetch_assoc()['c'];
+    $stmt_pb->close();
+
+    if ($pb_pakai >= TOTAL_PLAYBOX) {
+        $_SESSION['form_error'] = 'Playbox sudah dibooking orang lain pada rentang tanggal tersebut. Silakan ganti tanggal atau hapus centang Playbox.';
+        header("Location: sewa.php");
+        exit();
+    }
+}
+
+// ── Hitung harga (pakai konstanta & status libur) ─────────────────────────
+$hpp      = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
+$is_promo = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
 $promo_applicable = $is_promo && $hari_bayar >= 2;
 $sewa = hitung_sewa($hari_bayar, $hpp, $promo_applicable);
-
-$durasi       = $sewa['durasi_str'];
-$harga        = $sewa['harga'];
 $is_promo_int = $promo_applicable ? 1 : 0;
-
-error_log("[Violet PS] Harga: $harga durasi=$durasi promo=$is_promo_int tgl=$tgl_ambil is_weekday=" . ($is_promo ? 'ya' : 'tidak'));
+$durasi       = $sewa['hari_dapat'] . " Hari"; 
+$harga        = $sewa['harga_total'];
 
 // ── Upload berkas ─────────────────────────────────────────────────────────
 function violet_upload(string $key, string $prefix): array {

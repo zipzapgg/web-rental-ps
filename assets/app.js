@@ -71,3 +71,27 @@ function confirmAction(msg, callback){
 
 /* Format Rupiah */
 function fmtRupiah(n){ return 'Rp ' + parseInt(n).toLocaleString('id-ID'); }
+/* =========================================================
+   GLOBAL ADMIN SIDEBAR TOGGLE
+   ========================================================= */
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar) sidebar.classList.toggle('mobile-open');
+    if (overlay) overlay.classList.toggle('open');
+    
+    // Kunci scroll layar saat menu terbuka
+    document.body.style.overflow = sidebar && sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    
+    if (sidebar) sidebar.classList.remove('mobile-open');
+    if (overlay) overlay.classList.remove('open');
+    
+    // Buka kunci scroll
+    document.body.style.overflow = '';
+}

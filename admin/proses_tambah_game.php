@@ -9,8 +9,6 @@ $judul    = trim($_POST['judul']);
 if (mb_strlen($judul) > 100 || mb_strlen($judul) < 2) {
     echo "<script>alert('Judul game tidak valid (2-100 karakter).'); window.history.back();</script>"; exit();
 }
-$judul = htmlspecialchars($judul, ENT_QUOTES, 'UTF-8');
-if (!$judul || mb_strlen($judul) > 100) { echo "<script>alert('Judul game tidak valid (max 100 karakter).'); window.history.back();</script>"; exit(); }
 $kategori = in_array($_POST['kategori'], ['PS4','PS5','Nintendo']) ? $_POST['kategori'] : null;
 if (!$kategori) { echo "<script>alert('Kategori tidak valid.'); window.history.back();</script>"; exit(); }
 

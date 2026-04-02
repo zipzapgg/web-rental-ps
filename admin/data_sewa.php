@@ -62,7 +62,18 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         $harga_now     = intval($row['harga']);
         $pakai_playbox = (bool)($row['pakai_playbox'] ?? false);
         // HPP dihitung ulang dari data DB — tidak mempercayai input user
-        $hpp           = get_hpp($row['kategori'], $pakai_playbox);
+       // ── Hitung harga secara absolut di Backend ────────────────────────────────
+$hpp              = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
+$is_promo         = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
+$promo_applicable = $is_promo && $hari_bayar >= 2;
+
+// Kalkulasi eksplisit: Bayar N hari, Dapat N+(N-1) hari jika promo
+$is_promo_int = $promo_applicable ? 1 : 0;
+$hari_dapat   = $promo_applicable ? (2 * $hari_bayar - 1) : $hari_bayar;
+
+// Variabel final untuk dimasukkan ke database (INSERT)
+$durasi       = $hari_dapat . " Hari";
+$harga        = $hpp * $hari_bayar;
 
         $denda       = hitung_denda($jam_telat, $hpp, $pakai_playbox);
         $harga_final = $harga_now + $denda;
@@ -181,7 +192,45 @@ foreach (['Pending', 'Disetujui', 'Ditolak', 'Selesai'] as $st) {
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Data Sewa Violet PlayStation</title>
-<link rel="stylesheet" href="../assets/css/violet.css">
+<link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
+
+<style>
+@media (max-width: 768px) {
+  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
+  body { flex-direction: column !important; }
+  .admin-topbar { width: 100% !important; }
+
+  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
+  .table-card { max-width: 100vw !important; overflow: hidden !important; }
+  .table-wrap { 
+    overflow-x: auto !important; 
+    display: block !important; 
+    width: 100% !important; 
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: 10px;
+  }
+  
+  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
+  .v-table { min-width: 900px !important; }
+  .v-table th, .v-table td { white-space: nowrap !important; }
+  
+  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
+  .v-table td[style*="display:flex"], .actions-wrap { 
+    flex-direction: row !important; 
+    flex-wrap: nowrap !important; 
+    gap: 0.5rem !important; 
+  }
+  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
+  
+  /* 5. Amankan Tab & Header */
+  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ftab { flex-shrink: 0; }
+}
+</style>
 <script src="../assets/app.js" defer></script>
 <style>
 body{display:flex;min-height:100vh;}
@@ -226,9 +275,6 @@ body{display:flex;min-height:100vh;}
 </head>
 <body>
 <?php include_once "../config/svg_sprite_admin.php"; ?>
-<svg style="display:none">
-  <symbol id="ico-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></symbol>
-</svg>
 
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">

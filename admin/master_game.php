@@ -36,7 +36,45 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Master Game Violet PlayStation</title>
-<link rel="stylesheet" href="../assets/css/violet.css">
+<link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
+
+<style>
+@media (max-width: 768px) {
+  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
+  body { flex-direction: column !important; }
+  .admin-topbar { width: 100% !important; }
+
+  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
+  .table-card { max-width: 100vw !important; overflow: hidden !important; }
+  .table-wrap { 
+    overflow-x: auto !important; 
+    display: block !important; 
+    width: 100% !important; 
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: 10px;
+  }
+  
+  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
+  .v-table { min-width: 900px !important; }
+  .v-table th, .v-table td { white-space: nowrap !important; }
+  
+  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
+  .v-table td[style*="display:flex"], .actions-wrap { 
+    flex-direction: row !important; 
+    flex-wrap: nowrap !important; 
+    gap: 0.5rem !important; 
+  }
+  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
+  
+  /* 5. Amankan Tab & Header */
+  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ftab { flex-shrink: 0; }
+}
+</style>
   <script src="../assets/app.js" defer></script>
 <style>
 body{display:flex;min-height:100vh;}
@@ -146,10 +184,22 @@ body{display:flex;min-height:100vh;}
       <div class="form-group"><label class="v-label">Foto Cover</label>
         <div class="file-upload-box" id="foto-box"><input type="file" name="foto" accept="image/*" required onchange="previewFoto(this)"><div class="upload-icon" id="foto-icon">🖼️</div><div class="upload-text" id="foto-text">Klik untuk upload</div></div>
       </div>
-      <div class="form-group"><label class="v-label" style="margin-bottom:.75rem;">Assign ke Unit (Opsional)</label>
+<div class="form-group">
+        <label class="v-label" style="margin-bottom:.5rem;">Assign ke Unit (Opsional)</label>
+        
+        <div style="display:flex;gap:.4rem;margin-bottom:.85rem;flex-wrap:wrap;">
+          <button type="button" class="btn-sm" style="background:rgba(168,85,247,.15);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);" onclick="pilihKategoriUnit('PS4')">✓ Semua PS4</button>
+          <button type="button" class="btn-sm" style="background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);" onclick="pilihKategoriUnit('PS5')">✓ Semua PS5</button>
+          <button type="button" class="btn-sm" style="background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3);" onclick="pilihKategoriUnit('Nintendo')">✓ Semua Nintendo</button>
+          <button type="button" class="btn-sm" style="background:rgba(255,255,255,.05);color:var(--v-muted);border:1px solid var(--v-border);" onclick="pilihKategoriUnit('reset')">✕ Reset</button>
+        </div>
+
         <div class="unit-grid">
           <?php $units=$koneksi->query("SELECT * FROM units ORDER BY tipe_layanan DESC, nama_unit ASC"); while($u=$units->fetch_assoc()): ?>
-          <div class="unit-check"><input type="checkbox" name="unit_dipilih[]" value="<?php echo $u['id_unit']; ?>" id="u<?php echo $u['id_unit']; ?>"><label for="u<?php echo $u['id_unit']; ?>"><?php echo htmlspecialchars($u['nama_unit']); ?></label></div>
+          <div class="unit-check">
+            <input type="checkbox" name="unit_dipilih[]" value="<?php echo $u['id_unit']; ?>" id="u<?php echo $u['id_unit']; ?>" class="chk-unit" data-kat="<?php echo $u['kategori']; ?>">
+            <label for="u<?php echo $u['id_unit']; ?>"><?php echo htmlspecialchars($u['nama_unit']); ?></label>
+          </div>
           <?php endwhile; ?>
         </div>
       </div>
@@ -158,6 +208,16 @@ body{display:flex;min-height:100vh;}
   </div>
 </div>
 <script>
+  function pilihKategoriUnit(kat) {
+  const checkboxes = document.querySelectorAll('.chk-unit');
+  checkboxes.forEach(chk => {
+    if (kat === 'reset') {
+      chk.checked = false; // Kosongkan semua jika klik Reset
+    } else if (chk.getAttribute('data-kat') === kat) {
+      chk.checked = true;  // Centang jika kategorinya cocok
+    }
+  });
+}
 function previewFoto(i){if(i.files[0]){document.getElementById('foto-text').textContent=i.files[0].name;document.getElementById('foto-icon').textContent='✅';document.getElementById('foto-box').style.borderColor='var(--v-violet)';}}
 document.getElementById('modalTambah').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
 </script>
@@ -207,5 +267,7 @@ function bukaUnassign(id, judul){
   document.getElementById('modalUnassign').classList.add('open');
 }
 document.getElementById('modalUnassign').addEventListener('click',e=>{if(e.target===document.getElementById('modalUnassign'))document.getElementById('modalUnassign').classList.remove('open');});
+function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('mobile-open');document.getElementById('sidebarOverlay').classList.toggle('open');document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';}
+function closeSidebar(){document.querySelector('.sidebar').classList.remove('mobile-open');document.getElementById('sidebarOverlay').classList.remove('open');document.body.style.overflow='';}
 </script>
 </body></html>

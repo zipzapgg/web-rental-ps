@@ -28,7 +28,45 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 <!DOCTYPE html><html lang="id">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Edit Unit Violet PlayStation</title>
-<link rel="stylesheet" href="../assets/css/violet.css">
+<link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
+
+<style>
+@media (max-width: 768px) {
+  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
+  body { flex-direction: column !important; }
+  .admin-topbar { width: 100% !important; }
+
+  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
+  .table-card { max-width: 100vw !important; overflow: hidden !important; }
+  .table-wrap { 
+    overflow-x: auto !important; 
+    display: block !important; 
+    width: 100% !important; 
+    -webkit-overflow-scrolling: touch; 
+    padding-bottom: 10px;
+  }
+  
+  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
+  .v-table { min-width: 900px !important; }
+  .v-table th, .v-table td { white-space: nowrap !important; }
+  
+  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
+  .v-table td[style*="display:flex"], .actions-wrap { 
+    flex-direction: row !important; 
+    flex-wrap: nowrap !important; 
+    gap: 0.5rem !important; 
+  }
+  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
+  
+  /* 5. Amankan Tab & Header */
+  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ftab { flex-shrink: 0; }
+}
+</style>
   <script src="../assets/app.js" defer></script>
 <style>
 body{display:flex;min-height:100vh;}
