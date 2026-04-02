@@ -61,7 +61,7 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         $id_unit       = $row['id_unit'];
         $harga_now     = intval($row['harga']);
         $pakai_playbox = (bool)($row['pakai_playbox'] ?? false);
-        // HPP dihitung ulang dari data DB — tidak mempercayai input user
+        // HPP dihitung ulang dari data DB  tidak mempercayai input user
        // ── Hitung harga secara absolut di Backend ────────────────────────────────
 $hpp              = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
 $is_promo         = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
@@ -121,7 +121,7 @@ $harga        = $hpp * $hari_bayar;
         $durasi_lama   = intval($m[1] ?? 1);
         $durasi_baru   = $durasi_lama + $tambah_hari;
         $pakai_playbox = (bool)($row['pakai_playbox'] ?? false);
-        // HPP dari DB — konsisten dengan proses awal
+        // HPP dari DB  konsisten dengan proses awal
         $hpp           = get_hpp($row['kategori'], $pakai_playbox);
         $harga_baru    = $hpp * $durasi_baru;
         $durasi_str    = $durasi_baru . ' Hari';
@@ -580,14 +580,14 @@ function slUpdate() {
     document.getElementById('sl-denda').textContent   = '+' + fmt(denda);
     document.getElementById('sl-total').textContent   = fmt(slState.harga + denda);
     document.getElementById('sl-hari-warn').style.display = isHari ? 'block' : 'none';
-    // Kirim hanya telat (jam) — HPP dihitung di backend
+    // Kirim hanya telat (jam)  HPP dihitung di backend
     document.getElementById('sl-denda-btn').href = '?aksi=selesai&id=' + slState.id + '&telat=' + jam + '&_token=' + CSRF;
 }
 document.getElementById('modalSelesai').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
 
 function bukaPerpanjang(id, nama, unit, durasi, kat, playbox) {
     ppState.id           = id;
-    // HPP untuk preview di modal — konsisten dengan backend (get_hpp)
+    // HPP untuk preview di modal  konsisten dengan backend (get_hpp)
     const base = kat === 'PS5' ? <?php echo HARGA_PS5; ?> : <?php echo HARGA_PS4; ?>;
     ppState.hargaPerHari = base + (playbox ? <?php echo HARGA_PLAYBOX; ?> : 0);
     ppState.durasiLama   = parseInt(durasi) || 1;

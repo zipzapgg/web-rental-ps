@@ -1,6 +1,6 @@
 <?php
 /**
- * Konstanta harga terpusat — ubah di sini, berlaku di seluruh aplikasi.
+ * Konstanta harga terpusat  ubah di sini, berlaku di seluruh aplikasi.
  */
 
 define('HARGA_PS4',        100000);

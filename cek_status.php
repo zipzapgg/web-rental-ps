@@ -7,7 +7,7 @@ if (isset($_GET['wa']) && $_GET['wa'] !== '') {
     $window  = 60;   // detik
     $max_req = 10;   // maksimum request per window per IP
 
-    // Simpan di session — sederhana dan tidak butuh tabel baru
+    // Simpan di session sederhana dan tidak butuh tabel baru
     $key_ts  = 'cek_status_ts';
     $key_cnt = 'cek_status_cnt';
     $now     = time();

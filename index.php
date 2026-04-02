@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Violet PlayStation — Sewa PS & Playbox Jagakarsa</title>
+  <title>Violet PlayStation Sewa PS & Playbox Jagakarsa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" type="image/jpeg" href="assets/images/logo-violet.jpeg">
   <meta name="description" content="Sewa PS4, PS5, Nintendo Switch & Playbox di Jagakarsa, Jakarta Selatan. Bawa pulang harian, harga terjangkau, promo weekday!">
-  <meta property="og:title" content="Violet PlayStation — Sewa PS & Playbox Jagakarsa">
+  <meta property="og:title" content="Violet PlayStation Sewa PS & Playbox Jagakarsa">
   <meta property="og:description" content="Sewa PS4, PS5, Nintendo Switch & Playbox harian. Booking H-1 via WA. Promo weekday: sewa 2 hari gratis 1 hari!">
   <meta property="og:image" content="https://violetplaystation.com/assets/images/logo-violet.jpeg">
   <meta property="og:type" content="website">
@@ -209,7 +209,7 @@
     <div class="hero-content col-half animate-fade-up">
       <div class="hero-eyebrow"><svg width="14" height="14" style="vertical-align:middle;margin-right:.35rem;opacity:.8"><use href="#ico-pin"/></svg>Jagakarsa · Jakarta Selatan</div>
       <h1 class="hero-title">SEWA PS<br><span class="line2">BAWA<br>PULANG</span></h1>
-      <p class="hero-sub">PS4, PS5, Nintendo Switch & Playbox — sewa harian, bawa ke rumah. Booking H-1 via WhatsApp, jaminan KTP & STNK.</p>
+      <p class="hero-sub">PS4, PS5, Nintendo Switch & Playbox sewa harian, bawa ke rumah. Booking H-1 via WhatsApp, jaminan KTP & STNK.</p>
       <div class="hero-cta">
         <a href="sewa.php" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Sewa Sekarang</span></a>
         <a href="#harga" class="btn-violet" style="background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.4);box-shadow:none;"><span>Lihat Harga →</span></a>
@@ -252,7 +252,7 @@
       <div class="promo-banner">
         <svg width="28" height="28" style="flex-shrink:0;color:#fbbf24"><use href="#ico-gift"/></svg>
         <div>
-          <div class="promo-banner-text">SPECIAL PROMO WEEKDAY — Senin s/d Kamis</div>
+          <div class="promo-banner-text">SPECIAL PROMO WEEKDAY Senin s/d Kamis</div>
           <div class="promo-banner-sub">Sewa 2 hari gratis 1 hari &nbsp;·&nbsp; Sewa 3 hari gratis 2 hari</div>
         </div>
       </div>
@@ -270,7 +270,7 @@
           <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 195.000</span></div>
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 390.000</span></div>
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 585.000</span></div>
-          <div class="price-note blue">ℹ️ Unit PS5 yang disewa adalah unit yang ada di tempat — hubungi WA dulu untuk konfirmasi</div>
+          <div class="price-note blue">ℹ️ Unit PS5 yang disewa adalah unit yang ada di tempat hubungi WA dulu untuk konfirmasi</div>
         </div></div>
       </div>
       <div style="display:flex;justify-content:center;margin-bottom:2rem;">
@@ -327,7 +327,7 @@
         <div style="font-size:2.2rem;flex-shrink:0;"><svg width="36" height="36"><use href="#ico-case"/></svg></div>
         <div>
           <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#34d399;margin-bottom:.5rem;">Apa itu Playbox?</div>
-          <p style="font-size:.88rem;color:var(--v-muted);line-height:1.7;max-width:560px;">Playbox adalah <strong style="color:#C4B5D4;">koper gaming all-in-one</strong> yang berisi monitor, speaker, dan PlayStation. Tinggal buka koper, colok listrik — langsung bisa main.</p>
+          <p style="font-size:.88rem;color:var(--v-muted);line-height:1.7;max-width:560px;">Playbox adalah <strong style="color:#C4B5D4;">koper gaming all-in-one</strong> yang berisi monitor, speaker, dan PlayStation. Tinggal buka koper, colok listrik langsung bisa main.</p>
           <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem;">
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">Monitor built-in</span>
             <span style="font-family:var(--font-ui);font-size:.75rem;letter-spacing:1px;background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.25);padding:.2rem .75rem;border-radius:20px;">🔊 Speaker built-in</span>
@@ -382,11 +382,11 @@
       <div class="syarat-box">
         <h6>⚠ Syarat & Ketentuan Sewa Playbox</h6>
         <ul class="syarat-list">
-          <li><strong>Pengambilan wajib 2 orang</strong> menggunakan motor — barang berat</li>
-          <li>KTP & STNK aktif <strong>sekitar Jagakarsa</strong> — ditahan selama sewa</li>
+          <li><strong>Pengambilan wajib 2 orang</strong> jika menggunakan motor</li>
+          <li>KTP & STNK aktif <strong>sekitar Jagakarsa</strong> ditahan selama sewa</li>
           <li>Nomor HP <strong>dicek via GetContact</strong> minimal 50 tag</li>
-          <li><strong>Terlambat</strong> Rp 20.000/jam · lebih dari 6 jam = sewa 1 hari lagi</li>
-          <li>PS4 dan Nintendo <strong>khusus offline</strong> — denda Rp 4.500.000 jika konek internet</li>
+          <li><strong>Terlambat</strong> Rp 10.000/jam · lebih dari 6 jam = sewa 1 hari lagi</li>
+          <li>PS4 dan Nintendo <strong>khusus offline</strong> denda Rp 4.500.000 jika dikonek ke internet</li>
         </ul>
       </div>
     </div>
@@ -510,7 +510,7 @@
     <div class="section-title">KOLEKSI <span class="neon">GAME</span></div>
     <div class="v-divider"></div>
     <div style="margin-bottom:1.5rem;position:relative;max-width:420px;">
-      <input type="text" id="game-search" class="v-input" placeholder="Cari game... (misal: GTA V)" oninput="cariGame(this.value)" style="padding-left:2.75rem;">
+      <input type="text" id="game-search" class="v-input" placeholder="Cari game..." oninput="cariGame(this.value)" style="padding-left:2.75rem;">
       <svg width="18" height="18" style="position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--v-muted);pointer-events:none;" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
     <div id="search-result" style="display:none;background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .25s ease both;">
@@ -569,9 +569,9 @@
         <div class="section-title">SEWA <span class="neon">BAWA<br>PULANG</span></div>
         <div class="v-divider"></div>
         <div class="sewa-feature"><div class="sewa-icon" style="color:var(--v-violet);"><svg width="22" height="22" aria-hidden="true"><use href="#ico-phone"/></svg></div><div class="sewa-feature-text"><h6>Booking via WhatsApp</h6><p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa — unit tidak diantar.</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa karena unit tidak bisa diantar.</p></div></div>
         <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-idcard"/></svg></div><div class="sewa-feature-text"><h6>Jaminan KTP & STNK</h6><p>Dokumen asli diserahkan saat pengambilan. Alamat KTP & STNK harus Jagakarsa.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari — berlaku Senin s/d Kamis!</p></div></div>
+        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari berlaku Senin s/d Kamis!</p></div></div>
         <a href="sewa.php" class="btn-violet" style="display:inline-block;text-decoration:none;margin-top:1rem;"><span>Ajukan Sewa Sekarang</span></a>
       </div>
       <div class="col-half"><div class="v-card" style="padding:2.5rem;">
@@ -588,7 +588,7 @@
         </div>
         <?php endwhile;
         if (!$ada): ?><div style="text-align:center;padding:2rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.9rem;">Semua unit sedang disewa 😊</div><?php endif; ?>
-        <div style="margin-top:1rem;font-size:.78rem;color:#93c5fd;font-family:var(--font-ui);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:.6rem .85rem;">ℹ️ PS5 juga bisa disewa — hubungi WA untuk cek ketersediaan</div>
+        <div style="margin-top:1rem;font-size:.78rem;color:#93c5fd;font-family:var(--font-ui);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:.6rem .85rem;">ℹ️ PS5 juga bisa disewa hubungi WA untuk cek ketersediaan</div>
       </div></div>
     </div>
   </div>
@@ -603,12 +603,12 @@
       <?php
       $faqs = [
         ['q'=>'Apakah unit diantar ke rumah?','a'=>'Tidak. Unit harus diambil langsung ke toko kami di Jagakarsa. Ini berlaku untuk semua jenis sewa, termasuk Playbox.'],
-        ['q'=>'Apa syarat untuk sewa?','a'=>'KTP dan STNK asli dengan alamat Jagakarsa yang sama. Keduanya ditahan sebagai jaminan selama sewa berlangsung.'],
-        ['q'=>'Apa itu Playbox?','a'=>'Playbox adalah koper gaming all-in-one berisi PS4/PS5/Nintendo, monitor, dan speaker. Tinggal buka koper dan colok listrik — langsung bisa main, tanpa TV atau monitor tambahan.'],
+        ['q'=>'Apa syarat untuk sewa?','a'=>'KTP dan STNK asli dengan alamat Jagakarsa yang sama serta nomor aktif minimal 50 tag di GetContacts. KTP dan STNK ditahan sebagai jaminan selama sewa berlangsung.'],
+        ['q'=>'Apa itu Playbox?','a'=>'Playbox adalah koper gaming all-in-one berisi PS4/PS5/Nintendo, monitor, dan speaker. Tinggal buka koper dan colok listrik langsung bisa main, tanpa TV atau monitor tambahan.'],
         ['q'=>'Bagaimana cara booking PS5?','a'=>'PS5 perlu konfirmasi via WhatsApp dulu karena unit yang sama dipakai untuk main di tempat. Hubungi kami di 0858-4783-1078 untuk cek ketersediaan sebelum isi form.'],
         ['q'=>'Kapan promo weekday berlaku?','a'=>'Setiap Senin sampai Kamis (tidak termasuk tanggal libur nasional). Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari. Berlaku untuk semua kategori unit Sewa Bawa Pulang.'],
         ['q'=>'Bagaimana kalau unit rusak saat di tangan saya?','a'=>'Kerusakan dan kehilangan sepenuhnya menjadi tanggung jawab penyewa. Jika segel rusak, dianggap membeli unit.'],
-        ['q'=>'Berapa denda keterlambatan?','a'=>'Rp 10.000 per jam untuk keterlambatan 1–6 jam. Lebih dari 6 jam dianggap sewa 1 hari lagi. Untuk Playbox, denda Rp 20.000 per jam.'],
+        ['q'=>'Berapa denda keterlambatan?','a'=>'Rp 10.000 per jam untuk keterlambatan 1–6 jam. Lebih dari 6 jam dianggap sewa 1 hari lagi.'],
         ['q'=>'Apakah bisa bayar DP atau transfer?','a'=>'Pembayaran dilakukan di lokasi saat pengambilan unit, setelah pengajuan disetujui. Belum tersedia pembayaran di muka atau transfer.'],
       ];
       foreach ($faqs as $i => $f):
@@ -636,7 +636,7 @@
       <div class="col-half"><div class="map-info">
         <h4>Violet PlayStation</h4>
         <div class="map-detail"><div class="map-detail-icon">📍</div><div class="map-detail-text"><strong>Alamat</strong><p>Jl. Jagakarsa II No.5D, RT.1/RW.7, Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620</p></div></div>
-        <div class="map-detail"><div class="map-detail-icon">🕐</div><div class="map-detail-text"><strong>Jam Operasional</strong><p>Setiap hari · Hubungi WA untuk info lebih lanjut</p></div></div>
+        <div class="map-detail"><div class="map-detail-icon">🕐</div><div class="map-detail-text"><strong>Jam Operasional</strong><p>Setiap hari · Senin-Kamis (09.00-22.00) Jumat (13.00-23.00) Sabtu-Minggu (09.00-23.00)</p></div></div>
         <div class="map-detail"><div class="map-detail-icon">📱</div><div class="map-detail-text"><strong>WhatsApp</strong><p>0858-4783-1078</p></div></div>
         <div class="map-detail"><div class="map-detail-icon">⚠</div><div class="map-detail-text"><strong>Penting</strong><p>Booking H-1 via WA. KTP & STNK Jagakarsa wajib dibawa.</p></div></div>
         <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;margin-top:1.5rem;width:100%;justify-content:center;"><span>Chat WhatsApp</span></a>
@@ -654,7 +654,7 @@
     <div style="display:flex;flex-wrap:wrap;gap:3rem;justify-content:space-between;">
       <div>
         <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;">VIOLET <span class="neon">PLAYSTATION</span></div>
-        <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Sewa PS & Playbox — Jagakarsa, Jakarta Selatan</div>
+        <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Sewa PS & Playbox Jagakarsa, Jakarta Selatan</div>
         <div style="display:flex;gap:.75rem;margin-top:1.5rem;align-items:center;">
           <a href="https://wa.me/6285847831078" target="_blank" class="wa-btn" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><use href="#ico-wa"/></svg></a>
           <a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram" style="width:44px;height:44px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>

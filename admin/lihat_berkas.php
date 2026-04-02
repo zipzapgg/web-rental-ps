@@ -12,7 +12,7 @@ if (!$file) {
     http_response_code(400); die("File tidak ditemukan.");
 }
 
-// Hanya huruf, angka, underscore, dash, titik — cegah path traversal
+// Hanya huruf, angka, underscore, dash, titik  cegah path traversal
 if (!preg_match('/^[a-zA-Z0-9_\-\.]+$/', $file)) {
     http_response_code(400); die("Nama file tidak valid.");
 }

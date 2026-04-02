@@ -262,7 +262,7 @@ $akuns = $koneksi->query("SELECT id_admin, username, nama_lengkap, role, created
               <?php if($a['id_admin'] != $_SESSION['id_admin']): ?>
               <a href="kelola_akun.php?hapus=<?php echo $a['id_admin']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-sm btn-red" onclick="return confirm('Hapus akun <?php echo htmlspecialchars($a['username']); ?>?')">Hapus</a>
               <?php else: ?>
-              <span style="font-family:var(--font-ui);font-size:.75rem;color:var(--v-muted);">— Anda —</span>
+              <span style="font-family:var(--font-ui);font-size:.75rem;color:var(--v-muted);">— Anda </span>
               <?php endif; ?>
             </td>
           </tr>

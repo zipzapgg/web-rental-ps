@@ -42,7 +42,7 @@ while ($lb = $q_libur->fetch_assoc()) {
 <html lang="id">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — Violet PlayStation</title>
+  <title>Dashboard  Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
 
 <style>
@@ -145,7 +145,7 @@ while ($lb = $q_libur->fetch_assoc()) {
     <div style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✓ Unit berhasil dihapus.</div>
   <?php endif; ?>
   <?php if (isset($_GET['msg']) && $_GET['msg'] === 'hapus_gagal'): ?>
-    <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#f87171;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✕ Tidak bisa hapus unit — masih ada pengajuan aktif.</div>
+    <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#f87171;border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;margin-bottom:1.25rem;">✕ Tidak bisa hapus unit  masih ada pengajuan aktif.</div>
   <?php endif; ?>
 
   <?php if ($total_pending > 0): ?>
@@ -192,7 +192,7 @@ while ($lb = $q_libur->fetch_assoc()) {
       <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-radius:8px;padding:.6rem 1rem;flex-wrap:wrap;gap:.5rem;">
         <div>
           <span style="font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:<?php echo $aktif_skrg ? '#fbbf24' : 'var(--v-muted)'; ?>;"><?php echo htmlspecialchars($lb['keterangan']); ?></span>
-          <?php if ($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif — No Promo</span><?php endif; ?>
+          <?php if ($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif  No Promo</span><?php endif; ?>
         </div>
         <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);white-space:nowrap;">
           <?php echo date('d/m/Y', strtotime($lb['tgl_mulai'])); ?> — <?php echo date('d/m/Y', strtotime($lb['tgl_selesai'])); ?>
@@ -278,7 +278,7 @@ while ($lb = $q_libur->fetch_assoc()) {
       <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-radius:8px;padding:.6rem 1rem;flex-wrap:wrap;gap:.5rem;">
         <div>
           <span style="font-family:var(--font-ui);font-size:.88rem;font-weight:700;color:<?php echo $aktif_skrg ? '#fbbf24' : 'var(--v-muted)'; ?>;"><?php echo htmlspecialchars($lb['keterangan']); ?></span>
-          <?php if ($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif — No Promo</span><?php endif; ?>
+          <?php if ($aktif_skrg): ?><span style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);font-family:var(--font-ui);font-size:.65rem;padding:.1rem .4rem;border-radius:4px;margin-left:.4rem;">Aktif  No Promo</span><?php endif; ?>
         </div>
         <span style="font-family:var(--font-ui);font-size:.8rem;color:var(--v-muted);white-space:nowrap;">
           <?php echo date('d/m/Y', strtotime($lb['tgl_mulai'])); ?> — <?php echo date('d/m/Y', strtotime($lb['tgl_selesai'])); ?>

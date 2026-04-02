@@ -11,7 +11,7 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
-// Fix timezone — root cause bug promo weekday
+// Fix timezone  root cause bug promo weekday
 date_default_timezone_set('Asia/Jakarta');
 
 if (session_status() === PHP_SESSION_NONE) {
