@@ -17,7 +17,7 @@ if (empty($csrf_sent) || empty($csrf_stored) || !hash_equals($csrf_stored, $csrf
 }
 
 // ── Input & sanitasi ──────────────────────────────────────────────────────
-// PERBAIKAN: Jangan htmlspecialchars sebelum masuk DB — lakukan saat output
+// PERBAIKAN: Jangan htmlspecialchars sebelum masuk DB lakukan saat output
 $nama          = trim($_POST['nama']      ?? '');
 $wa            = preg_replace('/[^0-9]/', '', trim($_POST['wa'] ?? ''));
 $alamat        = trim($_POST['alamat']    ?? '');
@@ -40,7 +40,7 @@ if (!$tgl_ambil) $errors[] = 'Tanggal ambil wajib diisi.';
 if ($nama   && mb_strlen($nama)   > 100) $errors[] = 'Nama maksimal 100 karakter.';
 if ($alamat && mb_strlen($alamat) > 300) $errors[] = 'Alamat maksimal 300 karakter.';
 
-// Validasi karakter nama — hanya huruf, spasi, titik, tanda hubung
+// Validasi karakter nama hanya huruf, spasi, titik, tanda hubung
 if ($nama && !preg_match('/^[\p{L}\s\.\-\']+$/u', $nama)) {
     $errors[] = 'Nama hanya boleh berisi huruf, spasi, titik, atau tanda hubung.';
 }
@@ -133,13 +133,16 @@ if ($pakai_playbox) {
 }
 
 // ── Hitung harga (pakai konstanta & status libur) ─────────────────────────
-$hpp      = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
-$is_promo = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
+$hpp              = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
+$is_promo         = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
 $promo_applicable = $is_promo && $hari_bayar >= 2;
-$sewa = hitung_sewa($hari_bayar, $hpp, $promo_applicable);
-$is_promo_int = $promo_applicable ? 1 : 0;
-$durasi       = $sewa['hari_dapat'] . " Hari"; 
-$harga        = $sewa['harga_total'];
+
+// Eksekusi fungsi dari promo.php
+$sewa             = hitung_sewa($hari_bayar, $hpp, $promo_applicable);
+
+$is_promo_int     = $promo_applicable ? 1 : 0;
+$durasi           = $sewa['durasi_str']; // Mengambil 'X Hari'
+$harga            = $sewa['harga'];      // PERBAIKAN: Gunakan 'harga', bukan 'harga_total'
 
 // ── Upload berkas ─────────────────────────────────────────────────────────
 function violet_upload(string $key, string $prefix): array {

@@ -37,13 +37,12 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         }
         header("Location: data_sewa.php?msg=tolak");
         exit();
-
-    } elseif ($aksi === 'selesai') {
+} elseif ($aksi === 'selesai') {
         $jam_telat = intval($_GET['telat'] ?? 0);
 
-        // ── PERBAIKAN: Ambil HPP dari DB, BUKAN dari GET parameter ──────────
+        // 1. Ambil data lengkap transaksi dari DB (Termasuk Kategori dari JOIN)
         $s = $koneksi->prepare(
-            "SELECT p.id_unit, p.harga, p.pakai_playbox, u.kategori
+            "SELECT p.id_unit, p.harga, p.pakai_playbox, u.kategori, p.tgl_ambil
              FROM pengajuan p
              JOIN units u ON p.id_unit = u.id_unit
              WHERE p.id_pengajuan = ?"
@@ -57,6 +56,43 @@ if (isset($_GET['aksi'], $_GET['id'])) {
             header("Location: data_sewa.php");
             exit();
         }
+
+        // 2. Definisikan variabel berdasarkan data DB agar tidak 'Undefined'
+        $id_unit         = $row['id_unit'];
+        $harga_awal      = intval($row['harga']);
+        $kategori_unit   = $row['kategori']; // Ini yang tadi menyebabkan error
+        $pakai_playbox   = (bool)($row['pakai_playbox'] ?? false);
+        $tgl_ambil_db    = $row['tgl_ambil'];
+
+        // 3. Cek apakah hari pengambilannya dulu adalah hari libur (untuk HPP denda)
+        $s_libur = $koneksi->prepare("SELECT 1 FROM hari_libur WHERE ? BETWEEN tgl_mulai AND tgl_selesai");
+        $s_libur->bind_param("s", $tgl_ambil_db);
+        $s_libur->execute();
+        $is_libur_db = $s_libur->get_result()->num_rows > 0;
+        $s_libur->close();
+
+        // 4. Hitung HPP dan Denda secara akurat
+        $hpp_final   = get_hpp($kategori_unit, $pakai_playbox, $is_libur_db);
+        $denda       = hitung_denda($jam_telat, $hpp_final, $pakai_playbox);
+        $harga_final = $harga_awal + $denda;
+
+        // 5. Update status dan harga akhir (Termasuk denda)
+        $s = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan='Selesai', harga=? WHERE id_pengajuan=?");
+        $s->bind_param("ii", $harga_final, $id);
+        $s->execute();
+        $s->close();
+
+        // 6. Kembalikan status unit jadi Tersedia
+        if ($id_unit) {
+            $s = $koneksi->prepare("UPDATE units SET status='Tersedia' WHERE id_unit=?");
+            $s->bind_param("i", $id_unit);
+            $s->execute();
+            $s->close();
+        }
+
+        $qs = $denda > 0 ? '&denda=' . $denda : '';
+        header("Location: data_sewa.php?msg=selesai$qs");
+        exit();
 
         $id_unit       = $row['id_unit'];
         $harga_now     = intval($row['harga']);
