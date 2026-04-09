@@ -61,4 +61,9 @@ if (!empty($_POST['unit_dipilih'])) {
     $ins->close();
 }
 
+// --- FITUR LOG AKTIVITAS ---
+if (function_exists('log_activity')) {
+    log_activity($koneksi, 'TAMBAH_GAME', "Menambahkan master game baru: " . $judul);
+}
+
 echo "<script>alert('Game berhasil ditambahkan!'); window.location='master_game.php';</script>";

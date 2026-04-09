@@ -139,3 +139,16 @@ function ext_from_mime(string $mime): ?string {
 if (file_exists(__DIR__ . '/harga.php')) {
     require_once __DIR__ . '/harga.php';
 }
+/**
+ * Mencatat aktivitas ke database
+ */
+function log_activity(mysqli $koneksi, string $aksi, string $deskripsi): void {
+    $id_admin = $_SESSION['id_admin'] ?? 0;
+    if (!$id_admin) return;
+
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $stmt = $koneksi->prepare("INSERT INTO activity_logs (id_admin, aksi, deskripsi, ip_address) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("isss", $id_admin, $aksi, $deskripsi, $ip);
+    $stmt->execute();
+    $stmt->close();
+}

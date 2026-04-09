@@ -14,6 +14,10 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         $s->bind_param("i", $id);
         $s->execute();
         $s->close();
+        
+        // --- LOG AKTIVITAS ---
+        if (function_exists('log_activity')) log_activity($koneksi, 'TERIMA_SEWA', "Menyetujui pengajuan sewa ID: $id");
+
         header("Location: data_sewa.php?msg=terima");
         exit();
 
@@ -35,9 +39,14 @@ if (isset($_GET['aksi'], $_GET['id'])) {
             $s->execute();
             $s->close();
         }
+        
+        // --- LOG AKTIVITAS ---
+        if (function_exists('log_activity')) log_activity($koneksi, 'TOLAK_SEWA', "Menolak pengajuan sewa ID: $id");
+
         header("Location: data_sewa.php?msg=tolak");
         exit();
-} elseif ($aksi === 'selesai') {
+
+    } elseif ($aksi === 'selesai') {
         $jam_telat = intval($_GET['telat'] ?? 0);
 
         // 1. Ambil data lengkap transaksi dari DB (Termasuk Kategori dari JOIN)
@@ -57,10 +66,10 @@ if (isset($_GET['aksi'], $_GET['id'])) {
             exit();
         }
 
-        // 2. Definisikan variabel berdasarkan data DB agar tidak 'Undefined'
+        // 2. Definisikan variabel berdasarkan data DB
         $id_unit         = $row['id_unit'];
         $harga_awal      = intval($row['harga']);
-        $kategori_unit   = $row['kategori']; // Ini yang tadi menyebabkan error
+        $kategori_unit   = $row['kategori'];
         $pakai_playbox   = (bool)($row['pakai_playbox'] ?? false);
         $tgl_ambil_db    = $row['tgl_ambil'];
 
@@ -90,40 +99,10 @@ if (isset($_GET['aksi'], $_GET['id'])) {
             $s->close();
         }
 
-        $qs = $denda > 0 ? '&denda=' . $denda : '';
-        header("Location: data_sewa.php?msg=selesai$qs");
-        exit();
-
-        $id_unit       = $row['id_unit'];
-        $harga_now     = intval($row['harga']);
-        $pakai_playbox = (bool)($row['pakai_playbox'] ?? false);
-        // HPP dihitung ulang dari data DB  tidak mempercayai input user
-       // ── Hitung harga secara absolut di Backend ────────────────────────────────
-$hpp              = get_hpp($kategori, (bool)$pakai_playbox, $is_libur_manual);
-$is_promo         = !$is_libur_manual && is_promo_weekday($koneksi, $tgl_ambil);
-$promo_applicable = $is_promo && $hari_bayar >= 2;
-
-// Kalkulasi eksplisit: Bayar N hari, Dapat N+(N-1) hari jika promo
-$is_promo_int = $promo_applicable ? 1 : 0;
-$hari_dapat   = $promo_applicable ? (2 * $hari_bayar - 1) : $hari_bayar;
-
-// Variabel final untuk dimasukkan ke database (INSERT)
-$durasi       = $hari_dapat . " Hari";
-$harga        = $hpp * $hari_bayar;
-
-        $denda       = hitung_denda($jam_telat, $hpp, $pakai_playbox);
-        $harga_final = $harga_now + $denda;
-
-        $s = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan='Selesai', harga=? WHERE id_pengajuan=?");
-        $s->bind_param("ii", $harga_final, $id);
-        $s->execute();
-        $s->close();
-
-        if ($id_unit) {
-            $s = $koneksi->prepare("UPDATE units SET status='Tersedia' WHERE id_unit=?");
-            $s->bind_param("i", $id_unit);
-            $s->execute();
-            $s->close();
+        // --- LOG AKTIVITAS ---
+        if (function_exists('log_activity')) {
+            $ket_denda = $denda > 0 ? " dengan denda Rp " . number_format($denda,0,',','.') : " tepat waktu";
+            log_activity($koneksi, 'SELESAI_SEWA', "Menyelesaikan transaksi sewa ID: $id" . $ket_denda);
         }
 
         $qs = $denda > 0 ? '&denda=' . $denda : '';
@@ -157,7 +136,7 @@ $harga        = $hpp * $hari_bayar;
         $durasi_lama   = intval($m[1] ?? 1);
         $durasi_baru   = $durasi_lama + $tambah_hari;
         $pakai_playbox = (bool)($row['pakai_playbox'] ?? false);
-        // HPP dari DB  konsisten dengan proses awal
+        
         $hpp           = get_hpp($row['kategori'], $pakai_playbox);
         $harga_baru    = $hpp * $durasi_baru;
         $durasi_str    = $durasi_baru . ' Hari';
@@ -166,6 +145,9 @@ $harga        = $hpp * $hari_bayar;
         $s->bind_param("sii", $durasi_str, $harga_baru, $id);
         $s->execute();
         $s->close();
+
+        // --- LOG AKTIVITAS ---
+        if (function_exists('log_activity')) log_activity($koneksi, 'PERPANJANG_SEWA', "Memperpanjang sewa ID: $id tambahan $tambah_hari Hari");
 
         header("Location: data_sewa.php?msg=perpanjang&filter=terima");
         exit();
@@ -178,7 +160,6 @@ $filter     = $_GET['filter']     ?? 'semua';
 $tgl_dari   = $_GET['tgl_dari']   ?? '';
 $tgl_sampai = $_GET['tgl_sampai'] ?? '';
 
-// ── PERBAIKAN: Gunakan prepared statement untuk filter tanggal ─────────────
 $where_parts  = [];
 $bind_types   = '';
 $bind_params  = [];
@@ -472,7 +453,6 @@ body{display:flex;min-height:100vh;}
   </div>
 </main>
 
-<!-- MODAL TOLAK -->
 <div class="modal-overlay" id="modalTolak" role="dialog" aria-modal="true" aria-labelledby="tolak-title">
   <div class="modal-box">
     <div class="modal-title" id="tolak-title" style="color:#f87171;">✕ Tolak Pengajuan</div>
@@ -484,7 +464,6 @@ body{display:flex;min-height:100vh;}
   </div>
 </div>
 
-<!-- MODAL SELESAI -->
 <div class="modal-overlay" id="modalSelesai" role="dialog" aria-modal="true" aria-labelledby="selesai-title">
   <div class="modal-box" style="max-width:420px;">
     <div class="modal-title" id="selesai-title" style="color:#60a5fa;">✓ Tandai Selesai</div>
@@ -532,7 +511,6 @@ body{display:flex;min-height:100vh;}
   </div>
 </div>
 
-<!-- MODAL PERPANJANG -->
 <div class="modal-overlay" id="modalPerpanjang" role="dialog" aria-modal="true" aria-labelledby="perpanjang-title">
   <div class="modal-box" style="max-width:420px;">
     <div class="modal-title" id="perpanjang-title" style="color:var(--v-lavender);">⏱ Perpanjang Sewa</div>
