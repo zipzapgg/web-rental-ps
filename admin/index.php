@@ -191,7 +191,7 @@ while ($lb = $q_libur->fetch_assoc()) {
         $hari = intval($m[1] ?? 1);
         
         // ── PERBAIKAN: Hitung waktu cerdas berdasarkan tipe sewa ──
-        $tgl_ambil_date = $ra['tgl_ambil'];
+        $tgl_ambil_date = $ra['tgl_ambil']; 
         $tgl_input_date = date('Y-m-d', strtotime($ra['tgl_pengajuan']));
         
         if ($tgl_ambil_date === $tgl_input_date) {

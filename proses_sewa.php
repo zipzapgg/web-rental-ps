@@ -193,11 +193,22 @@ if (isset($stnk['error'])) {
 }
 
 // ── Insert ke DB (transaksi) ──────────────────────────────────────────────
-// PERBAIKAN: Simpan $nama dan $alamat mentah (tanpa htmlspecialchars)
-// htmlspecialchars hanya dilakukan saat OUTPUT (di template PHP), bukan saat simpan ke DB
 $koneksi->begin_transaction();
 
 try {
+    // 1. Kunci unit terlebih dahulu dengan syarat ketat
+    $upd = $koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=? AND status='Tersedia'");
+    $upd->bind_param("i", $id_unit);
+    $upd->execute();
+    
+    // 2. Cek apakah update berhasil. Jika 0, berarti unit keduluan diambil!
+    if ($upd->affected_rows === 0) {
+        $upd->close();
+        throw new Exception("Mohon maaf, unit ini baru saja disewa oleh orang lain beberapa detik yang lalu. Silakan pilih unit lain.");
+    }
+    $upd->close();
+
+    // 3. Jika unit berhasil dikunci, baru masukkan data pengajuannya
     $stmt = $koneksi->prepare(
         "INSERT INTO pengajuan
          (nama_penyewa, no_wa, alamat, id_unit, durasi, harga, pakai_playbox, tgl_ambil, is_promo, foto_ktp, foto_stnk, status_pengajuan)
@@ -214,18 +225,14 @@ try {
     $id_pengajuan = $koneksi->insert_id;
     $stmt->close();
 
-    $upd = $koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=?");
-    $upd->bind_param("i", $id_unit);
-    $upd->execute();
-    $upd->close();
-
     $koneksi->commit();
     error_log("[Violet PS] Sukses! id=$id_pengajuan");
 
 } catch (Exception $e) {
     $koneksi->rollback();
     error_log("[Violet PS] Transaksi gagal: " . $e->getMessage());
-    $_SESSION['form_error'] = 'Terjadi kesalahan sistem. Silakan coba lagi.';
+    // Tampilkan pesan error spesifik jika karena keduluan, atau pesan umum jika error lain
+    $_SESSION['form_error'] = $e->getMessage(); 
     header("Location: sewa.php");
     exit();
 }

@@ -59,8 +59,21 @@ $harga_total  = $sewa['harga'];
 
 // 3. Eksekusi ke Database (Transaction)
 $koneksi->begin_transaction();
+
 try {
-    // Masukkan ke pengajuan dengan status langsung 'Disetujui'
+    // 1. Kunci unit terlebih dahulu dengan syarat ketat
+    $upd = $koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=? AND status='Tersedia'");
+    $upd->bind_param("i", $id_unit);
+    $upd->execute();
+    
+    // 2. Cek apakah update berhasil
+    if ($upd->affected_rows === 0) {
+        $upd->close();
+        throw new Exception("Gagal! Unit sudah disewa melalui web beberapa detik yang lalu.");
+    }
+    $upd->close();
+
+    // 3. Masukkan ke pengajuan dengan status langsung 'Disetujui'
     $stmt = $koneksi->prepare(
         "INSERT INTO pengajuan 
          (nama_penyewa, no_wa, alamat, id_unit, durasi, harga, pakai_playbox, tgl_ambil, is_promo, foto_ktp, foto_stnk, status_pengajuan) 
@@ -75,13 +88,7 @@ try {
     $id_pengajuan = $koneksi->insert_id;
     $stmt->close();
 
-    // Ubah status unit menjadi Disewa
-    $upd = $koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=?");
-    $upd->bind_param("i", $id_unit);
-    $upd->execute();
-    $upd->close();
-
-    // Catat ke Log Aktivitas
+    // 4. Catat ke Log Aktivitas
     if (function_exists('log_activity')) {
         log_activity($koneksi, 'QUICK_ENTRY', "Sewa kilat (Walk-in): $nama menyewa $nama_unit selama $durasi_str");
     }
@@ -92,5 +99,8 @@ try {
 
 } catch (Exception $e) {
     $koneksi->rollback();
-    die("Gagal memproses transaksi: " . $e->getMessage());
+    // Gunakan alert Javascript agar kasir tahu apa yang salah tanpa melihat layar putih (die)
+    $pesan_error = $e->getMessage();
+    echo "<script>alert('$pesan_error'); window.location='index.php';</script>";
+    exit();
 }
