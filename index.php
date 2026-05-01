@@ -422,29 +422,39 @@
         <div class="units-grid-wrap">
           <div class="units-grid" id="grid-sewa-pub">
             <?php foreach ($arr_sewa as $i => $u):
-              $kat     = $u['kategori'];
-              $bc      = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
-              $disewa  = $u['status'] === 'Disewa';
-              $hidden  = $i >= $preview_count;
-              $is_ps5_tempat = ($u['tipe_layanan'] === 'Main di Tempat' && $kat === 'PS5');
-            ?>
-            <div class="unit-card <?php echo $disewa ? 'disewa' : ''; ?>"
-                 id="sewa-unit-<?php echo $i; ?>"
-                 style="<?php echo $hidden ? 'display:none;' : ''; ?>"
-                 <?php if (!$disewa): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
-              <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
-              <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
-              <div class="unit-meta">
-                <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
-                <?php if ($disewa): ?>
-                  <span class="v-badge" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);">Sedang Disewa</span>
-                <?php else: ?>
-                  <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Tersedia</span>
-                <?php endif; ?>
-                <?php if ($is_ps5_tempat): ?><span style="font-size:.68rem;color:#60a5fa;font-family:var(--font-ui);">WA dulu</span><?php endif; ?>
-              </div>
-            </div>
-            <?php endforeach; ?>
+  $kat     = $u['kategori'];
+  $bc      = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
+  
+  // LOGIKA BARU: Unit tidak tersedia jika statusnya 'Disewa' ATAU 'Maintenance'
+  $is_unavailable = ($u['status'] === 'Disewa' || $u['status'] === 'Maintenance');
+  
+  $hidden  = $i >= $preview_count;
+  $is_ps5_tempat = ($u['tipe_layanan'] === 'Main di Tempat' && $kat === 'PS5');
+?>
+<!-- Jika unit tidak tersedia, class 'disewa' akan aktif (mematikan klik via CSS)[cite: 1] -->
+<div class="unit-card <?php echo $is_unavailable ? 'disewa' : ''; ?>"
+     id="sewa-unit-<?php echo $i; ?>"
+     style="<?php echo $hidden ? 'display:none;' : ''; ?>"
+     <?php if (!$is_unavailable): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
+  
+  <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
+  <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
+  <div class="unit-meta">
+    <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
+    
+    <!-- TAMPILAN STATUS YANG DINAMIS[cite: 1] -->
+    <?php if ($u['status'] === 'Maintenance'): ?>
+      <span class="v-badge" style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);">Maintenance</span>
+    <?php elseif ($u['status'] === 'Disewa'): ?>
+      <span class="v-badge" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);">Sedang Disewa</span>
+    <?php else: ?>
+      <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Tersedia</span>
+    <?php endif; ?>
+    
+    <?php if ($is_ps5_tempat): ?><span style="font-size:.68rem;color:#60a5fa;font-family:var(--font-ui);">WA dulu</span><?php endif; ?>
+  </div>
+</div>
+<?php endforeach; ?>
           </div>
         </div>
 
