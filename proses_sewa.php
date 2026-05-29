@@ -18,7 +18,7 @@ if (empty($csrf_sent) || empty($csrf_stored) || !hash_equals($csrf_stored, $csrf
 
 // ── Input & sanitasi ──────────────────────────────────────────────────────
 // PERBAIKAN: Jangan htmlspecialchars sebelum masuk DB lakukan saat output
-$nama          = trim($_POST['nama']      ?? '');
+$nama          = trim($_POST['nama']       ?? '');
 $wa            = preg_replace('/[^0-9]/', '', trim($_POST['wa'] ?? ''));
 $alamat        = trim($_POST['alamat']    ?? '');
 $id_unit       = intval($_POST['id_unit'] ?? 0);
@@ -31,10 +31,10 @@ error_log("[Violet PS] Submit: nama=$nama wa=$wa id_unit=$id_unit hari=$hari_bay
 // ── Validasi ──────────────────────────────────────────────────────────────
 $errors = [];
 
-if (!$nama)    $errors[] = 'Nama wajib diisi.';
-if (!$wa)      $errors[] = 'Nomor WhatsApp wajib diisi.';
-if (!$alamat)  $errors[] = 'Alamat wajib diisi.';
-if (!$id_unit) $errors[] = 'Unit wajib dipilih.';
+if (!$nama)      $errors[] = 'Nama wajib diisi.';
+if (!$wa)        $errors[] = 'Nomor WhatsApp wajib diisi.';
+if (!$alamat)    $errors[] = 'Alamat wajib diisi.';
+if (!$id_unit)   $errors[] = 'Unit wajib dipilih.';
 if (!$tgl_ambil) $errors[] = 'Tanggal ambil wajib diisi.';
 
 if ($nama   && mb_strlen($nama)   > 100) $errors[] = 'Nama maksimal 100 karakter.';
@@ -200,7 +200,7 @@ try {
     $upd = $koneksi->prepare("UPDATE units SET status='Disewa' WHERE id_unit=? AND status='Tersedia'");
     $upd->bind_param("i", $id_unit);
     $upd->execute();
-    
+
     // 2. Cek apakah update berhasil. Jika 0, berarti unit keduluan diambil!
     if ($upd->affected_rows === 0) {
         $upd->close();
@@ -232,26 +232,26 @@ try {
     $koneksi->rollback();
     error_log("[Violet PS] Transaksi gagal: " . $e->getMessage());
     // Tampilkan pesan error spesifik jika karena keduluan, atau pesan umum jika error lain
-    $_SESSION['form_error'] = $e->getMessage(); 
+    $_SESSION['form_error'] = $e->getMessage();
     header("Location: sewa.php");
     exit();
 }
 
 // ── Simpan ke session untuk halaman sukses ────────────────────────────────
 $_SESSION['last_pengajuan'] = [
-    'id'          => $id_pengajuan,
-    'nama'        => $nama,
-    'wa'          => $wa,
-    'unit'        => $nama_unit,
-    'kategori'    => $kategori,
-    'hari_bayar'  => $hari_bayar,
-    'hari_dapat'  => $sewa['hari_dapat'],
-    'durasi'      => $durasi,
-    'tgl_ambil'   => $tgl_ambil,
-    'harga'       => $harga,
-    'playbox'     => $pakai_playbox,
-    'is_promo'    => (bool)$is_promo_int,
-    'promo_label' => $sewa['label'],
+    'id'           => $id_pengajuan,
+    'nama'         => $nama,
+    'wa'           => $wa,
+    'unit'         => $nama_unit,
+    'kategori'     => $kategori,
+    'hari_bayar'   => $hari_bayar,
+    'hari_dapat'   => $sewa['hari_dapat'],
+    'durasi'       => $durasi,
+    'tgl_ambil'    => $tgl_ambil,
+    'harga'        => $harga,
+    'playbox'      => $pakai_playbox,
+    'is_promo'     => (bool)$is_promo_int,
+    'promo_label'  => $sewa['label'],
 ];
 
 header("Location: sukses_sewa.php");
