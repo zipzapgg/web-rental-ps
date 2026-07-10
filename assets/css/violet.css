@@ -3164,5 +3164,88 @@ tfoot td { background: transparent; }
   display: block;
 }
 
+/* ── Compact Form Styling (Sewa.php Optimizations) ── */
+.form-header {
+  padding: 1.5rem 1.5rem 0.75rem;
+}
+.form-header img {
+  height: 48px;
+  margin-bottom: 0.5rem;
+}
+.form-header h1 {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+}
+.form-header p {
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+}
+.form-container {
+  padding-bottom: 2rem;
+}
+.form-card {
+  padding: 1.5rem;
+}
+.step-indicator {
+  margin-bottom: 1.25rem;
+}
+.form-section-label {
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.5rem;
+}
+.info-box {
+  padding: 0.6rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.info-box strong {
+  margin-bottom: 0.1rem;
+}
+.info-box p {
+  font-size: 0.8rem;
+}
+.warn-box {
+  padding: 0.4rem 0.65rem;
+}
+.warn-box p {
+  font-size: 0.75rem;
+}
+.form-group {
+  margin-bottom: 0.85rem;
+}
+.v-input {
+  padding: 0.6rem 0.85rem;
+  font-size: 0.85rem;
+}
+.v-label {
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+}
+.harga-preview {
+  padding: 1rem;
+  margin-top: 1rem;
+}
+.harga-preview h4 {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+.harga-row {
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+}
+.harga-total {
+  padding-top: 0.6rem;
+  margin-top: 0.4rem;
+}
+.harga-total .total-val {
+  font-size: 1.25rem;
+}
+.bayar-info {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+}
+.bayar-info p {
+  font-size: 0.75rem;
+}
+
 
 
