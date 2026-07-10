@@ -37,7 +37,7 @@ while ($r = $res_pb->fetch_assoc()) {
     .form-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 50% 60% at 10% 20%,rgba(123,47,190,.15) 0%,transparent 60%),var(--v-black);}
     .form-bg-grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(123,47,190,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(123,47,190,.04) 1px,transparent 1px);background-size:60px 60px;}
     .form-header{text-align:center;padding:4rem 1.5rem 2.5rem;}
-    .form-header img{height:80px;filter:drop-shadow(0 0 16px rgba(168,85,247,.6));margin-bottom:1.5rem;animation:floatY 4s ease-in-out infinite;}
+    .form-header img{height:80px;filter:drop-shadow(0 0 16px rgba(157, 86, 255,.6));margin-bottom:1.5rem;animation:floatY 4s ease-in-out infinite;}
     .form-header h1{font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);font-weight:800;letter-spacing:4px;text-transform:uppercase;line-height:1;}
     .form-header p{color:var(--v-muted);font-size:1rem;margin-top:.75rem;letter-spacing:1px;}
     .form-card{background:rgba(18,18,31,.8);border:1px solid var(--v-border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(10px);max-width:720px;margin:0 auto;width:100%;}
@@ -45,11 +45,11 @@ while ($r = $res_pb->fetch_assoc()) {
     .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
     .form-group{margin-bottom:1.25rem;}
     .file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:140px;}
-    .file-upload-box:hover{border-color:var(--v-violet);background:rgba(168,85,247,.05);}
+    .file-upload-box:hover{border-color:var(--v-violet);background:rgba(157, 86, 255,.05);}
     .file-upload-box.has-file{border-color:var(--v-violet);border-style:solid;padding:0;}
     .file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
     .file-upload-box .upload-hint{font-size:.75rem;color:#4B3F6B;margin-top:.25rem;}
-    .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(168,85,247,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
+    .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(157, 86, 255,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
     .syarat-box .syarat-title{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-violet);margin-bottom:.75rem;}
     .syarat-box ul{list-style:none;padding:0;}
     .syarat-box li{font-size:.85rem;color:var(--v-muted);padding:.3rem 0 .3rem 1.25rem;position:relative;}
@@ -60,16 +60,16 @@ while ($r = $res_pb->fetch_assoc()) {
     .playbox-toggle input[type=checkbox]{accent-color:#34d399;width:18px;height:18px;cursor:pointer;flex-shrink:0;}
     .playbox-toggle-label strong{font-family:var(--font-ui);font-size:.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#34d399;display:block;}
     .playbox-toggle-label span{font-size:.82rem;color:var(--v-muted);margin-top:.15rem;display:block;}
-    .harga-preview{background:rgba(168,85,247,.08);border:1px solid rgba(168,85,247,.25);border-radius:14px;padding:1.5rem;margin-top:1.5rem;display:none;}
+    .harga-preview{background:rgba(157, 86, 255,.08);border:1px solid rgba(157, 86, 255,.25);border-radius:14px;padding:1.5rem;margin-top:1.5rem;display:none;}
     .harga-preview.show{display:block;animation:fadeUp .3s ease both;}
     .harga-preview h4{font-family:var(--font-display);font-size:1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1rem;}
     .harga-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-ui);font-size:.9rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
     .harga-row:last-child{border-bottom:none;}
     .harga-row .lbl{color:var(--v-muted);}
     .harga-row .val{color:var(--v-white);font-weight:600;}
-    .harga-total{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:1px;padding-top:.75rem;margin-top:.25rem;border-top:2px solid rgba(168,85,247,.3);}
+    .harga-total{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:1px;padding-top:.75rem;margin-top:.25rem;border-top:2px solid rgba(157, 86, 255,.3);}
     .harga-total .total-lbl{color:var(--v-lavender);}
-    .harga-total .total-val{color:var(--v-lavender);text-shadow:0 0 12px rgba(168,85,247,.5);}
+    .harga-total .total-val{color:var(--v-lavender);text-shadow:0 0 12px rgba(157, 86, 255,.5);}
     .bayar-info{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:.85rem 1.1rem;margin-top:1rem;display:flex;gap:.75rem;align-items:flex-start;}
     .bayar-info p{font-size:.82rem;color:#fbbf24;line-height:1.6;}
     .btn-submit{width:100%;padding:1rem;font-size:1.1rem;letter-spacing:3px;border-radius:10px;margin-top:1.5rem;}

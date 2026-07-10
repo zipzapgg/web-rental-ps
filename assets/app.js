@@ -49,7 +49,7 @@ function previewImage(input, previewId){
   wrap.classList.add('show');
   // Update upload box styling
   const box = input.closest('.file-upload-box');
-  if(box){ box.style.borderColor='var(--v-violet)'; box.style.background='rgba(168,85,247,.05)'; }
+  if(box){ box.style.borderColor='var(--v-violet)'; box.style.background='rgba(157, 86, 255,.05)'; }
   const txt = box?.querySelector('.upload-text');
   if(txt) txt.textContent = f.name;
 }

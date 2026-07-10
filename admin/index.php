@@ -112,9 +112,9 @@ while ($lb = $q_libur->fetch_assoc()) {
     .btn-blue{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);}
     .btn-green{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.3);}
     .btn-red{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
-    .btn-purple{background:rgba(168,85,247,.15);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);}
+    .btn-purple{background:rgba(157, 86, 255,.15);color:var(--v-lavender);border:1px solid rgba(157, 86, 255,.3);}
     .ftab{font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.45rem 1.1rem;border-radius:6px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
-    .ftab:hover,.ftab.active{background:rgba(168,85,247,.15);border-color:var(--v-violet);color:var(--v-lavender);}
+    .ftab:hover,.ftab.active{background:rgba(157, 86, 255,.15);border-color:var(--v-violet);color:var(--v-lavender);}
     .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
     .modal-overlay.open{display:flex;}
     .modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;width:100%;max-height:88vh;overflow-y:auto;animation:fadeUp .3s ease both;}
@@ -128,7 +128,7 @@ while ($lb = $q_libur->fetch_assoc()) {
 <?php include_once "../config/svg_sprite_admin.php"; ?>
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(168,85,247,.5));">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(157, 86, 255,.5));">
     <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
   </div>
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -446,8 +446,8 @@ $total_tempat_cnt = count($all_tempat);
   </div>
 
   <?php if ($is_admin): ?>
-  <div class="table-card" style="margin-top: 2.5rem; border-color: rgba(168,85,247,.3);">
-    <div class="table-card-header" style="background: rgba(168,85,247,.05);">
+  <div class="table-card" style="margin-top: 2.5rem; border-color: rgba(157, 86, 255,.3);">
+    <div class="table-card-header" style="background: rgba(157, 86, 255,.05);">
       <h3><span class="neon">Log Aktivitas</span> Sistem</h3>
       <span style="font-family:var(--font-ui);font-size:.75rem;color:var(--v-muted);">20 Aktivitas Terakhir</span>
     </div>
