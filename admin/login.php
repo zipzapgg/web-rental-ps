@@ -7,135 +7,9 @@
   <title>Login Admin Violet PlayStation</title>
  <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
 
-<style>
-@media (max-width: 768px) {
-  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
-  body { flex-direction: column !important; }
-  .admin-topbar { width: 100% !important; }
-
-  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
-  .table-card { max-width: 100vw !important; overflow: hidden !important; }
-  .table-wrap { 
-    overflow-x: auto !important; 
-    display: block !important; 
-    width: 100% !important; 
-    -webkit-overflow-scrolling: touch; 
-    padding-bottom: 10px;
-  }
-  
-  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
-  .v-table { min-width: 900px !important; }
-  .v-table th, .v-table td { white-space: nowrap !important; }
-  
-  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
-  .v-table td[style*="display:flex"], .actions-wrap { 
-    flex-direction: row !important; 
-    flex-wrap: nowrap !important; 
-    gap: 0.5rem !important; 
-  }
-  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
-  
-  /* 5. Amankan Tab & Header */
-  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .ftab { flex-shrink: 0; }
-}
-</style>
   <script src="../assets/app.js" defer></script>
-  <style>
-    html, body {
-      height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--v-black);
-    }
-    .login-bg {
-      position: fixed; inset: 0; z-index: 0;
-      background:
-        radial-gradient(ellipse 60% 60% at 50% 50%, rgba(123,47,190,.18) 0%, transparent 70%),
-        var(--v-black);
-    }
-    .login-grid {
-      position: fixed; inset: 0; z-index: 0;
-      background-image:
-        linear-gradient(rgba(123,47,190,.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(123,47,190,.05) 1px, transparent 1px);
-      background-size: 50px 50px;
-    }
-    .login-wrap {
-      position: relative; z-index: 1;
-      width: 100%; max-width: 420px;
-      padding: 1.5rem;
-      animation: fadeUp .6s ease both;
-    }
-    .login-card {
-      background: rgba(18,18,31,.9);
-      border: 1px solid var(--v-border);
-      border-radius: 20px;
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 60px rgba(123,47,190,.2);
-    }
-    .login-logo {
-      text-align: center;
-      margin-bottom: 2.5rem;
-    }
-    .login-logo img {
-      height: 80px;
-      filter: drop-shadow(0 0 16px rgba(168,85,247,.6));
-      animation: floatY 4s ease-in-out infinite;
-    }
-    .login-logo h2 {
-      font-family: var(--font-display);
-      font-size: 1.8rem; font-weight: 800;
-      letter-spacing: 4px; text-transform: uppercase;
-      margin-top: 1rem;
-    }
-    .login-logo p {
-      font-family: var(--font-ui);
-      font-size: .8rem; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--v-muted);
-      margin-top: .25rem;
-    }
-    .form-group { margin-bottom: 1.25rem; }
-    .btn-login {
-      width: 100%;
-      padding: .9rem;
-      font-size: 1rem;
-      letter-spacing: 3px;
-      border-radius: 10px;
-      margin-top: .5rem;
-    }
-
-    /* Error message */
-    .login-error {
-      background: rgba(239,68,68,.1);
-      border: 1px solid rgba(239,68,68,.3);
-      border-radius: 8px;
-      padding: .75rem 1rem;
-      font-family: var(--font-ui);
-      font-size: .85rem; letter-spacing: 1px;
-      color: #f87171; text-align: center;
-      margin-bottom: 1.25rem;
-      display: none;
-    }
-
-    .back-to-site {
-      text-align: center;
-      margin-top: 1.5rem;
-    }
-    .back-to-site a {
-      font-family: var(--font-ui);
-      font-size: .8rem; letter-spacing: 1.5px;
-      text-transform: uppercase; color: var(--v-muted);
-      text-decoration: none; transition: color .2s;
-    }
-    .back-to-site a:hover { color: var(--v-lavender); }
-  </style>
 </head>
-<body>
+<body class="login-body">
   <div class="login-bg"></div>
   <div class="login-grid"></div>
 
@@ -144,7 +18,7 @@
       $msg = $_GET['pesan'];
       $txt = $msg === 'belum_login' ? '⚠ Silakan login terlebih dahulu.' : ($msg === 'logout' ? '✓ Berhasil logout.' : ($msg === 'timeout' ? '⏱ Sesi berakhir karena tidak aktif. Silakan login kembali.' : ''));
       if($txt): ?>
-      <div style="background:rgba(168,85,247,.1); border:1px solid rgba(168,85,247,.3); border-radius:8px; padding:.75rem 1rem; font-family:var(--font-ui); font-size:.85rem; letter-spacing:1px; color:var(--v-lavender); text-align:center; margin-bottom:1rem;">
+      <div class="login-error" style="display:block; background:rgba(182,255,0,.08); border:1px solid rgba(182,255,0,.25); border-radius:8px; padding:.75rem 1rem; font-family:var(--font-ui); font-size:.85rem; letter-spacing:1px; color:var(--v-white); text-align:center; margin-bottom:1rem; box-shadow:0 0 10px rgba(182,255,0,0.1);">
         <?php echo $txt; ?>
       </div>
       <?php endif; endif; ?>

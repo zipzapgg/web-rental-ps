@@ -95,3 +95,32 @@ function closeSidebar() {
     // Buka kunci scroll
     document.body.style.overflow = '';
 }
+
+/* ── Interactive Cursor Glow Spotlight ── */
+let glowFrame;
+document.addEventListener('mousemove', e => {
+  if (glowFrame) cancelAnimationFrame(glowFrame);
+  glowFrame = requestAnimationFrame(() => {
+    const glow = document.getElementById('cursor-glow');
+    if (glow) {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    }
+  });
+}, { passive: true });
+
+/* ── Universal 3D Tilt Effect ── */
+document.querySelectorAll('.tilt-3d').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    // Calculate degree ratio (-1 to 1)
+    const rX = -(y / (rect.height / 2)) * 12; // max tilt 12deg
+    const rY = (x / (rect.width / 2)) * 12;
+    el.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) scale3d(1.02, 1.02, 1.02)`;
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.transform = '';
+  });
+});

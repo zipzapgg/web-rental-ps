@@ -16,155 +16,6 @@
   <meta name="theme-color" content="#7B2FBE">
   <link rel="stylesheet" href="assets/css/violet.css">
   <script src="assets/app.js" defer></script>
-  <style>
-    .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:6rem 0 4rem;}
-    .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 60% at 70% 50%,rgba(123,47,190,.25) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(157, 86, 255,.1) 0%,transparent 60%),var(--v-black);}
-    .hero-grid-lines{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(123,47,190,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(123,47,190,.06) 1px,transparent 1px);background-size:60px 60px;}
-    .hero-content{position:relative;z-index:1;}
-    .hero-eyebrow{font-family:var(--font-ui);font-size:.85rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--v-violet);border:1px solid rgba(157, 86, 255,.3);display:inline-block;padding:.3rem 1rem;border-radius:4px;margin-bottom:1.5rem;background:rgba(157, 86, 255,.08);}
-    .hero-title{font-family:var(--font-display);font-size:clamp(3.5rem,10vw,7rem);font-weight:800;letter-spacing:4px;text-transform:uppercase;line-height:.95;margin-bottom:1.5rem;}
-    .hero-title .line2{color:var(--v-lavender);text-shadow:0 0 30px var(--v-violet);}
-    .hero-sub{font-size:1.05rem;color:var(--v-muted);max-width:480px;line-height:1.7;margin-bottom:2.5rem;}
-    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;}
-    .hero-logo-wrap{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;}
-    .hero-logo-wrap img{width:min(420px,90%);filter:drop-shadow(0 0 40px rgba(157, 86, 255,.6));animation:floatY 5s ease-in-out infinite;}
-    .hero-logo-glow{position:absolute;width:320px;height:320px;background:radial-gradient(circle,rgba(157, 86, 255,.35) 0%,transparent 70%);border-radius:50%;animation:pulseGlow 3s ease-in-out infinite;}
-    .stats-bar{background:var(--v-card);border-top:1px solid var(--v-border);border-bottom:1px solid var(--v-border);padding:1.5rem 0;}
-    .stat-item{text-align:center;}
-    .stat-num{font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--v-lavender);text-shadow:0 0 10px rgba(157, 86, 255,.5);}
-    .stat-label{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);}
-    .price-section{padding:6rem 0;}
-    .price-tab-nav{display:flex;gap:.6rem;margin-bottom:2.5rem;flex-wrap:wrap;border-bottom:1px solid var(--v-border);padding-bottom:1rem;}
-    .price-tab-btn{font-family:var(--font-ui);font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.5rem 1.4rem;border-radius:8px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
-    .price-tab-btn:hover{border-color:var(--v-violet);color:var(--v-lavender);}
-    .price-tab-btn.active{background:rgba(157, 86, 255,.18);border-color:var(--v-violet);color:var(--v-lavender);box-shadow:0 0 12px rgba(157, 86, 255,.2);font-weight:800;}
-    .price-tab-panel{display:none;animation:fadeUp .3s ease both;}
-    .price-tab-panel.active{display:block;}
-    .price-card{background:var(--v-card);border-radius:16px;padding:2.5rem;position:relative;overflow:hidden;}
-    .price-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
-    .price-card.ps4::before{background:linear-gradient(90deg,var(--v-purple),var(--v-violet));}
-    .price-card.ps5::before{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
-    .price-card.nin::before{background:linear-gradient(90deg,#ef4444,#f87171);}
-    .price-card.playbox::before{background:linear-gradient(90deg,#10b981,#34d399);}
-    .price-card-title{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:.25rem;}
-    .price-card.ps4 .price-card-title{color:var(--v-lavender);}
-    .price-card.ps5 .price-card-title{color:#60a5fa;}
-    .price-card.nin .price-card-title{color:#f87171;}
-    .price-card.playbox .price-card-title{color:#34d399;}
-    .price-tag{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:2rem;}
-    .price-row{display:flex;justify-content:space-between;align-items:center;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-family:var(--font-ui);font-size:1.05rem;}
-    .price-row:last-child{border-bottom:none;}
-    .price-row .label{color:#9d8bb0;}
-    .price-row .price{font-weight:700;color:var(--v-white);}
-    .free-badge{font-size:.72rem;font-family:var(--font-ui);font-weight:700;letter-spacing:1px;color:#fbbf24;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);padding:.1rem .5rem;border-radius:4px;margin-left:.5rem;white-space:nowrap;}
-    .price-note{margin-top:1.5rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.75rem 1rem;font-size:.8rem;color:#f87171;font-family:var(--font-ui);letter-spacing:.5px;text-align:center;}
-    .price-note.blue{border-color:rgba(96,165,250,.2);color:#93c5fd;background:rgba(96,165,250,.07);}
-    .price-note.green{border-color:rgba(16,185,129,.2);color:#34d399;background:rgba(16,185,129,.06);}
-    .promo-banner{background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(245,158,11,.08));border:1px solid rgba(251,191,36,.3);border-radius:12px;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap;}
-    .promo-banner-text{font-family:var(--font-ui);font-size:.9rem;font-weight:700;letter-spacing:1px;color:#fbbf24;}
-    .promo-banner-sub{font-family:var(--font-body);font-size:.82rem;color:#d97706;margin-top:.1rem;}
-    .syarat-box{background:rgba(123,47,190,.06);border:1px solid rgba(157, 86, 255,.2);border-radius:12px;padding:1.5rem;margin-top:2rem;}
-    .syarat-box h6{font-family:var(--font-ui);font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1rem;}
-    .syarat-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;}
-    .syarat-list li{font-size:.82rem;color:var(--v-muted);padding-left:1.2rem;position:relative;line-height:1.5;}
-    .syarat-list li::before{content:'—';position:absolute;left:0;color:var(--v-purple);}
-    .syarat-list li strong{color:#C4B5D4;}
-
-    /* ── Unit section ── */
-    .units-section{padding:6rem 0;background:rgba(255,255,255,.015);}
-    .unit-tabs{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap;}
-    .unit-tab{font-family:var(--font-ui);font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.5rem 1.25rem;border-radius:6px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
-    .unit-tab:hover{border-color:var(--v-violet);color:var(--v-lavender);}
-    .unit-tab.active{background:rgba(157, 86, 255,.15);border-color:var(--v-violet);color:var(--v-lavender);}
-    .units-panel{display:none;animation:fadeUp .3s ease both;}
-    .units-panel.active{display:block;}
-
-    /* ── BARU: Layout grid unit + tombol lihat semua di samping ── */
-    .units-with-toggle{display:flex;gap:1.25rem;align-items:flex-start;}
-    .units-grid-wrap{flex:1;min-width:0;}
-    .units-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
-    .units-toggle-col{flex-shrink:0;width:160px;display:flex;align-items:center;}
-    .btn-lihat-semua{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;padding:1.25rem .85rem;border-radius:14px;border:2px dashed rgba(157, 86, 255,.35);background:rgba(157, 86, 255,.06);color:var(--v-lavender);cursor:pointer;font-family:var(--font-ui);font-size:.78rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-align:center;transition:all .25s;line-height:1.4;width:100%;height:100%;min-height:120px;}
-    .btn-lihat-semua:hover{border-color:var(--v-violet);background:rgba(157, 86, 255,.14);box-shadow:0 0 16px rgba(157, 86, 255,.2);}
-    .btn-lihat-semua.all-shown{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.03);color:var(--v-muted);}
-    .btn-lihat-semua .toggle-icon{font-size:1.5rem;line-height:1;}
-    .btn-lihat-semua .toggle-count{font-size:.7rem;color:var(--v-muted);margin-top:.1rem;}
-
-    .unit-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
-    .unit-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--v-purple),var(--v-violet));opacity:0;transition:opacity .3s;}
-    .unit-card:hover{border-color:var(--v-purple);box-shadow:0 8px 30px rgba(123,47,190,.25);transform:translateY(-4px);}
-    .unit-card:hover::before{opacity:1;}
-    .unit-card.disewa{opacity:.5;cursor:not-allowed;pointer-events:none;}
-    .unit-icon{font-size:2rem;margin-bottom:.75rem;}
-    .unit-name{font-family:var(--font-display);font-size:1rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-white);margin-bottom:.5rem;}
-    .unit-meta{display:flex;gap:.5rem;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;}
-    .unit-card::after{content:'Lihat Game →';position:absolute;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--v-purple),var(--v-violet));color:#fff;font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-align:center;padding:.6rem;opacity:0;transform:translateY(100%);transition:opacity .25s,transform .25s;}
-    .unit-card:not(.disewa):hover::after{opacity:1;transform:translateY(0);}
-    .ps5-note{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);border-radius:10px;padding:.85rem 1.25rem;font-family:var(--font-ui);font-size:.82rem;color:#93c5fd;margin-bottom:1.5rem;display:flex;align-items:flex-start;gap:.75rem;}
-
-    .games-section{padding:6rem 0;}
-    .game-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:12px;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s;}
-    .game-card:hover{transform:translateY(-6px);border-color:var(--v-purple);box-shadow:0 12px 40px rgba(123,47,190,.3);}
-    .game-card img{width:100%;height:200px;object-fit:cover;display:block;}
-    .game-card-body{padding:.75rem 1rem;font-family:var(--font-ui);font-size:.95rem;font-weight:600;color:#C4B5D4;}
-    .col-6game{flex:1 1 160px;max-width:calc(16.66% - 1.25rem);}
-    .sewa-section{padding:6rem 0;position:relative;overflow:hidden;}
-    .sewa-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(123,47,190,.1) 0%,transparent 70%);pointer-events:none;}
-    .sewa-feature{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.5rem;}
-    .sewa-icon{width:44px;height:44px;flex-shrink:0;background:rgba(157, 86, 255,.12);border:1px solid rgba(157, 86, 255,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
-    .sewa-feature-text h6{font-family:var(--font-ui);font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--v-white);margin-bottom:.25rem;}
-    .sewa-feature-text p{font-size:.85rem;color:var(--v-muted);line-height:1.5;}
-    .map-section{padding:6rem 0;}
-    .map-wrap{border-radius:16px;overflow:hidden;border:1px solid var(--v-border);box-shadow:0 0 40px rgba(123,47,190,.2);}
-    .map-wrap iframe{display:block;width:100%;height:420px;border:none;filter:invert(90%) hue-rotate(180deg);}
-    .map-info{background:var(--v-card);border:1px solid var(--v-border);border-radius:16px;padding:2rem;}
-    .map-info h4{font-family:var(--font-display);font-size:1.6rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.5rem;}
-    .map-detail{display:flex;gap:.85rem;margin-bottom:1.25rem;align-items:flex-start;}
-    .map-detail-icon{font-size:1.3rem;margin-top:.1rem;}
-    .map-detail-text p{font-size:.85rem;color:var(--v-muted);line-height:1.5;}
-    .map-detail-text strong{font-family:var(--font-ui);font-size:.95rem;color:var(--v-white);display:block;margin-bottom:.2rem;}
-    .v-footer{background:var(--v-dark);border-top:1px solid var(--v-border);padding:4rem 0 2rem;}
-    .footer-copy{color:var(--v-muted);font-size:.8rem;text-align:center;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--v-border);}
-    .modal-overlay{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
-    .modal-overlay.open{display:flex;}
-    .modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;width:100%;max-width:660px;max-height:88vh;overflow-y:auto;position:relative;animation:fadeUp .3s ease both;}
-    .modal-header{padding:2rem 2rem 1.25rem;border-bottom:1px solid var(--v-border);display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:var(--v-card);z-index:1;}
-    .modal-unit-name{font-family:var(--font-display);font-size:1.5rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--v-lavender);}
-    .modal-close-btn{background:rgba(255,255,255,.05);border:1px solid var(--v-border);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:var(--v-muted);flex-shrink:0;transition:color .2s;}
-    .modal-close-btn:hover{color:var(--v-white);}
-    .modal-body{padding:1.5rem 2rem 2rem;}
-    .modal-games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:1rem;margin-top:1rem;}
-    .modal-game-item{background:rgba(255,255,255,.03);border:1px solid var(--v-border);border-radius:10px;overflow:hidden;transition:border-color .2s;}
-    .modal-game-item:hover{border-color:var(--v-purple);}
-    .modal-game-item img{width:100%;height:100px;object-fit:cover;display:block;}
-    .modal-game-item span{display:block;padding:.5rem .6rem;font-family:var(--font-ui);font-size:.78rem;font-weight:600;color:#C4B5D4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-    .modal-empty{text-align:center;padding:3rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.9rem;letter-spacing:1px;}
-    #scroll-top{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:12px;background:rgba(123,47,190,.7);border:1px solid rgba(157, 86, 255,.4);color:#fff;font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:90;transition:all .25s;box-shadow:0 4px 20px rgba(123,47,190,.4);}
-    #scroll-top:hover{background:var(--v-violet);transform:translateY(-2px);}
-    #scroll-top.show{display:flex;}
-    .container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
-    .row{display:flex;flex-wrap:wrap;gap:1.5rem;}
-    .col-half{flex:1 1 400px;}
-    .same-price-badge{position:absolute;top:1rem;right:1rem;font-family:var(--font-ui);font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.35);padding:.2rem .6rem;border-radius:20px;white-space:nowrap;}
-    .nav-link{font-family:var(--font-ui);font-size:.85rem;font-weight:600;letter-spacing:1px;color:var(--v-muted);text-decoration:none;text-transform:uppercase;transition:color .2s;display:inline-flex;align-items:center;}
-    .nav-link:hover{color:var(--v-lavender);}
-
-    @media(max-width:900px){
-      .units-with-toggle{flex-direction:column;}
-      .units-toggle-col{width:100%;height:auto;}
-      .btn-lihat-semua{flex-direction:row;min-height:auto;padding:.75rem 1.25rem;gap:.75rem;}
-      .units-grid{grid-template-columns:repeat(2,1fr);}
-    }
-    @media(max-width:600px){
-      .units-grid{grid-template-columns:repeat(2,1fr);}
-      .col-6game{max-width:calc(50% - .75rem);}
-      .hero-logo-wrap{display:none;}
-    }
-    @media(max-width:400px){
-      .units-grid{grid-template-columns:1fr 1fr;}
-      .col-6game{flex:1 1 calc(50% - .5rem);max-width:calc(50% - .5rem);}
-    }
-  </style>
 </head>
 <body>
 
@@ -172,18 +23,18 @@
 
 <!-- NAVBAR -->
 <nav class="v-navbar">
-  <div class="container" style="display:flex;justify-content:space-between;align-items:center;padding:0 1.25rem;">
+  <div class="container nav-container">
     <a href="index.php" class="brand">
       <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">
-      VIOLET <span class="neon" style="margin-left:.3rem;">PLAYSTATION</span>
+      VIOLET <span class="neon">PLAYSTATION</span>
     </a>
     <div class="nav-links">
-      <a href="#harga"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-tag"/></svg><span class="nav-label">Harga</span></a>
-      <a href="#unit"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg><span class="nav-label">Unit</span></a>
-      <a href="#games"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-monitor"/></svg><span class="nav-label">Game</span></a>
-      <a href="#lokasi"><svg width="16" height="16" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-pin"/></svg><span class="nav-label">Lokasi</span></a>
-      <a href="cek_status.php" class="nav-link"><svg width="14" height="14" style="vertical-align:middle;margin-right:.3rem;"><use href="#ico-search"/></svg><span class="nav-label">Cek Status</span></a>
-      <a href="sewa.php" class="nav-btn-sewa"><svg width="14" height="14" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-calendar"/></svg><span class="nav-label">Sewa Unit</span></a>
+      <a href="#harga"><svg width="16" height="16" aria-hidden="true"><use href="#ico-tag"/></svg><span class="nav-label">Harga</span></a>
+      <a href="#unit"><svg width="16" height="16" aria-hidden="true"><use href="#ico-gamepad"/></svg><span class="nav-label">Unit</span></a>
+      <a href="#games"><svg width="16" height="16" aria-hidden="true"><use href="#ico-monitor"/></svg><span class="nav-label">Game</span></a>
+      <a href="#lokasi"><svg width="16" height="16" aria-hidden="true"><use href="#ico-pin"/></svg><span class="nav-label">Lokasi</span></a>
+      <a href="cek_status.php" class="nav-link"><svg width="14" height="14"><use href="#ico-search"/></svg><span class="nav-label">Cek Status</span></a>
+      <a href="sewa.php" class="nav-btn-sewa"><svg width="14" height="14" aria-hidden="true"><use href="#ico-calendar"/></svg><span class="nav-label">Sewa Unit</span></a>
     </div>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
@@ -191,12 +42,12 @@
   </div>
 </nav>
 <div class="nav-drawer" id="navDrawer">
-  <a href="#harga" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-tag"/></svg>Harga</a>
-  <a href="#unit" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gamepad"/></svg>Unit</a>
-  <a href="#games" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-monitor"/></svg>Game</a>
-  <a href="#lokasi" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-pin"/></svg>Lokasi</a>
-  <a href="#faq" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-shield"/></svg>FAQ</a>
-  <a href="cek_status.php" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-calendar"/></svg>Cek Status</a>
+  <a href="#harga" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-tag"/></svg>Harga</a>
+  <a href="#unit" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-gamepad"/></svg>Unit</a>
+  <a href="#games" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-monitor"/></svg>Game</a>
+  <a href="#lokasi" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-pin"/></svg>Lokasi</a>
+  <a href="#faq" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-shield"/></svg>FAQ</a>
+  <a href="cek_status.php" onclick="closeDrawer()"><svg width="22" height="22" aria-hidden="true"><use href="#ico-calendar"/></svg>Cek Status</a>
   <div class="drawer-cta">
     <a href="sewa.php" class="btn-violet" style="display:inline-flex;align-items:center;justify-content:center;gap:.5rem;width:100%;text-decoration:none;font-size:1.1rem;padding:1rem;border-radius:10px;"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Sewa Unit</span></a>
   </div>
@@ -204,18 +55,44 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div><div class="hero-grid-lines"></div>
-  <div class="container" style="display:flex;align-items:center;gap:2rem;width:100%;">
+  <div id="cursor-glow"></div>
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="floating-symbols" aria-hidden="true">
+    <div class="symbol symbol-triangle">▲</div>
+    <div class="symbol symbol-circle">●</div>
+    <div class="symbol symbol-cross">✕</div>
+    <div class="symbol symbol-square">■</div>
+  </div>
+  <div class="container hero-container">
     <div class="hero-content col-half animate-fade-up">
-      <div class="hero-eyebrow"><svg width="14" height="14" style="vertical-align:middle;margin-right:.35rem;opacity:.8"><use href="#ico-pin"/></svg>Jagakarsa · Jakarta Selatan</div>
-      <h1 class="hero-title">SEWA PS<br><span class="line2">BAWA<br>PULANG</span></h1>
+      <div class="hero-eyebrow">
+        <svg width="14" height="14" aria-hidden="true" style="opacity:.8"><use href="#ico-pin"/></svg>
+        <span>Jagakarsa · Jakarta Selatan</span>
+      </div>
+      <h1 class="hero-title">SEWA PS<br><span class="line2">BAWA PULANG</span></h1>
       <p class="hero-sub">PS4, PS5, Nintendo Switch & Playbox sewa harian, bawa ke rumah. Booking H-1 via WhatsApp, jaminan KTP & STNK.</p>
       <div class="hero-cta">
-        <a href="sewa.php" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Sewa Sekarang</span></a>
-        <a href="#harga" class="btn-violet" style="background:rgba(157, 86, 255,.15);border:1px solid rgba(157, 86, 255,.4);box-shadow:none;"><span>Lihat Harga →</span></a>
+        <a href="sewa.php" class="btn-violet">
+          <svg width="18" height="18"><use href="#ico-gamepad"/></svg>
+          <span>Sewa Sekarang</span>
+        </a>
+        <a href="#harga" class="btn-ghost">
+          <span>Lihat Harga</span>
+        </a>
       </div>
     </div>
-    <div class="hero-logo-wrap col-half"><div class="hero-logo-glow"></div><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation"></div>
+    <div class="hero-logo-wrap col-half">
+      <div class="tilt-3d hero-logo-card">
+        <div class="hero-logo-glow"></div>
+        <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation" class="hero-logo-img">
+        <div class="logo-3d-text">VIOLET</div>
+        <div class="logo-3d-symbol t1">▲</div>
+        <div class="logo-3d-symbol c1">●</div>
+        <div class="logo-3d-symbol x1">✕</div>
+        <div class="logo-3d-symbol s1">■</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -264,23 +141,13 @@
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 200.000</span></div>
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 300.000</span></div>
         </div></div>
-        <div class="col-half"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
+        <div class="col-half"><div class="price-card ps5">
           <span class="v-badge v-badge-ps5" style="margin-bottom:.75rem;display:inline-block;">Next-Gen</span>
           <div class="price-card-title">PlayStation 5</div><div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
           <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 195.000</span></div>
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 390.000</span></div>
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 585.000</span></div>
           <div class="price-note blue">ℹ️ Unit PS5 yang disewa adalah unit yang ada di tempat hubungi WA dulu untuk konfirmasi</div>
-        </div></div>
-      </div>
-      <div style="display:flex;justify-content:center;margin-bottom:2rem;">
-        <div style="width:100%;max-width:calc(50% - .75rem);"><div class="price-card nin" style="border-color:rgba(248,113,113,.25);position:relative;">
-          <div class="same-price-badge">= Harga sama dengan PS4</div>
-          <span class="v-badge v-badge-nin" style="margin-bottom:.75rem;display:inline-block;">Nintendo</span>
-          <div class="price-card-title">Nintendo Switch</div><div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
-          <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 100.000</span></div>
-          <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 200.000</span></div>
-          <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 300.000</span></div>
         </div></div>
       </div>
       <div class="syarat-box">
@@ -309,7 +176,7 @@
           <div class="price-row"><span class="label">5 Jam</span><span class="price">Rp 35.000</span></div>
           <div class="price-note">⚠ Waktu tidak dapat disimpan / dipause</div>
         </div></div>
-        <div class="col-half"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
+        <div class="col-half"><div class="price-card ps5">
           <span class="v-badge v-badge-ps5" style="margin-bottom:.75rem;display:inline-block;">Next-Gen</span>
           <div class="price-card-title">PlayStation 5</div><div class="price-tag">Main di Tempat · Per Sesi</div>
           <div class="price-row"><span class="label">1 Jam</span><span class="price">Rp 15.000</span></div>
@@ -349,7 +216,7 @@
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 390.000</span></div>
           <div class="price-note green">Monitor + speaker + 2 controller included</div>
         </div></div>
-     <div class="col-half" style="display:none;"><div class="price-card ps5" style="border-color:rgba(96,165,250,.25);">
+     <div class="col-half" style="display:none;"><div class="price-card ps5">
           <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
             <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
             <span class="v-badge v-badge-ps5">PS5</span>
@@ -361,23 +228,6 @@
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 675.000</span></div>
           <div class="price-note blue">Monitor + speaker + 2 controller included</div>
         </div></div>
-      </div>
-      <div style="display:none;justify-content:center;margin-bottom:2rem;">
-        <div style="width:100%;max-width:calc(50% - .75rem);">
-          <div class="price-card nin" style="border-color:rgba(248,113,113,.2);position:relative;">
-            <div class="same-price-badge">= Harga sama dengan PS4</div>
-            <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
-              <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
-              <span class="v-badge v-badge-nin">Nintendo</span>
-            </div>
-            <div class="price-card-title">Playbox Nintendo</div>
-            <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
-            <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 130.000</span></div>
-            <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 260.000</span></div>
-            <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 390.000</span></div>
-            <div class="price-note" style="border-color:rgba(248,113,113,.2);color:#fca5a5;background:rgba(248,113,113,.06);">Monitor + speaker + controller included</div>
-          </div>
-        </div>
       </div>
       <div class="syarat-box">
         <h6>⚠ Syarat & Ketentuan Sewa Playbox</h6>

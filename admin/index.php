@@ -68,61 +68,7 @@ while ($lb = $q_libur->fetch_assoc()) {
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard  Violet PlayStation</title>
   <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
-
-<style>
-@media (max-width: 768px) {
-  .table-card { max-width: 100vw !important; overflow: hidden !important; }
-  .table-wrap { overflow-x: auto !important; display: block !important; width: 100% !important; -webkit-overflow-scrolling: touch; padding-bottom: 10px; }
-  .v-table { min-width: 900px !important; }
-  .v-table th, .v-table td { white-space: nowrap !important; }
-  .v-table td[style*="display:flex"], .actions-wrap { flex-direction: row !important; flex-wrap: nowrap !important; gap: 0.5rem !important; }
-  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
-  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] { flex-wrap: nowrap !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
-  .ftab { flex-shrink: 0; }
-  .stats-grid { grid-template-columns: 1fr 1fr !important; }
-}
-</style>
   <script src="../assets/app.js" defer></script>
-  <style>
-    body{display:flex;min-height:100vh;}
-    .main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
-    .page-title{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
-    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.25rem;margin-bottom:2.5rem;}
-    .stat-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:12px;padding:1.5rem;position:relative;overflow:hidden;}
-    .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;}
-    .stat-card.purple::after{background:linear-gradient(90deg,var(--v-purple),var(--v-violet));}
-    .stat-card.blue::after{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
-    .stat-card.green::after{background:linear-gradient(90deg,#10b981,#34d399);}
-    .stat-card.orange::after{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
-    .stat-num{font-family:var(--font-display);font-size:2.2rem;font-weight:800;}
-    .stat-card.purple .stat-num{color:var(--v-lavender);}
-    .stat-card.blue .stat-num{color:#60a5fa;}
-    .stat-card.green .stat-num{color:#34d399;}
-    .stat-card.orange .stat-num{color:#fbbf24;}
-    .stat-lbl{font-family:var(--font-ui);font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);margin-top:.25rem;}
-    .table-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:16px;overflow:hidden;}
-    .table-card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--v-border);display:flex;justify-content:space-between;align-items:center;}
-    .table-card-header h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);}
-    .table-wrap{overflow-x:auto;}
-    .s-tersedia{background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);}
-    .s-disewa{background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);}
-    .s-maint{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
-    .btn-sm{font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem .9rem;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:opacity .2s;cursor:pointer;border:none;white-space:nowrap;}
-    .btn-sm:hover{opacity:.8;}
-    .btn-blue{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);}
-    .btn-green{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.3);}
-    .btn-red{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);}
-    .btn-purple{background:rgba(157, 86, 255,.15);color:var(--v-lavender);border:1px solid rgba(157, 86, 255,.3);}
-    .ftab{font-family:var(--font-ui);font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.45rem 1.1rem;border-radius:6px;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);cursor:pointer;transition:all .2s;}
-    .ftab:hover,.ftab.active{background:rgba(157, 86, 255,.15);border-color:var(--v-violet);color:var(--v-lavender);}
-    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
-    .modal-overlay.open{display:flex;}
-    .modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;width:100%;max-height:88vh;overflow-y:auto;animation:fadeUp .3s ease both;}
-    .row-extra{animation:fadeUp .2s ease both;}
-    tfoot td{background:transparent;}
-    @keyframes pulseAlert { 0%,100% { box-shadow: 0 0 8px rgba(239,68,68,.4); } 50% { box-shadow: 0 0 16px rgba(239,68,68,.8); } }
-    @media(max-width:768px){.main-content{margin-left:0;}}
-  </style>
 </head>
 <body>
 <?php include_once "../config/svg_sprite_admin.php"; ?>

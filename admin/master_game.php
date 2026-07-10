@@ -38,118 +38,19 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
 <title>Master Game Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
 
-<style>
-@media (max-width: 768px) {
-  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
-  body { flex-direction: column !important; }
-  .admin-topbar { width: 100% !important; }
-
-  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
-  .table-card { max-width: 100vw !important; overflow: hidden !important; }
-  .table-wrap { 
-    overflow-x: auto !important; 
-    display: block !important; 
-    width: 100% !important; 
-    -webkit-overflow-scrolling: touch; 
-    padding-bottom: 10px;
-  }
-  
-  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
-  .v-table { min-width: 900px !important; }
-  .v-table th, .v-table td { white-space: nowrap !important; }
-  
-  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
-  .v-table td[style*="display:flex"], .actions-wrap { 
-    flex-direction: row !important; 
-    flex-wrap: nowrap !important; 
-    gap: 0.5rem !important; 
-  }
-  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
-  
-  /* 5. Amankan Tab & Header */
-  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .ftab { flex-shrink: 0; }
-}
-</style>
-  <script src="../assets/app.js" defer></script>
-<style>
-body{display:flex;min-height:100vh;}
-.main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
-.page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;}
-.page-title{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;}
-.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1.25rem;}
-.game-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:12px;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
-.game-card:hover{border-color:var(--v-purple);box-shadow:0 8px 30px rgba(123,47,190,.2);}
-.game-card img{width:100%;height:160px;object-fit:cover;display:block;}
-.game-card-body{padding:.75rem;}
-.game-card-body h6{font-family:var(--font-ui);font-size:.85rem;font-weight:700;color:#C4B5D4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:.5rem;}
-.btn-hapus{display:block;width:100%;font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem;border-radius:6px;text-align:center;background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);text-decoration:none;transition:background .2s;}
-.btn-hapus:hover{background:rgba(239,68,68,.3);}
-.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:1.5rem;}
-.modal-overlay.open{display:flex;}
-.modal-box{background:var(--v-card);border:1px solid var(--v-border);border-radius:20px;padding:2.5rem;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;position:relative;animation:fadeUp .3s ease both;}
-.modal-title{font-family:var(--font-display);font-size:1.5rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;}
-.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.05);border:1px solid var(--v-border);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;color:var(--v-muted);}
-.modal-close:hover{color:var(--v-white);}
-.unit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem;max-height:200px;overflow-y:auto;}
-.unit-check{display:flex;align-items:center;gap:.6rem;}
-.unit-check input[type=checkbox]{accent-color:var(--v-violet);width:15px;height:15px;cursor:pointer;}
-.unit-check label{font-family:var(--font-ui);font-size:.85rem;color:#C4B5D4;cursor:pointer;}
-.form-group{margin-bottom:1.25rem;}
-.file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;}
-.file-upload-box:hover{border-color:var(--v-violet);background:rgba(168,85,247,.05);}
-.file-upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.file-upload-box .upload-icon{font-size:2rem;margin-bottom:.5rem;}
-.file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
-.alert-msg{border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;letter-spacing:1px;margin-bottom:1.5rem;}
-.alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;}
-@media(max-width:768px){.main-content{margin-left:0;}}
-</style></head><body>
-<!-- Mobile topbar -->
+<script src="../assets/app.js" defer></script>
+</head>
+<body>
+<?php include_once "../config/svg_sprite_admin.php"; ?>
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(168,85,247,.5));">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(182, 255, 0, 0.3));">
     <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
   </div>
-  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<aside class="sidebar">
-  <div class="sidebar-brand">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo">
-    <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
-    <p>Admin Panel</p>
-  </div>
-  <div class="nav-section">Menu</div>
-  <a href="index.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-home"/></svg> Dashboard</a>
-  <a href="data_sewa.php" class="nav-item" style="justify-content:space-between;">
-    <span style="display:inline-flex;align-items:center;gap:.5rem;"><svg width="16" height="16"><use href="../assets/icons.svg#ico-clipboard"/></svg> Data Sewa</span>
-    <?php if($total_pending??0>0): ?><span class="nav-badge"><?php echo $total_pending; ?></span><?php endif; ?>
-  </a>
-  <a href="laporan.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-chart"/></svg> Laporan</a>
-  <?php if(is_admin()): ?>
-  <div class="nav-section">Admin Only</div>
-  <a href="master_game.php" class="nav-item active"><svg width="16" height="16"><use href="../assets/icons.svg#ico-gamepad"/></svg> Master Game</a>
-  <a href="hari_libur.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-calendar"/></svg> Hari Libur</a>
-  <a href="kelola_akun.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-users"/></svg> Kelola Akun</a>
-  <?php endif; ?>
-  <div class="sidebar-bottom">
-    <div class="user-chip">Login sebagai
-      <strong><?php echo htmlspecialchars($_SESSION["nama"]??$_SESSION["user"]); ?></strong>
-      <span class="role-badge role-<?php echo $_SESSION["role"]; ?>"><?php echo ucfirst($_SESSION["role"]); ?></span>
-    </div>
-    <a href="logout.php" class="btn-violet" style="display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')" >
-      <svg width="14" height="14"><use href="../assets/icons.svg#ico-logout"/></svg>
-      <span>Logout</span>
-    </a>
-  </div>
-</aside>
+<?php $active_page = 'game'; include __DIR__.'/sidebar.php'; ?>
 <main class="main-content">
   <?php if($msg==='hapus_ok'): ?><div class="alert-msg alert-success">✓ Game berhasil dihapus.</div><?php endif; ?>
 <?php if($msg==='unassign_ok'): ?><div class="alert-msg alert-success">✓ Game berhasil dihapus dari unit yang dipilih.</div><?php endif; ?>

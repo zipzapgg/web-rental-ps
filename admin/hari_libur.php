@@ -32,106 +32,19 @@ $nama_hari = ['','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
 <title>Hari Libur Violet PlayStation</title>
 <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
 
-<style>
-@media (max-width: 768px) {
-  /* 1. Fix Hamburger Menu & Topbar (Solusi Burger Kiri Tengah) */
-  body { flex-direction: column !important; }
-  .admin-topbar { width: 100% !important; }
-
-  /* 2. Paksa tabel agar bisa digeser ke samping (Scroll) */
-  .table-card { max-width: 100vw !important; overflow: hidden !important; }
-  .table-wrap { 
-    overflow-x: auto !important; 
-    display: block !important; 
-    width: 100% !important; 
-    -webkit-overflow-scrolling: touch; 
-    padding-bottom: 10px;
-  }
-  
-  /* 3. Kunci ukuran tabel dan larang teks melipat ke bawah */
-  .v-table { min-width: 900px !important; }
-  .v-table th, .v-table td { white-space: nowrap !important; }
-  
-  /* 4. Kembalikan tombol agar berjejer rapi ke samping */
-  .v-table td[style*="display:flex"], .actions-wrap { 
-    flex-direction: row !important; 
-    flex-wrap: nowrap !important; 
-    gap: 0.5rem !important; 
-  }
-  .v-table td .btn-sm { width: auto !important; padding: 0.5rem 0.75rem !important; }
-  
-  /* 5. Amankan Tab & Header */
-  .filter-tabs, div[style*="display:flex;gap:.6rem;margin-bottom:1.25rem;flex-wrap:wrap;"] {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  .ftab { flex-shrink: 0; }
-}
-</style>
-  <script src="../assets/app.js" defer></script>
-<style>
-body{display:flex;min-height:100vh;}
-.main-content{margin-left:240px;flex:1;padding:2.5rem;background:var(--v-black);}
-.two-col{display:grid;grid-template-columns:320px 1fr;gap:2rem;align-items:start;}
-.form-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:16px;padding:2rem;}
-.form-card h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.5rem;}
-.form-group{margin-bottom:1.1rem;}
-.table-card{background:var(--v-card);border:1px solid var(--v-border);border-radius:16px;overflow:hidden;}
-.table-card-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--v-border);}
-.table-card-header h3{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);}
-.table-wrap{overflow-x:auto;}
-.alert-msg{border-radius:8px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.85rem;letter-spacing:1px;margin-bottom:1.5rem;}
-.alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);color:#34d399;}
-.alert-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#f87171;}
-.btn-sm{font-family:var(--font-ui);font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem .9rem;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;transition:opacity .2s;cursor:pointer;border:none;}
-.btn-sm:hover{opacity:.8;}
-.btn-red{background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.3);}
-.info-box{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:.85rem 1.1rem;margin-bottom:1.5rem;font-size:.83rem;color:#fbbf24;font-family:var(--font-ui);line-height:1.6;}
-
-@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
-@media(max-width:768px){.main-content{margin-left:0;}}
-</style>
+<script src="../assets/app.js" defer></script>
 </head>
 <body>
+<?php include_once "../config/svg_sprite_admin.php"; ?>
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(182, 255, 0, 0.3));">
     <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
   </div>
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
 </div>
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<aside class="sidebar">
-  <div class="sidebar-brand">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo">
-    <h2>VIOLET <span class="neon">PLAYSTATION</span></h2>
-    <p>Admin Panel</p>
-  </div>
-  <div class="nav-section">Menu</div>
-  <a href="index.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-home"/></svg> Dashboard</a>
-  <a href="data_sewa.php" class="nav-item" style="justify-content:space-between;">
-    <span style="display:inline-flex;align-items:center;gap:.5rem;"><svg width="16" height="16"><use href="../assets/icons.svg#ico-clipboard"/></svg> Data Sewa</span>
-    <?php if($total_pending??0>0): ?><span class="nav-badge"><?php echo $total_pending; ?></span><?php endif; ?>
-  </a>
-  <a href="laporan.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-chart"/></svg> Laporan</a>
-  <?php if(is_admin()): ?>
-  <div class="nav-section">Admin Only</div>
-  <a href="master_game.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-gamepad"/></svg> Master Game</a>
-  <a href="hari_libur.php" class="nav-item active"><svg width="16" height="16"><use href="../assets/icons.svg#ico-calendar"/></svg> Hari Libur</a>
-  <a href="kelola_akun.php" class="nav-item"><svg width="16" height="16"><use href="../assets/icons.svg#ico-users"/></svg> Kelola Akun</a>
-  <?php endif; ?>
-  <div class="sidebar-bottom">
-    <div class="user-chip">Login sebagai
-      <strong><?php echo htmlspecialchars($_SESSION["nama"]??$_SESSION["user"]); ?></strong>
-      <span class="role-badge role-<?php echo $_SESSION["role"]; ?>"><?php echo ucfirst($_SESSION["role"]); ?></span>
-    </div>
-    <a href="logout.php" class="btn-violet" style="display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;padding:.6rem;font-size:.8rem;letter-spacing:2px;" onclick="return confirm('Yakin ingin keluar?')" >
-      <svg width="14" height="14"><use href="../assets/icons.svg#ico-logout"/></svg>
-      <span>Logout</span>
-    </a>
-  </div>
-</aside>
+<?php $active_page = 'libur'; include __DIR__.'/sidebar.php'; ?>
 
 <main class="main-content">
   <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;margin-bottom:2rem;">HARI <span class="neon">LIBUR</span></div>

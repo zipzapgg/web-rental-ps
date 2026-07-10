@@ -29,71 +29,16 @@ while ($r = $res_pb->fetch_assoc()) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Form Sewa Violet PlayStation</title>
   <meta name="description" content="Ajukan sewa PS4, PS5, Nintendo Switch &amp; Playbox di Violet PlayStation Jagakarsa.">
-  <meta name="theme-color" content="#7B2FBE">
+  <meta name="theme-color" content="#B6FF00">
   <link rel="stylesheet" href="assets/css/violet.css">
   <script src="assets/app.js" defer></script>
-  <style>
-    body{background:var(--v-black);}
-    .form-bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse 50% 60% at 10% 20%,rgba(123,47,190,.15) 0%,transparent 60%),var(--v-black);}
-    .form-bg-grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(123,47,190,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(123,47,190,.04) 1px,transparent 1px);background-size:60px 60px;}
-    .form-header{text-align:center;padding:4rem 1.5rem 2.5rem;}
-    .form-header img{height:80px;filter:drop-shadow(0 0 16px rgba(157, 86, 255,.6));margin-bottom:1.5rem;animation:floatY 4s ease-in-out infinite;}
-    .form-header h1{font-family:var(--font-display);font-size:clamp(2rem,6vw,3.5rem);font-weight:800;letter-spacing:4px;text-transform:uppercase;line-height:1;}
-    .form-header p{color:var(--v-muted);font-size:1rem;margin-top:.75rem;letter-spacing:1px;}
-    .form-card{background:rgba(18,18,31,.8);border:1px solid var(--v-border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(10px);max-width:720px;margin:0 auto;width:100%;}
-    .form-section-label{font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--v-border);display:flex;align-items:center;gap:.75rem;}
-    .form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
-    .form-group{margin-bottom:1.25rem;}
-    .file-upload-box{position:relative;border:2px dashed var(--v-border);border-radius:10px;background:rgba(255,255,255,.02);padding:1.5rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:140px;}
-    .file-upload-box:hover{border-color:var(--v-violet);background:rgba(157, 86, 255,.05);}
-    .file-upload-box.has-file{border-color:var(--v-violet);border-style:solid;padding:0;}
-    .file-upload-box .upload-text{font-family:var(--font-ui);font-size:.9rem;color:var(--v-muted);letter-spacing:1px;text-transform:uppercase;}
-    .file-upload-box .upload-hint{font-size:.75rem;color:#4B3F6B;margin-top:.25rem;}
-    .syarat-box{background:rgba(123,47,190,.06);border:1px dashed rgba(157, 86, 255,.3);border-radius:10px;padding:1.25rem 1.5rem;margin-top:1.5rem;}
-    .syarat-box .syarat-title{font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-violet);margin-bottom:.75rem;}
-    .syarat-box ul{list-style:none;padding:0;}
-    .syarat-box li{font-size:.85rem;color:var(--v-muted);padding:.3rem 0 .3rem 1.25rem;position:relative;}
-    .syarat-box li::before{content:'›';position:absolute;left:0;color:var(--v-violet);}
-    .playbox-toggle{display:flex;align-items:center;gap:1rem;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:1rem 1.25rem;cursor:pointer;transition:all .2s;margin-bottom:1.25rem;}
-    .playbox-toggle:hover{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.1);}
-    .playbox-toggle.active{border-color:#34d399;background:rgba(16,185,129,.15);}
-    .playbox-toggle input[type=checkbox]{accent-color:#34d399;width:18px;height:18px;cursor:pointer;flex-shrink:0;}
-    .playbox-toggle-label strong{font-family:var(--font-ui);font-size:.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#34d399;display:block;}
-    .playbox-toggle-label span{font-size:.82rem;color:var(--v-muted);margin-top:.15rem;display:block;}
-    .harga-preview{background:rgba(157, 86, 255,.08);border:1px solid rgba(157, 86, 255,.25);border-radius:14px;padding:1.5rem;margin-top:1.5rem;display:none;}
-    .harga-preview.show{display:block;animation:fadeUp .3s ease both;}
-    .harga-preview h4{font-family:var(--font-display);font-size:1rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--v-lavender);margin-bottom:1rem;}
-    .harga-row{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-ui);font-size:.9rem;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
-    .harga-row:last-child{border-bottom:none;}
-    .harga-row .lbl{color:var(--v-muted);}
-    .harga-row .val{color:var(--v-white);font-weight:600;}
-    .harga-total{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-display);font-size:1.4rem;font-weight:800;letter-spacing:1px;padding-top:.75rem;margin-top:.25rem;border-top:2px solid rgba(157, 86, 255,.3);}
-    .harga-total .total-lbl{color:var(--v-lavender);}
-    .harga-total .total-val{color:var(--v-lavender);text-shadow:0 0 12px rgba(157, 86, 255,.5);}
-    .bayar-info{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:.85rem 1.1rem;margin-top:1rem;display:flex;gap:.75rem;align-items:flex-start;}
-    .bayar-info p{font-size:.82rem;color:#fbbf24;line-height:1.6;}
-    .btn-submit{width:100%;padding:1rem;font-size:1.1rem;letter-spacing:3px;border-radius:10px;margin-top:1.5rem;}
-    .back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-ui);font-size:.85rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--v-muted);text-decoration:none;transition:color .2s;}
-    .back-link:hover{color:var(--v-lavender);}
-    .container{max-width:1200px;margin:0 auto;padding:0 1.5rem;}
-    .form-container{max-width:760px;margin:0 auto;padding:0 1.5rem 5rem;}
-    .flash-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.35);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;gap:.75rem;align-items:flex-start;animation:fadeUp .3s ease both;}
-    .flash-error p{font-size:.88rem;color:#f87171;line-height:1.6;font-family:var(--font-body);}
-
-    /* Promo status indicator */
-    .promo-status{border-radius:10px;padding:.75rem 1rem;font-family:var(--font-ui);font-size:.82rem;margin-top:.5rem;display:none;}
-    .promo-status.active{display:flex;align-items:center;gap:.6rem;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:#fbbf24;}
-    .promo-status.inactive{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--v-border);color:var(--v-muted);}
-
-    @media(max-width:540px){.form-grid-2{grid-template-columns:1fr;}.form-card{padding:1.5rem;}}
-  </style>
 </head>
 <body>
 <?php include_once "config/svg_sprite.php"; ?>
 <div class="form-bg"></div><div class="form-bg-grid"></div>
 <nav class="v-navbar">
-  <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
-    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon" style="margin-left:.3rem;">PLAYSTATION</span></a>
+  <div class="container nav-container">
+    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon">PLAYSTATION</span></a>
     <a href="index.php" class="back-link">← Kembali</a>
   </div>
 </nav>
@@ -113,163 +58,201 @@ while ($r = $res_pb->fetch_assoc()) {
   </div>
   <?php endif; ?>
 
-  <div style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.5rem;">
-    <strong style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#60a5fa;display:block;margin-bottom:.2rem;">Ambil di Toko</strong>
-    <p style="font-size:.85rem;color:#93c5fd;line-height:1.6;">Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp.</p>
+  <div class="info-box">
+    <strong>Ambil di Toko</strong>
+    <p>Unit PS harus diambil langsung ke toko kami di Jagakarsa. Setelah pengajuan disetujui, kamu akan dihubungi via WhatsApp.</p>
   </div>
 
   <div class="form-card">
+    <!-- Step progress indicator -->
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot-1"><span>1</span><label>Data Diri</label></div>
+      <div class="step-line" id="line-1"></div>
+      <div class="step-dot" id="dot-2"><span>2</span><label>Unit &amp; Waktu</label></div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step-dot" id="dot-3"><span>3</span><label>Upload</label></div>
+    </div>
+
     <form action="proses_sewa.php" method="POST" enctype="multipart/form-data" id="sewaForm" novalidate>
       <input type="hidden" name="kirim" value="1">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
 
-      <!-- Data Diri -->
-      <div class="form-section-label"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-user"/></svg> Data Diri</div>
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label class="v-label" for="inp-nama">Nama Lengkap (Sesuai KTP)</label>
-          <input type="text" name="nama" id="inp-nama" class="v-input" autocomplete="name" placeholder="John Doe" required maxlength="100" oninput="updateCounter(this,'cnt-nama',100)">
-          <div id="cnt-nama" style="font-family:var(--font-ui);font-size:.72rem;color:var(--v-muted);text-align:right;margin-top:.2rem;" aria-live="polite">0/100</div>
+      <!-- STEP 1: DATA DIRI -->
+      <div class="form-step-wrapper active" id="step-wrapper-1">
+        <div class="form-section-label">
+          <svg width="18" height="18" aria-hidden="true"><use href="#ico-user"/></svg> Data Diri
         </div>
-        <div class="form-group">
-          <label class="v-label" for="inp-wa">Nomor WhatsApp (Aktif)</label>
-          <input type="tel" name="wa" id="inp-wa" class="v-input" autocomplete="tel" inputmode="numeric" placeholder="08xxxxxxxxxx" required>
-          <div style="display:flex;gap:.5rem;align-items:flex-start;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.18);border-radius:8px;padding:.6rem .85rem;margin-top:.45rem;">
-            <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">⚠️</span>
-            <p style="font-size:.78rem;color:#f87171;font-family:var(--font-body);line-height:1.6;margin:0;"><strong style="font-family:var(--font-ui);letter-spacing:.5px;">Wajib nomor pribadi.</strong> Nomor kamu akan dicek di <strong>GetContact</strong> minimal <strong>50 tag</strong> dari orang lain.</p>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="v-label" for="inp-nama">Nama Lengkap (Sesuai KTP)</label>
+            <input type="text" name="nama" id="inp-nama" class="v-input" autocomplete="name" placeholder="John Doe" required maxlength="100" oninput="updateCounter(this,'cnt-nama',100)">
+            <div id="cnt-nama" class="input-counter" aria-live="polite">0/100</div>
           </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="v-label" for="inp-alamat">Alamat Lengkap</label>
-        <textarea name="alamat" id="inp-alamat" class="v-input" autocomplete="street-address" rows="2" required style="resize:vertical;" maxlength="300" oninput="updateCounter(this,'cnt-alamat',300)"></textarea>
-        <div id="cnt-alamat" style="font-family:var(--font-ui);font-size:.72rem;color:var(--v-muted);text-align:right;margin-top:.2rem;" aria-live="polite">0/300</div>
-      </div>
-
-      <!-- Pilih Unit & Durasi -->
-      <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-gamepad"/></svg> Pilih Unit &amp; Durasi</div>
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label class="v-label" for="sel_unit">Unit PS</label>
-          <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga()">
-            <option value="">-- Pilih Unit --</option>
-            <?php
-            $stmt = $koneksi->prepare(
-                "SELECT * FROM units
-                 WHERE (tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5'))
-                 AND status='Tersedia' ORDER BY kategori, nama_unit"
-            );
-            $stmt->execute();
-            $units = $stmt->get_result();
-            while ($u = $units->fetch_assoc()) {
-                $label = htmlspecialchars($u['nama_unit']) . ' (' . $u['kategori'] . ')';
-                if ($u['tipe_layanan'] === 'Main di Tempat') $label .= ' WA dulu';
-                $sel = (isset($_GET['unit']) && intval($_GET['unit']) === $u['id_unit']) ? ' selected' : '';
-                echo "<option value='" . (int)$u['id_unit'] . "' data-kategori='" . htmlspecialchars($u['kategori']) . "'$sel>$label</option>";
-            }
-            $stmt->close();
-            ?>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="v-label" for="sel_durasi">Durasi Sewa</label>
-          <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga()">
-            <?php for ($d = 1; $d <= MAX_DURASI_HARI; $d++): ?>
-            <option value="<?php echo $d; ?>"><?php echo $d; ?> Hari</option>
-            <?php endfor; ?>
-          </select>
-        </div>
-      </div>
-
-      <!-- Tanggal Ambil -->
-      <div class="form-group">
-        <label class="v-label" for="tgl_ambil_input">Rencana Tanggal Ambil</label>
-        <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required
-               min="<?php echo date('Y-m-d'); ?>"
-               style="padding:.75rem 1rem;"
-               onchange="hitungHarga()">
-        <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);margin-top:.35rem;">📅 Booking minimal H-1. Konfirmasi final via WhatsApp.</div>
-
-        <!-- BARU: Indikator status promo yang jelas -->
-        <div id="promo-status" class="promo-status"></div>
-      </div>
-
-      <!-- Playbox checkbox hanya PS4 -->
-<div id="playbox_wrap" style="display:none; grid-column: 1 / -1;">
-        <label class="playbox-toggle" id="playbox_label" for="chk_playbox" style="margin-bottom: 0.25rem;">
-          <input type="checkbox" name="pakai_playbox" id="chk_playbox" value="1" onchange="togglePlaybox(this)">
-          <div class="playbox-toggle-label">
-            <strong id="pb-status-text">🎒 Tambah Playbox (+Rp <?php echo number_format(HARGA_PLAYBOX, 0, ',', '.'); ?>/hari)</strong>
-            <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 orang jika naik motor saat ambil.</span>
-          </div>
-        </label>
-        <div style="font-size:.78rem;color:var(--v-muted);font-family:var(--font-ui);padding-left:.25rem;margin-bottom:1.25rem;">⚠ Playbox hanya tersedia untuk unit PS4</div>
-      </div>
-
-      <!-- Kalkulasi Harga -->
-      <div class="harga-preview" id="harga_preview" aria-live="polite">
-        <h4>💰 Estimasi Biaya</h4>
-        <div class="harga-row"><span class="lbl">Sewa Unit</span><span class="val" id="row_unit">—</span></div>
-        <div class="harga-row" id="row_playbox_wrap" style="display:none;"><span class="lbl">Playbox</span><span class="val" id="row_playbox">—</span></div>
-        <div class="harga-row"><span class="lbl">Durasi dibayar</span><span class="val" id="row_durasi">—</span></div>
-        <!-- Row promo & hari dapat ditambah oleh JS -->
-        <div class="harga-total"><span class="total-lbl">TOTAL</span><span class="total-val" id="row_total">—</span></div>
-        <div class="bayar-info">
-          <span aria-hidden="true">💳</span>
-          <p><strong style="color:#fbbf24;font-family:var(--font-ui);letter-spacing:1px;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.2rem;">Pembayaran di Lokasi</strong>Estimasi di atas konfirmasi final via WhatsApp.</p>
-        </div>
-      </div>
-
-      <!-- Upload Dokumen -->
-      <div class="form-section-label" style="margin-top:2rem;"><svg width="18" height="18" style="color:var(--v-lavender)" aria-hidden="true"><use href="#ico-file"/></svg> Upload Dokumen</div>
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label class="v-label" for="inp-ktp">Foto KTP Asli</label>
-          <div class="file-upload-box" id="ktp-box" style="position:relative;min-height:140px;">
-            <input type="file" name="ktp" id="inp-ktp" accept="image/*" required onchange="previewBox(this,'ktp-box','ktp-prev')" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2;" aria-label="Upload foto KTP">
-            <div id="ktp-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
-              <svg width="32" height="32" style="color:var(--v-muted)" aria-hidden="true"><use href="#ico-idcard"/></svg>
-              <div class="upload-text">Klik untuk upload KTP</div>
-              <div class="upload-hint">JPG, PNG · Max 5MB</div>
-            </div>
-            <div id="ktp-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
-              <img id="ktp-img" src="" alt="Preview KTP" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-              <button type="button" onclick="clearBox('ktp-box','ktp-prev','ktp-placeholder','#inp-ktp')" aria-label="Hapus foto KTP" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
+          <div class="form-group">
+            <label class="v-label" for="inp-wa">Nomor WhatsApp (Aktif)</label>
+            <input type="tel" name="wa" id="inp-wa" class="v-input" autocomplete="tel" inputmode="numeric" placeholder="08xxxxxxxxxx" required>
+            <div class="warn-box">
+              <span aria-hidden="true">⚠️</span>
+              <p><strong>Wajib nomor pribadi.</strong> Nomor kamu akan dicek di <strong>GetContact</strong> minimal <strong>50 tag</strong> dari orang lain.</p>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label class="v-label" for="inp-stnk">Foto STNK Asli</label>
-          <div class="file-upload-box" id="stnk-box" style="position:relative;min-height:140px;">
-            <input type="file" name="stnk" id="inp-stnk" accept="image/*" required onchange="previewBox(this,'stnk-box','stnk-prev')" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2;" aria-label="Upload foto STNK">
-            <div id="stnk-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
-              <svg width="32" height="32" style="color:var(--v-muted)" aria-hidden="true"><use href="#ico-motor"/></svg>
-              <div class="upload-text">Klik untuk upload STNK</div>
-              <div class="upload-hint">JPG, PNG · Max 5MB</div>
-            </div>
-            <div id="stnk-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
-              <img id="stnk-img" src="" alt="Preview STNK" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-              <button type="button" onclick="clearBox('stnk-box','stnk-prev','stnk-placeholder','#inp-stnk')" aria-label="Hapus foto STNK" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
-            </div>
-          </div>
+          <label class="v-label" for="inp-alamat">Alamat Lengkap</label>
+          <textarea name="alamat" id="inp-alamat" class="v-input" autocomplete="street-address" rows="2" required style="resize:vertical;" maxlength="300" oninput="updateCounter(this,'cnt-alamat',300)"></textarea>
+          <div id="cnt-alamat" class="input-counter" aria-live="polite">0/300</div>
+        </div>
+        <div class="step-actions">
+          <div style="flex:1;"></div>
+          <button type="button" class="btn-violet" onclick="changeStep(2)">
+            <span>Lanjut →</span>
+          </button>
         </div>
       </div>
 
-      <div class="syarat-box">
-        <div class="syarat-title">⚠ Syarat &amp; Ketentuan</div>
-        <ul>
-          <li>Unit diambil langsung ke toko kami di Jagakarsa</li>
-          <li>Nomor WA wajib <strong>nomor pribadi</strong> dengan minimal <strong>50 tag GetContact</strong></li>
-          <li>KTP &amp; STNK asli wajib dibawa saat pengambilan sebagai jaminan</li>
-          <li>Unit dikembalikan tepat waktu sesuai durasi yang dipilih</li>
-          <li>Kerusakan akibat kelalaian menjadi tanggung jawab penyewa</li>
-          <li>Pembayaran dilakukan di lokasi saat pengambilan unit</li>
-        </ul>
+      <!-- STEP 2: UNIT & WAKTU -->
+      <div class="form-step-wrapper" id="step-wrapper-2" style="display:none;">
+        <div class="form-section-label">
+          <svg width="18" height="18" aria-hidden="true"><use href="#ico-gamepad"/></svg> Pilih Unit &amp; Durasi
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="v-label" for="sel_unit">Unit PS</label>
+            <select name="id_unit" id="sel_unit" class="v-input" required onchange="hitungHarga()">
+              <option value="">-- Pilih Unit --</option>
+              <?php
+              $stmt = $koneksi->prepare(
+                  "SELECT * FROM units
+                   WHERE (tipe_layanan='Sewa Luar' OR (tipe_layanan='Main di Tempat' AND kategori='PS5'))
+                   AND status='Tersedia' ORDER BY kategori, nama_unit"
+              );
+              $stmt->execute();
+              $units = $stmt->get_result();
+              while ($u = $units->fetch_assoc()) {
+                  $label = htmlspecialchars($u['nama_unit']) . ' (' . $u['kategori'] . ')';
+                  if ($u['tipe_layanan'] === 'Main di Tempat') $label .= ' WA dulu';
+                  $sel = (isset($_GET['unit']) && intval($_GET['unit']) === $u['id_unit']) ? ' selected' : '';
+                  echo "<option value='" . (int)$u['id_unit'] . "' data-kategori='" . htmlspecialchars($u['kategori']) . "'$sel>$label</option>";
+              }
+              $stmt->close();
+              ?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="v-label" for="sel_durasi">Durasi Sewa</label>
+            <select name="durasi" id="sel_durasi" class="v-input" required onchange="hitungHarga()">
+              <?php for ($d = 1; $d <= MAX_DURASI_HARI; $d++): ?>
+              <option value="<?php echo $d; ?>"><?php echo $d; ?> Hari</option>
+              <?php endfor; ?>
+            </select>
+          </div>
+        </div>
+
+        <!-- Tanggal Ambil -->
+        <div class="form-group">
+          <label class="v-label" for="tgl_ambil_input">Rencana Tanggal Ambil</label>
+          <input type="date" name="tgl_ambil" id="tgl_ambil_input" class="v-input" required
+                 min="<?php echo date('Y-m-d'); ?>"
+                 style="padding:.75rem 1rem;"
+                 onchange="hitungHarga()">
+          <div class="hint-text">📅 Booking minimal H-1. Konfirmasi final via WhatsApp.</div>
+          <div id="promo-status" class="promo-status"></div>
+        </div>
+
+        <!-- Playbox checkbox hanya PS4 -->
+        <div id="playbox_wrap" style="display:none; grid-column: 1 / -1;">
+          <label class="playbox-toggle" id="playbox_label" for="chk_playbox" style="margin-bottom: 0.25rem;">
+            <input type="checkbox" name="pakai_playbox" id="chk_playbox" value="1" onchange="togglePlaybox(this)">
+            <div class="playbox-toggle-label">
+              <strong id="pb-status-text">🎒 Tambah Playbox (+Rp <?php echo number_format(HARGA_PLAYBOX, 0, ',', '.'); ?>/hari)</strong>
+              <span>Monitor + speaker built-in, plug &amp; play. Wajib 2 orang jika naik motor saat ambil.</span>
+            </div>
+          </label>
+          <div class="hint-text" style="padding-left:.25rem;margin-bottom:1.25rem;">⚠ Playbox hanya tersedia untuk unit PS4</div>
+        </div>
+
+        <!-- Kalkulasi Harga -->
+        <div class="harga-preview" id="harga_preview" aria-live="polite">
+          <h4>💰 Estimasi Biaya</h4>
+          <div class="harga-row"><span class="lbl">Sewa Unit</span><span class="val" id="row_unit">—</span></div>
+          <div class="harga-row" id="row_playbox_wrap" style="display:none;"><span class="lbl">Playbox</span><span class="val" id="row_playbox">—</span></div>
+          <div class="harga-row"><span class="lbl">Durasi dibayar</span><span class="val" id="row_durasi">—</span></div>
+          <div class="harga-total"><span class="total-lbl">TOTAL</span><span class="total-val" id="row_total">—</span></div>
+          <div class="bayar-info">
+            <span aria-hidden="true">💳</span>
+            <p><strong>Pembayaran di Lokasi</strong>Estimasi di atas konfirmasi final via WhatsApp.</p>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-ghost" onclick="changeStep(1)">
+            <span>← Kembali</span>
+          </button>
+          <button type="button" class="btn-violet" onclick="changeStep(3)">
+            <span>Lanjut →</span>
+          </button>
+        </div>
       </div>
 
-      <button type="submit" name="kirim" id="btn-submit" class="btn-violet btn-submit">
-        <span id="btn-submit-text">🎮 Ajukan Sewa Sekarang</span>
-      </button>
+      <!-- STEP 3: UPLOAD DOKUMEN -->
+      <div class="form-step-wrapper" id="step-wrapper-3" style="display:none;">
+        <div class="form-section-label">
+          <svg width="18" height="18" aria-hidden="true"><use href="#ico-file"/></svg> Upload Dokumen
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="v-label" for="inp-ktp">Foto KTP Asli</label>
+            <div class="file-upload-box" id="ktp-box">
+              <input type="file" name="ktp" id="inp-ktp" accept="image/*" required onchange="previewBox(this,'ktp-box','ktp-prev')" aria-label="Upload foto KTP">
+              <div id="ktp-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
+                <svg width="32" height="32" style="color:var(--v-muted)" aria-hidden="true"><use href="#ico-idcard"/></svg>
+                <div class="upload-text">Klik untuk upload KTP</div>
+                <div class="upload-hint">JPG, PNG · Max 5MB</div>
+              </div>
+              <div id="ktp-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
+                <img id="ktp-img" src="" alt="Preview KTP" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+                <button type="button" onclick="clearBox('ktp-box','ktp-prev','ktp-placeholder','#inp-ktp')" aria-label="Hapus foto KTP" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="v-label" for="inp-stnk">Foto STNK Asli</label>
+            <div class="file-upload-box" id="stnk-box">
+              <input type="file" name="stnk" id="inp-stnk" accept="image/*" required onchange="previewBox(this,'stnk-box','stnk-prev')" aria-label="Upload foto STNK">
+              <div id="stnk-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;pointer-events:none;">
+                <svg width="32" height="32" style="color:var(--v-muted)" aria-hidden="true"><use href="#ico-motor"/></svg>
+                <div class="upload-text">Klik untuk upload STNK</div>
+                <div class="upload-hint">JPG, PNG · Max 5MB</div>
+              </div>
+              <div id="stnk-prev" style="display:none;width:100%;height:100%;position:absolute;inset:0;pointer-events:none;">
+                <img id="stnk-img" src="" alt="Preview STNK" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
+                <button type="button" onclick="clearBox('stnk-box','stnk-prev','stnk-placeholder','#inp-stnk')" aria-label="Hapus foto STNK" style="position:absolute;top:.5rem;right:.5rem;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;width:28px;height:28px;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;pointer-events:all;z-index:3;">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-syarat-box">
+          <div class="syarat-title">⚠ Syarat &amp; Ketentuan</div>
+          <ul>
+            <li>Unit diambil langsung ke toko kami di Jagakarsa</li>
+            <li>Nomor WA wajib <strong>nomor pribadi</strong> dengan minimal <strong>50 tag GetContact</strong></li>
+            <li>KTP &amp; STNK asli wajib dibawa saat pengambilan sebagai jaminan</li>
+            <li>Unit dikembalikan tepat waktu sesuai durasi yang dipilih</li>
+            <li>Kerusakan akibat kelalaian menjadi tanggung jawab penyewa</li>
+            <li>Pembayaran dilakukan di lokasi saat pengambilan unit</li>
+          </ul>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn-ghost" onclick="changeStep(2)">
+            <span>← Kembali</span>
+          </button>
+          <button type="submit" name="kirim" id="btn-submit" class="btn-violet btn-submit">
+            <span id="btn-submit-text">🎮 Ajukan Sewa Sekarang</span>
+          </button>
+        </div>
+      </div>
     </form>
   </div>
 </div>
@@ -517,6 +500,83 @@ function clearBox(boxId, prevId, phId, inputSel) {
   if (ph)   ph.style.display = 'flex';
   if (box)  { box.classList.remove('has-file'); box.style.padding = '1.5rem'; box.style.borderColor = ''; box.style.borderStyle = ''; }
   if (inp)  inp.value = '';
+}
+
+// ── Multi-Step Form Logic ──────────────────────────────────────────────────
+let currentStep = 1;
+
+function validateStep(step) {
+  if (step === 1) {
+    const nama = document.getElementById('inp-nama').value.trim();
+    const wa   = document.getElementById('inp-wa').value.trim();
+    const almt = document.getElementById('inp-alamat').value.trim();
+    if (!nama || !wa || !almt) {
+      alert('Harap isi semua kolom data diri terlebih dahulu.');
+      return false;
+    }
+    if (wa.length < 10) {
+      alert('Nomor WhatsApp minimal 10 digit.');
+      return false;
+    }
+    return true;
+  }
+  if (step === 2) {
+    const unit = document.getElementById('sel_unit').value;
+    const dur  = document.getElementById('sel_durasi').value;
+    const tgl  = document.getElementById('tgl_ambil_input').value;
+    if (!unit || !dur || !tgl) {
+      alert('Harap pilih unit, durasi, dan tanggal ambil terlebih dahulu.');
+      return false;
+    }
+    return true;
+  }
+  return true;
+}
+
+function changeStep(toStep) {
+  if (toStep > currentStep) {
+    if (!validateStep(currentStep)) return;
+  }
+
+  document.querySelectorAll('.form-step-wrapper').forEach(el => {
+    el.style.display = 'none';
+    el.classList.remove('active');
+  });
+
+  const targetWrapper = document.getElementById('step-wrapper-' + toStep);
+  if (targetWrapper) {
+    targetWrapper.style.display = 'block';
+    setTimeout(() => targetWrapper.classList.add('active'), 20);
+  }
+
+  // Update progress indicators
+  document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+    const stepNum = idx + 1;
+    if (stepNum < toStep) {
+      dot.classList.add('completed');
+      dot.classList.remove('active');
+    } else if (stepNum === toStep) {
+      dot.classList.add('active');
+      dot.classList.remove('completed');
+    } else {
+      dot.classList.remove('active', 'completed');
+    }
+  });
+
+  document.querySelectorAll('.step-line').forEach((line, idx) => {
+    const lineNum = idx + 1;
+    if (lineNum < toStep) {
+      line.classList.add('completed');
+    } else {
+      line.classList.remove('completed');
+    }
+  });
+
+  currentStep = toStep;
+
+  // Scroll smoothly to form card
+  const card = document.querySelector('.form-card');
+  if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ── Event Listeners ───────────────────────────────────────────────────────
