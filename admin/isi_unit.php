@@ -320,8 +320,4 @@ body{display:flex;min-height:100vh;}
     <?php endwhile; ?>
   </div>
 </main>
-<script>
-  function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('mobile-open');document.getElementById('sidebarOverlay').classList.toggle('open');document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';}
-function closeSidebar(){document.querySelector('.sidebar').classList.remove('mobile-open');document.getElementById('sidebarOverlay').classList.remove('open');document.body.style.overflow='';}
-</script>
 </body></html>

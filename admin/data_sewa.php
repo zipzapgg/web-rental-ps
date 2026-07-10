@@ -336,8 +336,15 @@ foreach (['Pending', 'Disetujui', 'Ditolak', 'Selesai'] as $st) {
           </td>
           <td>
             <div style="display:flex;flex-direction:column;gap:.35rem;">
-              <a href="lihat_berkas.php?file=<?php echo urlencode($d['foto_ktp']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat KTP <?php echo htmlspecialchars($d['nama_penyewa']); ?>">🪪 KTP</a>
-              <a href="lihat_berkas.php?file=<?php echo urlencode($d['foto_stnk']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat STNK <?php echo htmlspecialchars($d['nama_penyewa']); ?>">🚗 STNK</a>
+              <?php if (!empty($d['foto_ktp'])): ?>
+                <a href="lihat_berkas.php?file=<?php echo urlencode($d['foto_ktp']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat KTP <?php echo htmlspecialchars($d['nama_penyewa']); ?>">🪪 KTP</a>
+              <?php endif; ?>
+              <?php if (!empty($d['foto_stnk'])): ?>
+                <a href="lihat_berkas.php?file=<?php echo urlencode($d['foto_stnk']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat STNK <?php echo htmlspecialchars($d['nama_penyewa']); ?>">🚗 STNK</a>
+              <?php endif; ?>
+              <?php if (empty($d['foto_ktp']) && empty($d['foto_stnk'])): ?>
+                <span style="color:var(--v-muted);font-size:.78rem;font-family:var(--font-ui);">🗑️ Terhapus</span>
+              <?php endif; ?>
             </div>
           </td>
           <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
@@ -574,16 +581,5 @@ function pilihTambah(n, btn) {
 document.getElementById('modalPerpanjang').addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
 
 function fmt(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
-
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('mobile-open');
-    document.getElementById('sidebarOverlay').classList.toggle('open');
-    document.body.style.overflow = document.querySelector('.sidebar').classList.contains('mobile-open') ? 'hidden' : '';
-}
-function closeSidebar() {
-    document.querySelector('.sidebar').classList.remove('mobile-open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
 </script>
 </body></html>

@@ -94,7 +94,5 @@ function toggleAll() {
   document.querySelectorAll('#games-grid input[type=checkbox]').forEach(cb => cb.checked = allSelected);
   document.querySelector('.select-all-btn').textContent = allSelected ? '☐ Batal Pilih Semua' : '☑ Pilih Semua';
 }
-function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('mobile-open');document.getElementById('sidebarOverlay').classList.toggle('open');document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';}
-function closeSidebar(){document.querySelector('.sidebar').classList.remove('mobile-open');document.getElementById('sidebarOverlay').classList.remove('open');document.body.style.overflow='';}
 </script>
 </body></html>

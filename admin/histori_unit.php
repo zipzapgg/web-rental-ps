@@ -222,8 +222,15 @@ body{display:flex;min-height:100vh;}
           </td>
           <td>
             <div style="display:flex;flex-direction:column;gap:.3rem;">
-              <a href="lihat_berkas.php?file=<?php echo urlencode($h['foto_ktp']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat KTP">🪪 KTP</a>
-              <a href="lihat_berkas.php?file=<?php echo urlencode($h['foto_stnk']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat STNK">🚗 STNK</a>
+              <?php if (!empty($h['foto_ktp'])): ?>
+                <a href="lihat_berkas.php?file=<?php echo urlencode($h['foto_ktp']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat KTP">🪪 KTP</a>
+              <?php endif; ?>
+              <?php if (!empty($h['foto_stnk'])): ?>
+                <a href="lihat_berkas.php?file=<?php echo urlencode($h['foto_stnk']); ?>" class="btn-sm btn-purple" target="_blank" aria-label="Lihat STNK">🚗 STNK</a>
+              <?php endif; ?>
+              <?php if (empty($h['foto_ktp']) && empty($h['foto_stnk'])): ?>
+                <span style="color:var(--v-muted);font-size:.78rem;font-family:var(--font-ui);">🗑️ Terhapus</span>
+              <?php endif; ?>
             </div>
           </td>
           <td><span class="v-badge <?php echo $sc; ?>"><?php echo $st; ?></span></td>
@@ -245,8 +252,4 @@ body{display:flex;min-height:100vh;}
     </div>
   </div>
 </main>
-<script>
-  function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('mobile-open');document.getElementById('sidebarOverlay').classList.toggle('open');document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';}
-function closeSidebar(){document.querySelector('.sidebar').classList.remove('mobile-open');document.getElementById('sidebarOverlay').classList.remove('open');document.body.style.overflow='';}
-</script>
 </body></html>
