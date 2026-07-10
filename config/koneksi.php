@@ -152,3 +152,34 @@ function log_activity(mysqli $koneksi, string $aksi, string $deskripsi): void {
     $stmt->execute();
     $stmt->close();
 }
+
+/**
+ * Menghapus file fisik KTP & STNK penyewa dari server dan meng-update DB menjadi NULL
+ */
+function hapus_berkas_pengajuan(int $id_pengajuan, mysqli $koneksi): void {
+    $stmt = $koneksi->prepare("SELECT foto_ktp, foto_stnk FROM pengajuan WHERE id_pengajuan = ?");
+    $stmt->bind_param("i", $id_pengajuan);
+    $stmt->execute();
+    $res = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if ($res) {
+        $folder = UPLOAD_PATH . 'berkas' . DIRECTORY_SEPARATOR;
+        if (!empty($res['foto_ktp'])) {
+            $file_ktp = $folder . $res['foto_ktp'];
+            if (file_exists($file_ktp)) {
+                unlink($file_ktp);
+            }
+        }
+        if (!empty($res['foto_stnk'])) {
+            $file_stnk = $folder . $res['foto_stnk'];
+            if (file_exists($file_stnk)) {
+                unlink($file_stnk);
+            }
+        }
+        $stmt_up = $koneksi->prepare("UPDATE pengajuan SET foto_ktp = NULL, foto_stnk = NULL WHERE id_pengajuan = ?");
+        $stmt_up->bind_param("i", $id_pengajuan);
+        $stmt_up->execute();
+        $stmt_up->close();
+    }
+}

@@ -11,6 +11,9 @@ if (!$id_sewa || !$id_unit) { header("Location: data_sewa.php"); exit(); }
 $s = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan='Selesai' WHERE id_pengajuan=?");
 $s->bind_param("i", $id_sewa); $s->execute(); $s->close();
 
+// Otomatis hapus berkas KTP & STNK untuk menghemat storage
+hapus_berkas_pengajuan($id_sewa, $koneksi);
+
 $s = $koneksi->prepare("UPDATE units SET status='Tersedia' WHERE id_unit=?");
 $s->bind_param("i", $id_unit); $s->execute(); $s->close();
 

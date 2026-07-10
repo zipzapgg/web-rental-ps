@@ -28,6 +28,9 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         $id_unit = $s->get_result()->fetch_assoc()['id_unit'] ?? 0;
         $s->close();
 
+        // Otomatis hapus berkas KTP & STNK untuk menghemat storage
+        hapus_berkas_pengajuan($id, $koneksi);
+
         $s = $koneksi->prepare("UPDATE pengajuan SET status_pengajuan='Ditolak' WHERE id_pengajuan=?");
         $s->bind_param("i", $id);
         $s->execute();
@@ -90,6 +93,9 @@ if (isset($_GET['aksi'], $_GET['id'])) {
         $s->bind_param("ii", $harga_final, $id);
         $s->execute();
         $s->close();
+
+        // Otomatis hapus berkas KTP & STNK untuk menghemat storage setelah rental selesai
+        hapus_berkas_pengajuan($id, $koneksi);
 
         // 6. Kembalikan status unit jadi Tersedia
         if ($id_unit) {
