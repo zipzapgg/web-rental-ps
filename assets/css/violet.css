@@ -3247,5 +3247,181 @@ tfoot td { background: transparent; }
   font-size: 0.75rem;
 }
 
+/* ── Sukses Sewa (Success Checkout) Page Styling ── */
+.sukses-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 1.5rem 5rem;
+  min-height: calc(100vh - 120px);
+}
+.sukses-card {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(8, 5, 16, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(157, 86, 255, 0.15);
+  border-left: 4px solid var(--v-accent);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.65), 
+    0 0 20px rgba(60, 26, 71, 0.2), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+  text-align: center;
+}
+.check-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(182, 255, 0, 0.1);
+  border: 2px solid var(--v-accent);
+  color: var(--v-accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 20px rgba(182, 255, 0, 0.2);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+.sukses-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--v-white);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.sukses-sub {
+  color: var(--v-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  max-width: 480px;
+  margin-inline: auto;
+}
+.detail-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--v-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.d-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.85rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+}
+.d-row:last-child {
+  border-bottom: none;
+}
+.d-row .lbl {
+  color: var(--v-muted);
+  font-size: 0.88rem;
+  font-family: var(--font-ui);
+  font-weight: 500;
+}
+.d-row .val {
+  color: var(--v-white);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: right;
+}
+.info-yellow {
+  background: rgba(251, 191, 36, 0.06);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 2rem;
+  font-size: 0.82rem;
+  color: #fbbf24;
+  line-height: 1.6;
+  text-align: left;
+}
+.cek-box {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid var(--v-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+.cek-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--v-white);
+  text-transform: uppercase;
+}
+.cek-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+.step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--v-border);
+  color: var(--v-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+.cek-step div {
+  font-size: 0.84rem;
+  color: var(--v-muted);
+  line-height: 1.5;
+}
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--v-border);
+  color: var(--v-white);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all var(--t-fast);
+}
+.btn-back:hover {
+  background: var(--v-white);
+  color: #0F1117;
+  border-color: var(--v-white);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 600px) {
+  .sukses-card {
+    padding: 1.5rem;
+  }
+  .sukses-title {
+    font-size: 1.5rem;
+  }
+  .detail-box, .cek-box {
+    padding: 1rem;
+  }
+}
+
 
 
