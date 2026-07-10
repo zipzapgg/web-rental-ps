@@ -3422,5 +3422,148 @@ tfoot td { background: transparent; }
   }
 }
 
+/* ── Master Game Page CSS Refinements ── */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+.game-card-body h6 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--v-white);
+  line-height: 1.3;
+  word-break: break-word;
+}
+.btn-hapus {
+  display: block;
+  width: 100%;
+  padding: 0.45rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.btn-hapus:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+}
+.btn-kelola {
+  display: block;
+  width: 100%;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0.45rem;
+  border-radius: 6px;
+  text-align: center;
+  background: rgba(251, 191, 36, 0.08);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  cursor: pointer;
+  transition: all var(--t-fast);
+  margin-top: 0.45rem;
+}
+.btn-kelola:hover {
+  background: #fbbf24;
+  color: #0F1117;
+  border-color: #fbbf24;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.45);
+}
+
+/* Modal Assign Unit checklist */
+.unit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--v-border);
+  border-radius: var(--radius-sm);
+  margin-top: 0.5rem;
+}
+.unit-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--v-border);
+  border-radius: var(--radius-xs);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.unit-check:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.unit-check input[type="checkbox"] {
+  accent-color: var(--v-accent);
+  cursor: pointer;
+}
+.unit-check label {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--v-muted-lt);
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Modal Assign Quick category selectors */
+.btn-ps4-assign {
+  background: rgba(168, 85, 247, 0.15);
+  color: var(--v-lavender);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.btn-ps4-assign:hover {
+  background: rgba(168, 85, 247, 0.25);
+  border-color: rgba(168, 85, 247, 0.5);
+}
+.btn-ps5-assign {
+  background: rgba(96, 165, 250, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+}
+.btn-ps5-assign:hover {
+  background: rgba(96, 165, 250, 0.25);
+  border-color: rgba(96, 165, 250, 0.5);
+}
+.btn-nin-assign {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+.btn-nin-assign:hover {
+  background: rgba(248, 113, 113, 0.25);
+  border-color: rgba(248, 113, 113, 0.5);
+}
+.btn-reset-assign {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--v-muted);
+  border: 1px solid var(--v-border);
+}
+.btn-reset-assign:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
 
 

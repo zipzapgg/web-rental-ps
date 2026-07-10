@@ -3,7 +3,7 @@ require_once '../config/koneksi.php';
 require_admin('login.php');
 
 if (isset($_GET['hapus'])) {
-    csrf_get_check(); // [FIX #1] CSRF on GET
+    csrf_get_check(); // CSRF on GET
     $id = intval($_GET['hapus']);
     $g = $koneksi->prepare("SELECT foto_game FROM games WHERE id_game = ?");
     $g->bind_param("i", $id); $g->execute();
@@ -33,70 +33,113 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
     header("Location: master_game.php?msg=unassign_ok"); exit();
 }
 ?>
-<!DOCTYPE html><html lang="id">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Master Game Violet PlayStation</title>
-<link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
-
-<script src="../assets/app.js" defer></script>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Master Game Violet PlayStation</title>
+  <link rel="stylesheet" href="../assets/css/violet.css?v=<?php echo time(); ?>">
+  <script src="../assets/app.js" defer></script>
 </head>
 <body>
 <?php include_once "../config/svg_sprite_admin.php"; ?>
+
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:.6rem;">
-    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(182, 255, 0, 0.3));">
+    <img src="../assets/images/logo-violet.jpeg" alt="Logo" style="height:28px;filter:drop-shadow(0 0 6px rgba(182, 255, 0, 0.3)); border-radius:3px;">
     <span class="admin-topbar-brand">VIOLET <span class="neon">PS</span></span>
   </div>
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu"><span></span><span></span><span></span></button>
 </div>
+
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<?php $active_page = 'game'; include __DIR__.'/sidebar.php'; ?>
+
+<?php 
+$active_page = 'game'; 
+include __DIR__.'/sidebar.php'; 
+?>
+
 <main class="main-content">
-  <?php if($msg==='hapus_ok'): ?><div class="alert-msg alert-success">✓ Game berhasil dihapus.</div><?php endif; ?>
-<?php if($msg==='unassign_ok'): ?><div class="alert-msg alert-success">✓ Game berhasil dihapus dari unit yang dipilih.</div><?php endif; ?>
+  <?php if($msg==='hapus_ok'): ?>
+    <div class="alert-msg alert-success">✓ Game berhasil dihapus.</div>
+  <?php endif; ?>
+  <?php if($msg==='unassign_ok'): ?>
+    <div class="alert-msg alert-success">✓ Game berhasil dihapus dari unit yang dipilih.</div>
+  <?php endif; ?>
+
   <div class="page-header">
     <div class="page-title">MASTER <span class="neon">GAME</span></div>
-    <button class="btn-violet" onclick="document.getElementById('modalTambah').classList.add('open')"><span>+ Tambah Game</span></button>
+    <button class="btn-violet" onclick="document.getElementById('modalTambah').classList.add('open')">
+      <span>+ Tambah Game</span>
+    </button>
   </div>
+
   <div class="games-grid">
-    <?php $q=$koneksi->query("SELECT * FROM games ORDER BY judul_game ASC"); while($g=$q->fetch_assoc()): $kat=$g['kategori_game']??''; $bc=$kat==='PS5'?'v-badge-ps5':($kat==='Nintendo'?'v-badge-nin':'v-badge-ps4'); ?>
+    <?php 
+    $q = $koneksi->query("SELECT * FROM games ORDER BY judul_game ASC"); 
+    while($g = $q->fetch_assoc()): 
+        $kat = $g['kategori_game'] ?? ''; 
+        $bc = $kat==='PS5' ? 'v-badge-ps5' : ($kat==='Nintendo' ? 'v-badge-nin' : 'v-badge-ps4'); 
+    ?>
     <div class="game-card">
       <img src="../uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>">
       <div class="game-card-body">
-        <?php if($kat): ?><span class="v-badge <?php echo $bc; ?>" style="font-size:.65rem;padding:.1rem .4rem;margin-bottom:.35rem;display:inline-block;"><?php echo $kat; ?></span><?php endif; ?>
+        <?php if($kat): ?>
+          <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
+        <?php endif; ?>
         <h6><?php echo htmlspecialchars($g['judul_game']); ?></h6>
         <a href="master_game.php?hapus=<?php echo $g['id_game']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-hapus" onclick="return confirm('Hapus game ini?')">🗑 Hapus</a>
-        <button type="button" onclick="bukaUnassign(<?php echo $g['id_game']; ?>,'<?php echo htmlspecialchars(addslashes($g['judul_game'])); ?>')" style="display:block;width:100%;font-family:var(--font-ui);font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.35rem;border-radius:6px;text-align:center;background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.25);cursor:pointer;transition:background .2s;margin-top:.35rem;">🔗 Kelola Unit</button>
+        <button type="button" onclick="bukaUnassign(<?php echo $g['id_game']; ?>,'<?php echo htmlspecialchars(addslashes($g['judul_game'])); ?>')" class="btn-kelola">🔗 Kelola Unit</button>
       </div>
     </div>
     <?php endwhile; ?>
   </div>
 </main>
+
+<!-- MODAL TAMBAH GAME -->
 <div class="modal-overlay" id="modalTambah">
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('modalTambah').classList.remove('open')">✕</button>
     <div class="modal-title">TAMBAH <span class="neon">GAME</span></div>
     <form action="proses_tambah_game.php" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
-      <div class="form-group"><label class="v-label">Judul Game</label><input type="text" name="judul" class="v-input" required></div>
-      <div class="form-group"><label class="v-label">Kategori</label>
-        <select name="kategori" class="v-input" required><option value="">-- Pilih --</option><option value="PS4">PS4</option><option value="PS5">PS5</option><option value="Nintendo">Nintendo</option></select>
+      <div class="form-group">
+        <label class="v-label">Judul Game</label>
+        <input type="text" name="judul" class="v-input" required>
       </div>
-      <div class="form-group"><label class="v-label">Foto Cover</label>
-        <div class="file-upload-box" id="foto-box"><input type="file" name="foto" accept="image/*" required onchange="previewFoto(this)"><div class="upload-icon" id="foto-icon">🖼️</div><div class="upload-text" id="foto-text">Klik untuk upload</div></div>
+      <div class="form-group">
+        <label class="v-label">Kategori</label>
+        <select name="kategori" class="v-input" required>
+          <option value="">-- Pilih --</option>
+          <option value="PS4">PS4</option>
+          <option value="PS5">PS5</option>
+          <option value="Nintendo">Nintendo</option>
+        </select>
       </div>
-<div class="form-group">
+      <div class="form-group">
+        <label class="v-label">Foto Cover</label>
+        <div class="file-upload-box" id="foto-box">
+          <input type="file" name="foto" accept="image/*" required onchange="previewFoto(this)">
+          <div class="upload-icon" id="foto-icon">🖼️</div>
+          <div class="upload-text" id="foto-text">Klik untuk upload</div>
+        </div>
+      </div>
+      <div class="form-group">
         <label class="v-label" style="margin-bottom:.5rem;">Assign ke Unit (Opsional)</label>
         
         <div style="display:flex;gap:.4rem;margin-bottom:.85rem;flex-wrap:wrap;">
-          <button type="button" class="btn-sm" style="background:rgba(168,85,247,.15);color:var(--v-lavender);border:1px solid rgba(168,85,247,.3);" onclick="pilihKategoriUnit('PS4')">✓ Semua PS4</button>
-          <button type="button" class="btn-sm" style="background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);" onclick="pilihKategoriUnit('PS5')">✓ Semua PS5</button>
-          <button type="button" class="btn-sm" style="background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3);" onclick="pilihKategoriUnit('Nintendo')">✓ Semua Nintendo</button>
-          <button type="button" class="btn-sm" style="background:rgba(255,255,255,.05);color:var(--v-muted);border:1px solid var(--v-border);" onclick="pilihKategoriUnit('reset')">✕ Reset</button>
+          <button type="button" class="btn-sm btn-ps4-assign" onclick="pilihKategoriUnit('PS4')">✓ Semua PS4</button>
+          <button type="button" class="btn-sm btn-ps5-assign" onclick="pilihKategoriUnit('PS5')">✓ Semua PS5</button>
+          <button type="button" class="btn-sm btn-nin-assign" onclick="pilihKategoriUnit('Nintendo')">✓ Semua Nintendo</button>
+          <button type="button" class="btn-sm btn-reset-assign" onclick="pilihKategoriUnit('reset')">✕ Reset</button>
         </div>
 
         <div class="unit-grid">
-          <?php $units=$koneksi->query("SELECT * FROM units ORDER BY tipe_layanan DESC, nama_unit ASC"); while($u=$units->fetch_assoc()): ?>
+          <?php 
+          $units = $koneksi->query("SELECT * FROM units ORDER BY tipe_layanan DESC, nama_unit ASC"); 
+          while($u = $units->fetch_assoc()): 
+          ?>
           <div class="unit-check">
             <input type="checkbox" name="unit_dipilih[]" value="<?php echo $u['id_unit']; ?>" id="u<?php echo $u['id_unit']; ?>" class="chk-unit" data-kat="<?php echo $u['kategori']; ?>">
             <label for="u<?php echo $u['id_unit']; ?>"><?php echo htmlspecialchars($u['nama_unit']); ?></label>
@@ -108,20 +151,7 @@ if(isset($_POST['aksi']) && $_POST['aksi']==='unassign'){
     </form>
   </div>
 </div>
-<script>
-  function pilihKategoriUnit(kat) {
-  const checkboxes = document.querySelectorAll('.chk-unit');
-  checkboxes.forEach(chk => {
-    if (kat === 'reset') {
-      chk.checked = false; // Kosongkan semua jika klik Reset
-    } else if (chk.getAttribute('data-kat') === kat) {
-      chk.checked = true;  // Centang jika kategorinya cocok
-    }
-  });
-}
-function previewFoto(i){if(i.files[0]){document.getElementById('foto-text').textContent=i.files[0].name;document.getElementById('foto-icon').textContent='✅';document.getElementById('foto-box').style.borderColor='var(--v-violet)';}}
-document.getElementById('modalTambah').addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
-</script>
+
 <!-- MODAL UNASSIGN -->
 <div class="modal-overlay" id="modalUnassign">
   <div class="modal-box">
@@ -142,33 +172,60 @@ document.getElementById('modalTambah').addEventListener('click',function(e){if(e
 </div>
 
 <script>
+// ── PHP Data Binding ──
 <?php
-// Kirim data: game_id → list unit yang sudah assign
 $game_units = [];
 $qu = $koneksi->query("SELECT ug.id_game, u.id_unit, u.nama_unit FROM unit_games ug JOIN units u ON ug.id_unit=u.id_unit ORDER BY u.nama_unit");
-while($r=$qu->fetch_assoc()) $game_units[$r['id_game']][] = ['id'=>$r['id_unit'],'nama'=>$r['nama_unit']];
-echo "const gameUnits=".json_encode($game_units).";
-";
+while($r=$qu->fetch_assoc()) {
+    $game_units[$r['id_game']][] = ['id'=>$r['id_unit'],'nama'=>$r['nama_unit']];
+}
+echo "const gameUnits = " . json_encode($game_units) . ";\n";
 ?>
 
+// ── UI Logic Helpers ──
+function pilihKategoriUnit(kat) {
+  const checkboxes = document.querySelectorAll('.chk-unit');
+  checkboxes.forEach(chk => {
+    if (kat === 'reset') {
+      chk.checked = false;
+    } else if (chk.getAttribute('data-kat') === kat) {
+      chk.checked = true;
+    }
+  });
+}
+
+function previewFoto(i) {
+  if (i.files[0]) {
+    document.getElementById('foto-text').textContent = i.files[0].name;
+    document.getElementById('foto-icon').textContent = '✅';
+    document.getElementById('foto-box').style.borderColor = 'var(--v-violet)';
+  }
+}
+
 function bukaUnassign(id, judul){
-  document.getElementById('ua-judul').textContent=judul;
-  document.getElementById('ua-id-game').value=id;
-  const units=gameUnits[id]||[];
-  const list=document.getElementById('ua-unit-list');
-  if(!units.length){
-    list.innerHTML='<div style="color:var(--v-muted);font-family:var(--font-ui);font-size:.85rem;grid-column:1/-1;">Game ini belum di-assign ke unit manapun.</div>';
+  document.getElementById('ua-judul').textContent = judul;
+  document.getElementById('ua-id-game').value = id;
+  const units = gameUnits[id] || [];
+  const list = document.getElementById('ua-unit-list');
+  if(!units.length) {
+    list.innerHTML = '<div style="color:var(--v-muted);font-family:var(--font-ui);font-size:.85rem;grid-column:1/-1;">Game ini belum di-assign ke unit manapun.</div>';
   } else {
-    list.innerHTML=units.map(u=>`
-      <label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--v-border);border-radius:8px;padding:.5rem .75rem;cursor:pointer;transition:background .2s;">
+    list.innerHTML = units.map(u => `
+      <label class="unit-check" style="justify-content: flex-start;">
         <input type="checkbox" name="unit_ids[]" value="${u.id}" style="accent-color:#f87171;width:14px;height:14px;">
         <span style="font-family:var(--font-ui);font-size:.85rem;color:#C4B5D4;">${u.nama}</span>
       </label>`).join('');
   }
   document.getElementById('modalUnassign').classList.add('open');
 }
-document.getElementById('modalUnassign').addEventListener('click',e=>{if(e.target===document.getElementById('modalUnassign'))document.getElementById('modalUnassign').classList.remove('open');});
-function toggleSidebar(){document.querySelector('.sidebar').classList.toggle('mobile-open');document.getElementById('sidebarOverlay').classList.toggle('open');document.body.style.overflow=document.querySelector('.sidebar').classList.contains('mobile-open')?'hidden':'';}
-function closeSidebar(){document.querySelector('.sidebar').classList.remove('mobile-open');document.getElementById('sidebarOverlay').classList.remove('open');document.body.style.overflow='';}
+
+// Modal Background Close Handlers
+document.getElementById('modalTambah').addEventListener('click', function(e) {
+  if(e.target === this) this.classList.remove('open');
+});
+document.getElementById('modalUnassign').addEventListener('click', function(e) {
+  if(e.target === this) this.classList.remove('open');
+});
 </script>
-</body></html>
+</body>
+</html>
