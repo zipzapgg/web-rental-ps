@@ -2690,6 +2690,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 .form-step-wrapper.active {
+  display: block;
   opacity: 1;
   transform: translateY(0);
 }
