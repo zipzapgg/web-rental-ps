@@ -23,7 +23,7 @@ $attempts = $stmt->get_result()->fetch_assoc()['c'];
 $stmt->close();
 
 if ($attempts >= 5) {
-    echo "<script>alert('Terlalu banyak percobaan login. Coba lagi 15 menit kemudian.'); window.location='login.php';</script>";
+    header("Location: login.php?pesan=attempts_limit");
     exit();
 }
 
@@ -61,6 +61,6 @@ if ($admin && password_verify($pass, $admin['password'])) {
     header("Location: index.php");
     exit();
 } else {
-    echo "<script>alert('Username atau password salah.'); window.location='login.php';</script>";
+    header("Location: login.php?pesan=wrong");
     exit();
 }

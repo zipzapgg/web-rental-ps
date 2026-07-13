@@ -29,7 +29,7 @@ while ($r = $res_pb->fetch_assoc()) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Form Sewa Violet PlayStation</title>
   <meta name="description" content="Ajukan sewa PS4, PS5, Nintendo Switch &amp; Playbox di Violet PlayStation Jagakarsa.">
-  <meta name="theme-color" content="#B6FF00">
+  <meta name="theme-color" content="#8B5CF6">
   <link rel="stylesheet" href="assets/css/violet.css">
   <script src="assets/app.js" defer></script>
 </head>
@@ -38,7 +38,7 @@ while ($r = $res_pb->fetch_assoc()) {
 <div class="form-bg"></div><div class="form-bg-grid"></div>
 <nav class="v-navbar">
   <div class="container nav-container">
-    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon">PLAYSTATION</span></a>
+    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation"></a>
     <a href="index.php" class="back-link">← Kembali</a>
   </div>
 </nav>
@@ -511,11 +511,11 @@ function validateStep(step) {
     const wa   = document.getElementById('inp-wa').value.trim();
     const almt = document.getElementById('inp-alamat').value.trim();
     if (!nama || !wa || !almt) {
-      alert('Harap isi semua kolom data diri terlebih dahulu.');
+      showToast('Harap isi semua kolom data diri terlebih dahulu.', 'warn');
       return false;
     }
     if (wa.length < 10) {
-      alert('Nomor WhatsApp minimal 10 digit.');
+      showToast('Nomor WhatsApp minimal 10 digit.', 'warn');
       return false;
     }
     return true;
@@ -525,7 +525,7 @@ function validateStep(step) {
     const dur  = document.getElementById('sel_durasi').value;
     const tgl  = document.getElementById('tgl_ambil_input').value;
     if (!unit || !dur || !tgl) {
-      alert('Harap pilih unit, durasi, dan tanggal ambil terlebih dahulu.');
+      showToast('Harap pilih unit, durasi, dan tanggal ambil terlebih dahulu.', 'warn');
       return false;
     }
     return true;

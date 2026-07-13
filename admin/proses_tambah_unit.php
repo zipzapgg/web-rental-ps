@@ -8,14 +8,16 @@ $kategori    = in_array($_POST['kategori'], ['PS4','PS5','Nintendo']) ? $_POST['
 $tipe        = in_array($_POST['tipe_layanan'], ['Main di Tempat','Sewa Luar']) ? $_POST['tipe_layanan'] : null;
 
 if (!$nama_unit || !$kategori || !$tipe) {
-    echo "<script>alert('Semua field wajib diisi.'); window.history.back();</script>"; exit();
+    header("Location: index.php?msg=error&error_text=" . urlencode("Semua field wajib diisi."));
+    exit();
 }
 
 $stmt = $koneksi->prepare("INSERT INTO units (nama_unit, kategori, tipe_layanan, status) VALUES (?,?,?,'Tersedia')");
 $stmt->bind_param("sss", $nama_unit, $kategori, $tipe);
 
 if (!$stmt->execute()) {
-    echo "<script>alert('Gagal menyimpan unit.'); window.history.back();</script>"; exit();
+    header("Location: index.php?msg=error&error_text=" . urlencode("Gagal menyimpan unit."));
+    exit();
 }
 
 $id_unit_baru = $koneksi->insert_id;
@@ -32,4 +34,5 @@ if (!empty($_POST['game_ids'])) {
 }
 
 $jml_game = count($_POST['game_ids'] ?? []);
-echo "<script>alert('Unit \"$nama_unit\" berhasil ditambahkan dengan $jml_game game!'); window.location='index.php';</script>";
+header("Location: index.php?msg=tambah_unit_ok&error_text=" . urlencode("Unit \"$nama_unit\" berhasil ditambahkan dengan $jml_game game!"));
+exit();

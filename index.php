@@ -13,7 +13,7 @@
   <meta property="og:description" content="Sewa PS4, PS5, Nintendo Switch & Playbox harian. Booking H-1 via WA. Promo weekday: sewa 2 hari gratis 1 hari!">
   <meta property="og:image" content="https://violetplaystation.com/assets/images/logo-violet.jpeg">
   <meta property="og:type" content="website">
-  <meta name="theme-color" content="#7B2FBE">
+  <meta name="theme-color" content="#8B5CF6">
   <link rel="stylesheet" href="assets/css/violet.css">
   <script src="assets/app.js" defer></script>
 </head>
@@ -26,7 +26,6 @@
   <div class="container nav-container">
     <a href="index.php" class="brand">
       <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">
-      VIOLET <span class="neon">PLAYSTATION</span>
     </a>
     <div class="nav-links">
       <a href="#harga"><svg width="16" height="16" aria-hidden="true"><use href="#ico-tag"/></svg><span class="nav-label">Harga</span></a>
@@ -83,14 +82,8 @@
       </div>
     </div>
     <div class="hero-logo-wrap col-half">
-      <div class="tilt-3d hero-logo-card">
-        <div class="hero-logo-glow"></div>
-        <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation" class="hero-logo-img">
-        <div class="logo-3d-text">VIOLET</div>
-        <div class="logo-3d-symbol t1">▲</div>
-        <div class="logo-3d-symbol c1">●</div>
-        <div class="logo-3d-symbol x1">✕</div>
-        <div class="logo-3d-symbol s1">■</div>
+      <div class="tilt-3d hero-logo-only">
+        <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation" class="hero-logo-img-solo">
       </div>
     </div>
   </div>
@@ -311,10 +304,8 @@
         <?php if ($hidden_sewa > 0): ?>
         <!-- Tombol lihat semua di samping grid -->
         <div class="units-toggle-col">
-          <button id="btn-toggle-sewa" class="btn-lihat-semua" onclick="toggleSemuaUnit('sewa')" aria-expanded="false">
-            <span class="toggle-icon">🎮</span>
-            <span>Lihat Semua<br>Unit Sewa</span>
-            <span class="toggle-count" id="count-sewa"><?php echo $hidden_sewa; ?> unit lainnya</span>
+          <button id="btn-toggle-sewa" class="btn-lihat-semua" onclick="toggleSemuaUnit('sewa')" aria-expanded="false" aria-label="Lihat semua unit sewa" title="Lihat <?php echo $hidden_sewa; ?> unit lainnya">
+            <svg class="toggle-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
         <?php endif; ?>
@@ -352,10 +343,8 @@
 
         <?php if ($hidden_tempat > 0): ?>
         <div class="units-toggle-col">
-          <button id="btn-toggle-tempat" class="btn-lihat-semua" onclick="toggleSemuaUnit('tempat')" aria-expanded="false">
-            <span class="toggle-icon">🏠</span>
-            <span>Lihat Semua<br>Unit Tempat</span>
-            <span class="toggle-count" id="count-tempat"><?php echo $hidden_tempat; ?> unit lainnya</span>
+          <button id="btn-toggle-tempat" class="btn-lihat-semua" onclick="toggleSemuaUnit('tempat')" aria-expanded="false" aria-label="Lihat semua unit tempat" title="Lihat <?php echo $hidden_tempat; ?> unit lainnya">
+            <svg class="toggle-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
         </div>
         <?php endif; ?>
@@ -411,9 +400,8 @@
 
     <?php if ($total_games > $limit_games): ?>
     <div style="text-align:center;margin-top:1.75rem;">
-      <button onclick="togglePubGames()" id="btn-pub-games" style="padding:.65rem 2rem;font-family:var(--font-ui);font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--v-border);background:transparent;color:var(--v-muted);border-radius:8px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;" onmouseover="this.style.borderColor='var(--v-violet)';this.style.color='var(--v-lavender)';" onmouseout="this.style.borderColor='var(--v-border)';this.style.color='var(--v-muted)';">
-        <svg width="14" height="14" id="ico-pub-games" style="transition:transform .3s;"><use href="#ico-plus"/></svg>
-        <span id="lbl-pub-games">Lihat Semua (<?php echo $total_games - $limit_games; ?> game lainnya)</span>
+      <button onclick="togglePubGames()" id="btn-pub-games" class="btn-lihat-semua-game" aria-label="Lihat semua game" title="Lihat <?php echo $total_games - $limit_games; ?> game lainnya">
+        <svg class="toggle-chevron" id="ico-pub-games" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
     </div>
     <?php endif; ?>
@@ -537,7 +525,9 @@
   </div>
 </footer>
 
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll ke atas">↑</button>
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll ke atas">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
 <!-- MODAL UNIT -->
 <div class="modal-overlay" id="modalUnit">
@@ -598,40 +588,18 @@ document.getElementById('modalUnit').addEventListener('click', e => {
 
 // ── Toggle unit (BARU: tombol di samping, buka semua sekaligus) ─────────────
 function toggleSemuaUnit(group) {
-  const prefix   = group === 'sewa' ? 'sewa-unit-' : 'tempat-unit-';
-  const btn      = document.getElementById('btn-toggle-' + group);
-  const countEl  = document.getElementById('count-' + group);
-  const preview  = 3;
-  const isOpen   = btn.getAttribute('aria-expanded') === 'true';
-
-  // Kumpulkan semua card unit dalam grid yang bersangkutan
-  const grid  = document.getElementById(group === 'sewa' ? 'grid-sewa-pub' : 'grid-tempat-pub');
-  const cards = grid ? grid.querySelectorAll('.unit-card') : [];
-  let hiddenCount = 0;
+  const btn    = document.getElementById('btn-toggle-' + group);
+  const preview = 3;
+  const isOpen  = btn.getAttribute('aria-expanded') === 'true';
+  const grid    = document.getElementById(group === 'sewa' ? 'grid-sewa-pub' : 'grid-tempat-pub');
+  const cards   = grid ? grid.querySelectorAll('.unit-card') : [];
 
   cards.forEach((card, i) => {
-    if (i >= preview) {
-      card.style.display = isOpen ? 'none' : '';
-      if (isOpen) hiddenCount++;
-    }
+    if (i >= preview) card.style.display = isOpen ? 'none' : '';
   });
 
-  if (isOpen) {
-    // Tutup kembali
-    btn.setAttribute('aria-expanded', 'false');
-    btn.classList.remove('all-shown');
-    const total = cards.length - preview;
-    if (countEl) countEl.textContent = total + ' unit lainnya';
-    btn.querySelector('span:nth-child(2)').innerHTML = 'Lihat Semua<br>Unit ' + (group === 'sewa' ? 'Sewa' : 'Tempat');
-    btn.querySelector('.toggle-icon').textContent = group === 'sewa' ? '🎮' : '🏠';
-  } else {
-    // Buka semua
-    btn.setAttribute('aria-expanded', 'true');
-    btn.classList.add('all-shown');
-    if (countEl) countEl.textContent = 'Sembunyikan';
-    btn.querySelector('span:nth-child(2)').innerHTML = 'Tampilkan<br>Lebih Sedikit';
-    btn.querySelector('.toggle-icon').textContent = '✕';
-  }
+  btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  btn.classList.toggle('all-shown', !isOpen);
 }
 
 // ── Tab switcher ────────────────────────────────────────────────────────────
@@ -666,21 +634,10 @@ function closeDrawer() {
 function togglePubGames() {
   const items = document.querySelectorAll('.pub-game-extra');
   const btn   = document.getElementById('btn-pub-games');
-  const lbl   = document.getElementById('lbl-pub-games');
-  const ico   = document.getElementById('ico-pub-games');
-  
   if (!items.length) return;
-  
   const isOpen = items[0].style.display !== 'none';
   items.forEach(el => el.style.display = isOpen ? 'none' : '');
-  
-  if (isOpen) {
-    lbl.textContent = 'Lihat Semua (' + items.length + ' game lainnya)';
-    ico.style.transform = 'rotate(0deg)';
-  } else {
-    lbl.textContent = 'Sembunyikan';
-    ico.style.transform = 'rotate(45deg)';
-  }
+  btn.classList.toggle('all-shown', !isOpen);
 }
 
 // ── Scroll to top ────────────────────────────────────────────────────────────

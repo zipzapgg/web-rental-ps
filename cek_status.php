@@ -43,7 +43,7 @@ if (isset($_GET['wa']) && $_GET['wa'] !== '') {
 <?php include_once "config/svg_sprite.php"; ?>
 <nav class="v-navbar">
   <div class="container nav-container">
-    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">VIOLET <span class="neon">PLAYSTATION</span></a>
+    <a href="index.php" class="brand"><img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation"></a>
     <a href="index.php" class="back-link">← Kembali</a>
   </div>
 </nav>

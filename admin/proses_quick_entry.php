@@ -30,7 +30,7 @@ $unit_data = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 if (!$unit_data) {
-    echo "<script>alert('Unit sudah tidak tersedia atau sedang disewa orang lain!'); window.location='index.php';</script>";
+    header("Location: index.php?msg=qe_not_avail");
     exit();
 }
 
@@ -99,8 +99,7 @@ try {
 
 } catch (Exception $e) {
     $koneksi->rollback();
-    // Gunakan alert Javascript agar kasir tahu apa yang salah tanpa melihat layar putih (die)
     $pesan_error = $e->getMessage();
-    echo "<script>alert('$pesan_error'); window.location='index.php';</script>";
+    header("Location: index.php?msg=qe_error&error_text=" . urlencode($pesan_error));
     exit();
 }

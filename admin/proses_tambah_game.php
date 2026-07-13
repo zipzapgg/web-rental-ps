@@ -7,20 +7,26 @@ if (!isset($_POST['judul'])) { header("Location: master_game.php"); exit(); }
 
 $judul    = trim($_POST['judul']);
 if (mb_strlen($judul) > 100 || mb_strlen($judul) < 2) {
-    echo "<script>alert('Judul game tidak valid (2-100 karakter).'); window.history.back();</script>"; exit();
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Judul game tidak valid (2-100 karakter)."));
+    exit();
 }
-$kategori = in_array($_POST['kategori'], ['PS4','PS5','Nintendo']) ? $_POST['kategori'] : null;
-if (!$kategori) { echo "<script>alert('Kategori tidak valid.'); window.history.back();</script>"; exit(); }
+$kategori = in_array($_POST['kategori'] ?? '', ['PS4','PS5','Nintendo']) ? $_POST['kategori'] : null;
+if (!$kategori) {
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Kategori tidak valid."));
+    exit();
+}
 
 $allowed_mime = ['image/jpeg','image/png','image/webp'];
 $max_size     = 5 * 1024 * 1024;
 $file         = $_FILES['foto'];
 
 if ($file['error'] !== UPLOAD_ERR_OK) {
-    echo "<script>alert('Gagal upload foto.'); window.history.back();</script>"; exit();
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Gagal upload foto."));
+    exit();
 }
 if ($file['size'] > $max_size) {
-    echo "<script>alert('Foto terlalu besar (max 5MB).'); window.history.back();</script>"; exit();
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Foto terlalu besar (max 5MB)."));
+    exit();
 }
 
 $finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -28,11 +34,15 @@ $mime  = finfo_file($finfo, $file['tmp_name']);
 finfo_close($finfo);
 
 if (!in_array($mime, $allowed_mime)) {
-    echo "<script>alert('Format foto tidak diizinkan.'); window.history.back();</script>"; exit();
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Format foto tidak diizinkan. Gunakan JPG, PNG, atau WEBP."));
+    exit();
 }
 
 $ext = ext_from_mime($mime);
-if (!$ext) { echo "<script>alert('Format foto tidak didukung.'); window.history.back();</script>"; exit(); }
+if (!$ext) {
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Format foto tidak didukung."));
+    exit();
+}
 $filename = 'game_' . bin2hex(random_bytes(8)) . '.' . $ext;
 
 $folder = UPLOAD_PATH . 'games' . DIRECTORY_SEPARATOR;
@@ -42,7 +52,8 @@ $public_folder = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_
 if (!is_dir($public_folder)) mkdir($public_folder, 0755, true);
 
 if (!move_uploaded_file($file['tmp_name'], $public_folder . $filename)) {
-    echo "<script>alert('Gagal menyimpan foto. Periksa folder uploads/games!'); window.history.back();</script>"; exit();
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Gagal menyimpan foto. Periksa folder uploads/games!"));
+    exit();
 }
 
 $stmt = $koneksi->prepare("INSERT INTO games (judul_game, foto_game, kategori_game) VALUES (?,?,?)");
@@ -66,4 +77,5 @@ if (function_exists('log_activity')) {
     log_activity($koneksi, 'TAMBAH_GAME', "Menambahkan master game baru: " . $judul);
 }
 
-echo "<script>alert('Game berhasil ditambahkan!'); window.location='master_game.php';</script>";
+header("Location: master_game.php?msg=tambah_game_ok");
+exit();

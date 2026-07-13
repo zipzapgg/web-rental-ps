@@ -177,7 +177,7 @@ function hapus_berkas_pengajuan(int $id_pengajuan, mysqli $koneksi): void {
                 unlink($file_stnk);
             }
         }
-        $stmt_up = $koneksi->prepare("UPDATE pengajuan SET foto_ktp = NULL, foto_stnk = NULL WHERE id_pengajuan = ?");
+        $stmt_up = $koneksi->prepare("UPDATE pengajuan SET foto_ktp = '', foto_stnk = '' WHERE id_pengajuan = ?");
         $stmt_up->bind_param("i", $id_pengajuan);
         $stmt_up->execute();
         $stmt_up->close();

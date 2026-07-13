@@ -109,18 +109,110 @@ document.addEventListener('mousemove', e => {
   });
 }, { passive: true });
 
-/* ── Universal 3D Tilt Effect ── */
+/* ── Universal 3D Tilt Effect (Hero Logo) ── */
 document.querySelectorAll('.tilt-3d').forEach(el => {
+  const shine = el.querySelector('.hero-logo-shine');
+  const img   = el.querySelector('.hero-logo-img-solo');
+  let rafId = null;
+  let currentRX = 0, currentRY = 0;
+  let targetRX = 0, targetRY = 0;
+  let isHovering = false;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    currentRX = lerp(currentRX, targetRX, 0.12);
+    currentRY = lerp(currentRY, targetRY, 0.12);
+
+    el.style.transform = `perspective(600px) rotateX(${currentRX}deg) rotateY(${currentRY}deg) scale3d(1.04, 1.04, 1.04)`;
+
+    if (isHovering || Math.abs(currentRX) > 0.05 || Math.abs(currentRY) > 0.05) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      currentRX = 0; currentRY = 0;
+      el.style.transform = '';
+      rafId = null;
+    }
+  }
+
   el.addEventListener('mousemove', e => {
     const rect = el.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    // Calculate degree ratio (-1 to 1)
-    const rX = -(y / (rect.height / 2)) * 12; // max tilt 12deg
-    const rY = (x / (rect.width / 2)) * 12;
-    el.style.transform = `perspective(1000px) rotateX(${rX}deg) rotateY(${rY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+    // Max tilt 22deg
+    targetRX = -(y / (rect.height / 2)) * 22;
+    targetRY =  (x / (rect.width  / 2)) * 22;
+
+    // Shine overlay (hanya jika ada)
+    if (shine) {
+      const px = ((x / rect.width)  + 0.5) * 100;
+      const py = ((y / rect.height) + 0.5) * 100;
+      shine.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 30%, transparent 65%)`;
+    }
+
+    // Efek parallax ringan pada gambar solo
+    if (img) {
+      const px = (x / rect.width)  * 12;
+      const py = (y / rect.height) * 12;
+      img.style.transform = `translate(${px}px, ${py}px) scale(1.03)`;
+    }
+
+    if (!rafId) { isHovering = true; rafId = requestAnimationFrame(tick); }
   });
+
   el.addEventListener('mouseleave', () => {
-    el.style.transform = '';
+    isHovering = false;
+    targetRX = 0;
+    targetRY = 0;
+    if (shine) shine.style.background = '';
+    if (img)   img.style.transform = '';
+    if (!rafId) rafId = requestAnimationFrame(tick);
   });
+});
+
+// ── Auto-read URL params to show premium toasts ──
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const msg = urlParams.get('msg');
+  const pesan = urlParams.get('pesan');
+  const denda = urlParams.get('denda');
+  const errorText = urlParams.get('error_text');
+
+  const messages = {
+    // msg params (Admin & user actions)
+    'edit_ok': { text: '✓ Perubahan berhasil disimpan.', type: 'success' },
+    'maint_gagal': { text: '✕ Keterangan maintenance wajib diisi!', type: 'error' },
+    'hapus_ok': { text: '✓ Unit berhasil dihapus.', type: 'success' },
+    'qe_ok': { text: '⚡ Quick Entry Berhasil! Unit langsung masuk ke Live Monitoring.', type: 'success' },
+    'terima': { text: '✓ Pengajuan disetujui.', type: 'success' },
+    'tolak': { text: '✕ Pengajuan ditolak. Unit dikembalikan.', type: 'warn' },
+    'selesai': { text: '✓ Transaksi selesai. Unit tersedia kembali.' + (denda ? ` (Denda: Rp ${parseInt(denda).toLocaleString('id-ID')})` : ''), type: 'success' },
+    'perpanjang': { text: '✓ Sewa berhasil diperpanjang.', type: 'success' },
+    'unassign_ok': { text: '✓ Game berhasil dihapus dari unit.', type: 'success' },
+    'tambah': { text: '✓ Periode libur berhasil ditambahkan.', type: 'success' },
+    'hapus': { text: '✓ Periode libur berhasil dihapus.', type: 'success' },
+    'error': { text: errorText ? decodeURIComponent(errorText) : '✕ Data tidak valid atau terjadi kesalahan.', type: 'error' },
+    'qe_not_avail': { text: '✕ Unit sudah tidak tersedia atau sedang disewa orang lain!', type: 'error' },
+    'qe_error': { text: errorText ? decodeURIComponent(errorText) : '✕ Terjadi kesalahan pada Quick Entry.', type: 'error' },
+    'tambah_game_ok': { text: '✓ Game berhasil ditambahkan!', type: 'success' },
+    'tambah_unit_ok': { text: errorText ? decodeURIComponent(errorText) : '✓ Unit berhasil ditambahkan!', type: 'success' },
+
+    // pesan params (Auth/Login/General alerts)
+    'timeout': { text: '⏱ Sesi berakhir karena tidak aktif. Silakan login kembali.', type: 'warn' },
+    'belum_login': { text: '⚠ Silakan login terlebih dahulu.', type: 'warn' },
+    'akses_ditolak': { text: '✕ Akses ditolak.', type: 'error' },
+    'attempts_limit': { text: '✕ Terlalu banyak percobaan login. Coba lagi 15 menit kemudian.', type: 'error' },
+    'wrong': { text: '✕ Username atau password salah.', type: 'error' }
+  };
+
+  const key = msg || pesan;
+  if (key && messages[key]) {
+    const item = messages[key];
+    showToast(item.text, item.type, 5000);
+    
+    // Clean up URL parameters to prevent re-showing toast on refresh
+    const newUrl = window.location.pathname + (window.location.hash || '');
+    window.history.replaceState({}, document.title, newUrl);
+  }
 });

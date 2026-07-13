@@ -31,7 +31,6 @@ $hari_dapat= $p['hari_dapat'] ?? $hari_bayar;
   <div class="container nav-container">
     <a href="index.php" class="brand">
       <img src="assets/images/logo-violet.jpeg" alt="Violet PlayStation">
-      VIOLET <span class="neon">PLAYSTATION</span>
     </a>
   </div>
 </nav>
