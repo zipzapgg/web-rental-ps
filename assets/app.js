@@ -124,7 +124,9 @@ document.querySelectorAll('.tilt-3d').forEach(el => {
     currentRX = lerp(currentRX, targetRX, 0.12);
     currentRY = lerp(currentRY, targetRY, 0.12);
 
-    el.style.transform = `perspective(600px) rotateX(${currentRX}deg) rotateY(${currentRY}deg) scale3d(1.04, 1.04, 1.04)`;
+    const isUnitCard = el.classList.contains('unit-card');
+    const liftY = isUnitCard ? 'translateY(-10px) ' : '';
+    el.style.transform = `${liftY}perspective(600px) rotateX(${currentRX}deg) rotateY(${currentRY}deg) scale3d(1.04, 1.04, 1.04)`;
 
     if (isHovering || Math.abs(currentRX) > 0.05 || Math.abs(currentRY) > 0.05) {
       rafId = requestAnimationFrame(tick);

@@ -265,39 +265,62 @@
         <div class="units-grid-wrap">
           <div class="units-grid" id="grid-sewa-pub">
             <?php foreach ($arr_sewa as $i => $u):
-  $kat     = $u['kategori'];
-  $bc      = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
-  
-  // LOGIKA BARU: Unit tidak tersedia jika statusnya 'Disewa' ATAU 'Maintenance'
-  $is_unavailable = ($u['status'] === 'Disewa' || $u['status'] === 'Maintenance');
-  
-  $hidden  = $i >= $preview_count;
-  $is_ps5_tempat = ($u['tipe_layanan'] === 'Main di Tempat' && $kat === 'PS5');
-?>
-<!-- Jika unit tidak tersedia, class 'disewa' akan aktif (mematikan klik via CSS)[cite: 1] -->
-<div class="unit-card <?php echo $is_unavailable ? 'disewa' : ''; ?>"
-     id="sewa-unit-<?php echo $i; ?>"
-     style="<?php echo $hidden ? 'display:none;' : ''; ?>"
-     <?php if (!$is_unavailable): ?>onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')"<?php endif; ?>>
-  
-  <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
-  <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
-  <div class="unit-meta">
-    <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
-    
-    <!-- TAMPILAN STATUS YANG DINAMIS[cite: 1] -->
-    <?php if ($u['status'] === 'Maintenance'): ?>
-      <span class="v-badge" style="background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3);">Maintenance</span>
-    <?php elseif ($u['status'] === 'Disewa'): ?>
-      <span class="v-badge" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.3);">Sedang Disewa</span>
-    <?php else: ?>
-      <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Tersedia</span>
-    <?php endif; ?>
-    
-    <?php if ($is_ps5_tempat): ?><span style="font-size:.68rem;color:#60a5fa;font-family:var(--font-ui);">WA dulu</span><?php endif; ?>
-  </div>
-</div>
-<?php endforeach; ?>
+              $kat     = $u['kategori'];
+              $price_str = $kat === 'PS5' ? 'Rp 195.000 / Hari' : ($kat === 'Nintendo' ? 'Rp 75.000 / Hari' : 'Rp 100.000 / Hari');
+              $is_unavailable = ($u['status'] === 'Disewa' || $u['status'] === 'Maintenance');
+              $hidden  = $i >= $preview_count;
+            ?>
+            <div class="unit-card tilt-3d <?php echo $is_unavailable && $u['status'] === 'Maintenance' ? 'in-maintenance' : ''; ?>"
+                 id="sewa-unit-<?php echo $i; ?>"
+                 style="<?php echo $hidden ? 'display:none;' : ''; ?>">
+              
+              <!-- Huge Watermark -->
+              <div class="unit-watermark">PLAYSTATION</div>
+              
+              <!-- Logo Area -->
+              <div class="unit-logo-area">
+                <?php if ($kat === 'PS5'): ?>
+                  <img src="assets/images/ps5.png" alt="PS5 Logo" class="unit-ps-logo">
+                <?php else: ?>
+                  <img src="assets/images/ps4.png" alt="PS4 Logo" class="unit-ps-logo">
+                <?php endif; ?>
+              </div>
+
+              <!-- Content Area -->
+              <div class="unit-card-content">
+                <div class="unit-card-header">
+                  <div class="unit-card-title"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
+                  <div class="unit-card-subtitle"><?php echo $kat === 'PS5' ? 'PlayStation 5' : ($kat === 'Nintendo' ? 'Nintendo Switch' : 'PlayStation 4'); ?></div>
+                </div>
+                
+                <!-- Status Badge -->
+                <div class="unit-status-row">
+                  <?php if ($u['status'] === 'Maintenance'): ?>
+                    <span class="status-badge maint">Maintenance</span>
+                  <?php elseif ($u['status'] === 'Disewa'): ?>
+                    <span class="status-badge in-use">In Use</span>
+                  <?php else: ?>
+                    <span class="status-badge avail">Available</span>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Price -->
+                <div class="unit-card-price">
+                  <?php echo $price_str; ?>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="unit-card-actions">
+                  <?php if ($u['status'] === 'Maintenance'): ?>
+                    <button class="btn-card-primary disabled" disabled>Booking</button>
+                  <?php else: ?>
+                    <a href="sewa.php?unit=<?php echo $u['id_unit']; ?>" class="btn-card-primary">Booking</a>
+                  <?php endif; ?>
+                  <button class="btn-card-secondary" onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Sewa Luar')">Detail</button>
+                </div>
+              </div>
+            </div>
+            <?php endforeach; ?>
           </div>
         </div>
 
@@ -326,16 +349,59 @@
           <div class="units-grid" id="grid-tempat-pub">
             <?php foreach ($arr_tempat as $i => $u):
               $kat    = $u['kategori'];
-              $bc     = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
+              $price_str = $kat === 'PS5' ? 'Rp 15.000 / Jam' : ($kat === 'Nintendo' ? 'Rp 10.000 / Jam' : 'Rp 8.000 / Jam');
+              $is_unavailable = ($u['status'] === 'Disewa' || $u['status'] === 'Maintenance');
               $hidden = $i >= $preview_count;
             ?>
-            <div class="unit-card"
+            <div class="unit-card tilt-3d <?php echo $is_unavailable && $u['status'] === 'Maintenance' ? 'in-maintenance' : ''; ?>"
                  id="tempat-unit-<?php echo $i; ?>"
-                 style="<?php echo $hidden ? 'display:none;' : ''; ?>"
-                 onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')">
-              <div class="unit-icon"><svg width="28" height="28" aria-hidden="true"><use href="#ico-gamepad"/></svg></div>
-              <div class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
-              <div class="unit-meta"><span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span></div>
+                 style="<?php echo $hidden ? 'display:none;' : ''; ?>">
+              
+              <!-- Huge Watermark -->
+              <div class="unit-watermark">PLAYSTATION</div>
+              
+              <!-- Logo Area -->
+              <div class="unit-logo-area">
+                <?php if ($kat === 'PS5'): ?>
+                  <img src="assets/images/ps5.png" alt="PS5 Logo" class="unit-ps-logo">
+                <?php else: ?>
+                  <img src="assets/images/ps4.png" alt="PS4 Logo" class="unit-ps-logo">
+                <?php endif; ?>
+              </div>
+
+              <!-- Content Area -->
+              <div class="unit-card-content">
+                <div class="unit-card-header">
+                  <div class="unit-card-title"><?php echo htmlspecialchars($u['nama_unit']); ?></div>
+                  <div class="unit-card-subtitle"><?php echo $kat === 'PS5' ? 'PlayStation 5' : ($kat === 'Nintendo' ? 'Nintendo Switch' : 'PlayStation 4'); ?></div>
+                </div>
+                
+                <!-- Status Badge -->
+                <div class="unit-status-row">
+                  <?php if ($u['status'] === 'Maintenance'): ?>
+                    <span class="status-badge maint">Maintenance</span>
+                  <?php elseif ($u['status'] === 'Disewa'): ?>
+                    <span class="status-badge in-use">In Use</span>
+                  <?php else: ?>
+                    <span class="status-badge avail">Available</span>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Price -->
+                <div class="unit-card-price">
+                  <?php echo $price_str; ?>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="unit-card-actions">
+                  <?php if ($u['status'] === 'Maintenance'): ?>
+                    <button class="btn-card-primary disabled" disabled>Booking</button>
+                  <?php else: ?>
+                    <a href="https://wa.me/6285847831078?text=<?php echo urlencode("Halo Violet PlayStation, saya ingin booking unit " . $u['nama_unit'] . " (" . $kat . ") untuk main di tempat."); ?>" class="btn-card-primary" target="_blank" rel="noopener">Booking</a>
+                  <?php endif; ?>
+                  <button class="btn-card-secondary" onclick="bukaUnit(<?php echo $u['id_unit']; ?>,'<?php echo htmlspecialchars(addslashes($u['nama_unit'])); ?>','<?php echo $kat; ?>','Main di Tempat')">Detail</button>
+                </div>
+              </div>
             </div>
             <?php endforeach; ?>
           </div>
