@@ -279,6 +279,7 @@
               
               <!-- Logo Area -->
               <div class="unit-logo-area">
+                <div class="unit-logo-glow-ring"></div>
                 <?php if ($kat === 'PS5'): ?>
                   <img src="assets/images/ps5.png" alt="PS5 Logo" class="unit-ps-logo">
                 <?php else: ?>
@@ -301,6 +302,23 @@
                     <span class="status-badge in-use">In Use</span>
                   <?php else: ?>
                     <span class="status-badge avail">Available</span>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Specs List -->
+                <div class="unit-specs-list">
+                  <?php if ($kat === 'PS5'): ?>
+                    <span>✦ 4K HDR</span>
+                    <span>✦ Ultra SSD</span>
+                    <span>✦ Ray Tracing</span>
+                  <?php elseif ($kat === 'Nintendo'): ?>
+                    <span>✦ OLED Screen</span>
+                    <span>✦ Joy-Con™</span>
+                    <span>✦ TV Mode</span>
+                  <?php else: ?>
+                    <span>✦ Full HD 1080p</span>
+                    <span>✦ 1TB Storage</span>
+                    <span>✦ DualShock®4</span>
                   <?php endif; ?>
                 </div>
 
@@ -362,6 +380,7 @@
               
               <!-- Logo Area -->
               <div class="unit-logo-area">
+                <div class="unit-logo-glow-ring"></div>
                 <?php if ($kat === 'PS5'): ?>
                   <img src="assets/images/ps5.png" alt="PS5 Logo" class="unit-ps-logo">
                 <?php else: ?>
@@ -384,6 +403,23 @@
                     <span class="status-badge in-use">In Use</span>
                   <?php else: ?>
                     <span class="status-badge avail">Available</span>
+                  <?php endif; ?>
+                </div>
+
+                <!-- Specs List -->
+                <div class="unit-specs-list">
+                  <?php if ($kat === 'PS5'): ?>
+                    <span>✦ 4K HDR</span>
+                    <span>✦ Ultra SSD</span>
+                    <span>✦ Ray Tracing</span>
+                  <?php elseif ($kat === 'Nintendo'): ?>
+                    <span>✦ OLED Screen</span>
+                    <span>✦ Joy-Con™</span>
+                    <span>✦ TV Mode</span>
+                  <?php else: ?>
+                    <span>✦ Full HD 1080p</span>
+                    <span>✦ 1TB Storage</span>
+                    <span>✦ DualShock®4</span>
                   <?php endif; ?>
                 </div>
 
