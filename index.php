@@ -1129,6 +1129,7 @@ function toggleFaq(i) {
   ico.textContent   = open ? '+' : '−';
   ico.style.transform = open ? '' : 'rotate(45deg)';
 }
+</script>
 
 <!-- MODAL DETAIL GAME -->
 <div class="modal-overlay" id="modalDetailGame" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,9,16,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:9999; padding:1rem;">
@@ -1169,6 +1170,7 @@ function toggleFaq(i) {
   </div>
 </div>
 
+<script>
 // ── Search game ──────────────────────────────────────────────────────────────
 const allGames = <?php
 $gdata = [];
