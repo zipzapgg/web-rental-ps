@@ -1638,7 +1638,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 
 /* Hover state effects on the Card */
 .unit-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-4px);
   border-color: rgba(168, 85, 247, 0.6);
   box-shadow:
     0 20px 45px rgba(0, 0, 0, 0.8),
@@ -1766,9 +1766,54 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   margin-bottom: 2rem;
 }
 .games-search-wrap {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.25rem;
   position: relative;
   max-width: 460px;
+}
+.games-filter-nav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2.25rem;
+  flex-wrap: wrap;
+}
+.games-filter-btn {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 0.5rem 1.25rem;
+  border-radius: 99px;
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  background: rgba(20, 16, 31, 0.55);
+  color: #AAA5C4;
+  cursor: pointer;
+  transition: all var(--t-fast);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.games-filter-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(28, 20, 47, 0.85);
+  color: #FFFFFF;
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+}
+.games-filter-btn.active {
+  background: #FFFFFF;
+  border-color: transparent;
+  color: #0A0910;
+  box-shadow: 
+    0 4px 12px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(168, 85, 247, 0.3);
+  transform: translateY(0);
+}
+.games-filter-btn.active:hover {
+  transform: translateY(0);
+  background: #FFFFFF;
+  color: #0A0910;
+  box-shadow: 
+    0 4px 12px rgba(255, 255, 255, 0.15),
+    0 0 25px rgba(168, 85, 247, 0.45);
 }
 .games-search-input {
   width: 100%;

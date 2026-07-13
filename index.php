@@ -500,9 +500,17 @@
     </div>
 
     <!-- Search Bar Wrapper -->
-    <div class="games-search-wrap">
+    <div class="games-search-wrap" style="margin-bottom: 1.25rem;">
       <input type="text" id="game-search" class="games-search-input" placeholder="Cari game favorit..." oninput="cariGame(this.value)">
       <svg class="games-search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+
+    <!-- Category Filter Toggles -->
+    <div class="games-filter-nav" style="margin-bottom: 2.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <button class="games-filter-btn active" onclick="filterGames('ALL', this)">All Games</button>
+      <button class="games-filter-btn" onclick="filterGames('PS4', this)">PlayStation 4</button>
+      <button class="games-filter-btn" onclick="filterGames('PS5', this)">PlayStation 5</button>
+      <button class="games-filter-btn" onclick="filterGames('Nintendo', this)">Nintendo Switch</button>
     </div>
 
     <div id="search-result" style="display:none;background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .25s ease both;">
@@ -556,7 +564,7 @@
         $genre = !empty($g['genre_game']) ? htmlspecialchars($g['genre_game']) : $fallback['genre'];
         $players = !empty($g['players_game']) ? htmlspecialchars($g['players_game']) : $fallback['players'];
       ?>
-      <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?>>
+      <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?> data-platform="<?php echo htmlspecialchars($kat); ?>">
         <div class="game-card">
           <div class="game-card-img-wrap">
             <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>" class="game-cover-img">
@@ -1012,6 +1020,42 @@ function togglePubGames() {
   const isOpen = items[0].style.display !== 'none';
   items.forEach(el => el.style.display = isOpen ? 'none' : '');
   btn.classList.toggle('all-shown', !isOpen);
+}
+
+function filterGames(category, btn) {
+  // Update button active state
+  document.querySelectorAll('.games-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  
+  const cards = document.querySelectorAll('#games-grid .col-6game');
+  const showMoreBtnWrapper = document.getElementById('btn-pub-games')?.parentElement;
+  
+  cards.forEach(card => {
+    const platform = card.getAttribute('data-platform') || '';
+    const matchesCategory = (category === 'ALL' || platform === category);
+    
+    if (matchesCategory) {
+      const isExtra = card.classList.contains('pub-game-extra');
+      const isExpanded = document.getElementById('btn-pub-games')?.classList.contains('all-shown');
+      
+      if (category === 'ALL') {
+        if (isExtra && !isExpanded) {
+          card.style.display = 'none';
+        } else {
+          card.style.display = '';
+        }
+      } else {
+        card.style.display = '';
+      }
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  
+  // Hide or show 'Show More' button
+  if (showMoreBtnWrapper) {
+    showMoreBtnWrapper.style.display = (category === 'ALL') ? '' : 'none';
+  }
 }
 
 // ── Scroll to top ────────────────────────────────────────────────────────────
