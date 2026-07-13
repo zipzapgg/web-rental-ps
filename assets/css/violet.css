@@ -1770,50 +1770,59 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   position: relative;
   max-width: 460px;
 }
-.games-filter-nav {
+.games-filter-container {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
   margin-bottom: 2.25rem;
   flex-wrap: wrap;
 }
-.games-filter-btn {
+.games-select-wrap {
+  position: relative;
+  min-width: 220px;
+  flex: 0 1 240px;
+}
+.games-select-input {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(20, 16, 31, 0.55) !important;
+  border: 1px solid rgba(168, 85, 247, 0.18) !important;
+  border-radius: 50px !important;
+  padding: 0.65rem 2.5rem 0.65rem 1.25rem !important;
+  color: #AAA5C4 !important;
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 0.5rem 1.25rem;
-  border-radius: 99px;
-  border: 1px solid rgba(168, 85, 247, 0.15);
-  background: rgba(20, 16, 31, 0.55);
-  color: #AAA5C4;
   cursor: pointer;
-  transition: all var(--t-fast);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
-.games-filter-btn:hover {
-  transform: translateY(-2px);
-  background: rgba(28, 20, 47, 0.85);
+.games-select-input option {
+  background: #14101F;
   color: #FFFFFF;
-  border-color: rgba(168, 85, 247, 0.5);
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
 }
-.games-filter-btn.active {
-  background: #FFFFFF;
-  border-color: transparent;
-  color: #0A0910;
+.games-select-input:focus, .games-select-input:hover {
+  outline: none;
+  border-color: var(--v-violet) !important;
+  color: #FFFFFF !important;
   box-shadow: 
-    0 4px 12px rgba(255, 255, 255, 0.1),
-    0 0 20px rgba(168, 85, 247, 0.3);
-  transform: translateY(0);
+    0 0 15px rgba(168, 85, 247, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+  background: rgba(28, 20, 47, 0.75) !important;
 }
-.games-filter-btn.active:hover {
-  transform: translateY(0);
-  background: #FFFFFF;
-  color: #0A0910;
-  box-shadow: 
-    0 4px 12px rgba(255, 255, 255, 0.15),
-    0 0 25px rgba(168, 85, 247, 0.45);
+.games-select-chevron {
+  position: absolute;
+  right: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #AAA5C4;
+  pointer-events: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.games-select-input:focus + .games-select-chevron {
+  color: var(--v-lavender);
+  transform: translateY(-50%) rotate(180deg);
 }
 .games-search-input {
   width: 100%;

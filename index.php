@@ -489,6 +489,38 @@
 </section>
 
 <!-- GAMES -->
+<?php
+// Initialize games data early at the top of games section
+if (!function_exists('getGameMeta')) {
+  function getGameMeta($title, $kat) {
+    $title_lower = strtolower($title);
+    $genre = 'Action / Adventure';
+    $players = '1-2 Players';
+    
+    if (str_contains($title_lower, 'fc') || str_contains($title_lower, 'fifa') || str_contains($title_lower, 'pes') || str_contains($title_lower, 'efootball') || str_contains($title_lower, 'gran turismo') || str_contains($title_lower, 'motogp') || str_contains($title_lower, 'wwe')) {
+      $genre = 'Sports / Racing';
+      $players = '1-4 Players';
+    } elseif (str_contains($title_lower, 'crash') || str_contains($title_lower, 'sonic') || str_contains($title_lower, 'mario') || str_contains($title_lower, 'sackboy')) {
+      $genre = 'Platformer / Arcade';
+      $players = '1-4 Players';
+    } elseif (str_contains($title_lower, 'tekken') || str_contains($title_lower, 'mortal kombat') || str_contains($title_lower, 'street fighter') || str_contains($title_lower, 'naruto')) {
+      $genre = 'Fighting / Action';
+      $players = '1-2 Players';
+    } elseif (str_contains($title_lower, 'god of war') || str_contains($title_lower, 'elden ring') || str_contains($title_lower, 'spiderman') || str_contains($title_lower, 'ghost of tsushima') || str_contains($title_lower, 'horizon') || str_contains($title_lower, 'gta') || str_contains($title_lower, 'last of us') || str_contains($title_lower, 'red dead')) {
+      $genre = 'Action RPG / Open World';
+      $players = '1 Player';
+    }
+    
+    return ['genre' => $genre, 'players' => $players];
+  }
+}
+
+$q_games = mysqli_query($koneksi, "SELECT id_game, judul_game, foto_game, kategori_game, genre_game, players_game FROM games ORDER BY judul_game ASC");
+$arr_games = [];
+while ($g = mysqli_fetch_assoc($q_games)) $arr_games[] = $g;
+$total_games = count($arr_games);
+$limit_games = 6;
+?>
 <section class="games-section" id="games">
   <div class="container">
     <!-- Section Header -->
@@ -505,51 +537,59 @@
       <svg class="games-search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
 
-    <!-- Category Filter Toggles -->
-    <div class="games-filter-nav" style="margin-bottom: 2.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <button class="games-filter-btn active" onclick="filterGames('ALL', this)">All Games</button>
-      <button class="games-filter-btn" onclick="filterGames('PS4', this)">PlayStation 4</button>
-      <button class="games-filter-btn" onclick="filterGames('PS5', this)">PlayStation 5</button>
-      <button class="games-filter-btn" onclick="filterGames('Nintendo', this)">Nintendo Switch</button>
+    <!-- Meta Filter Controls -->
+    <div class="games-filter-container" style="margin-bottom: 2.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+      <!-- Genre Selector -->
+      <div class="games-select-wrap">
+        <select id="filter-genre" onchange="applyFilters()" class="games-select-input">
+          <option value="ALL">Semua Genre</option>
+          <?php
+          $genres = [];
+          foreach ($arr_games as $g) {
+            $kat = $g['kategori_game'] ?? '';
+            $fb = getGameMeta($g['judul_game'], $kat);
+            $gen = !empty($g['genre_game']) ? $g['genre_game'] : $fb['genre'];
+            if (!in_array($gen, $genres)) {
+              $genres[] = $gen;
+            }
+          }
+          sort($genres);
+          foreach ($genres as $gen) {
+            echo '<option value="' . htmlspecialchars($gen) . '">' . htmlspecialchars($gen) . '</option>';
+          }
+          ?>
+        </select>
+        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+
+      <!-- Players Selector -->
+      <div class="games-select-wrap">
+        <select id="filter-players" onchange="applyFilters()" class="games-select-input">
+          <option value="ALL">Semua Jumlah Pemain</option>
+          <?php
+          $players_list = [];
+          foreach ($arr_games as $g) {
+            $kat = $g['kategori_game'] ?? '';
+            $fb = getGameMeta($g['judul_game'], $kat);
+            $pl = !empty($g['players_game']) ? $g['players_game'] : $fb['players'];
+            if (!in_array($pl, $players_list)) {
+              $players_list[] = $pl;
+            }
+          }
+          sort($players_list);
+          foreach ($players_list as $pl) {
+            echo '<option value="' . htmlspecialchars($pl) . '">' . htmlspecialchars($pl) . '</option>';
+          }
+          ?>
+        </select>
+        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
     </div>
 
     <div id="search-result" style="display:none;background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .25s ease both;">
       <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Hasil Pencarian: <strong id="search-keyword" style="color:var(--v-lavender);"></strong></div>
       <div id="search-list"></div>
     </div>
-
-    <?php
-    // Helper function to mock meta attributes since database only has judul, foto, kategori (or for legacy empty values)
-    if (!function_exists('getGameMeta')) {
-      function getGameMeta($title, $kat) {
-        $title_lower = strtolower($title);
-        $genre = 'Action / Adventure';
-        $players = '1-2 Players';
-        
-        if (str_contains($title_lower, 'fc') || str_contains($title_lower, 'fifa') || str_contains($title_lower, 'pes') || str_contains($title_lower, 'efootball') || str_contains($title_lower, 'gran turismo') || str_contains($title_lower, 'motogp') || str_contains($title_lower, 'wwe')) {
-          $genre = 'Sports / Racing';
-          $players = '1-4 Players';
-        } elseif (str_contains($title_lower, 'crash') || str_contains($title_lower, 'sonic') || str_contains($title_lower, 'mario') || str_contains($title_lower, 'sackboy')) {
-          $genre = 'Platformer / Arcade';
-          $players = '1-4 Players';
-        } elseif (str_contains($title_lower, 'tekken') || str_contains($title_lower, 'mortal kombat') || str_contains($title_lower, 'street fighter') || str_contains($title_lower, 'naruto')) {
-          $genre = 'Fighting / Action';
-          $players = '1-2 Players';
-        } elseif (str_contains($title_lower, 'god of war') || str_contains($title_lower, 'elden ring') || str_contains($title_lower, 'spiderman') || str_contains($title_lower, 'ghost of tsushima') || str_contains($title_lower, 'horizon') || str_contains($title_lower, 'gta') || str_contains($title_lower, 'last of us') || str_contains($title_lower, 'red dead')) {
-          $genre = 'Action RPG / Open World';
-          $players = '1 Player';
-        }
-        
-        return ['genre' => $genre, 'players' => $players];
-      }
-    }
-
-    $q_games = mysqli_query($koneksi, "SELECT id_game, judul_game, foto_game, kategori_game, genre_game, players_game FROM games ORDER BY judul_game ASC");
-    $arr_games = [];
-    while ($g = mysqli_fetch_assoc($q_games)) $arr_games[] = $g;
-    $total_games = count($arr_games);
-    $limit_games = 6;
-    ?>
 
     <div class="row" style="margin-top:.5rem;" id="games-grid">
       <?php foreach ($arr_games as $i => $g):
@@ -564,7 +604,7 @@
         $genre = !empty($g['genre_game']) ? htmlspecialchars($g['genre_game']) : $fallback['genre'];
         $players = !empty($g['players_game']) ? htmlspecialchars($g['players_game']) : $fallback['players'];
       ?>
-      <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?> data-platform="<?php echo htmlspecialchars($kat); ?>">
+      <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?> data-platform="<?php echo htmlspecialchars($kat); ?>" data-genre="<?php echo $genre; ?>" data-players="<?php echo $players; ?>">
         <div class="game-card">
           <div class="game-card-img-wrap">
             <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>" class="game-cover-img">
@@ -1022,23 +1062,25 @@ function togglePubGames() {
   btn.classList.toggle('all-shown', !isOpen);
 }
 
-function filterGames(category, btn) {
-  // Update button active state
-  document.querySelectorAll('.games-filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+function applyFilters() {
+  const genreVal = document.getElementById('filter-genre').value;
+  const playersVal = document.getElementById('filter-players').value;
   
   const cards = document.querySelectorAll('#games-grid .col-6game');
   const showMoreBtnWrapper = document.getElementById('btn-pub-games')?.parentElement;
   
   cards.forEach(card => {
-    const platform = card.getAttribute('data-platform') || '';
-    const matchesCategory = (category === 'ALL' || platform === category);
+    const genre = card.getAttribute('data-genre') || '';
+    const players = card.getAttribute('data-players') || '';
     
-    if (matchesCategory) {
+    const matchesGenre = (genreVal === 'ALL' || genre === genreVal);
+    const matchesPlayers = (playersVal === 'ALL' || players === playersVal);
+    
+    if (matchesGenre && matchesPlayers) {
       const isExtra = card.classList.contains('pub-game-extra');
       const isExpanded = document.getElementById('btn-pub-games')?.classList.contains('all-shown');
       
-      if (category === 'ALL') {
+      if (genreVal === 'ALL' && playersVal === 'ALL') {
         if (isExtra && !isExpanded) {
           card.style.display = 'none';
         } else {
@@ -1054,7 +1096,7 @@ function filterGames(category, btn) {
   
   // Hide or show 'Show More' button
   if (showMoreBtnWrapper) {
-    showMoreBtnWrapper.style.display = (category === 'ALL') ? '' : 'none';
+    showMoreBtnWrapper.style.display = (genreVal === 'ALL' && playersVal === 'ALL') ? '' : 'none';
   }
 }
 
