@@ -1515,8 +1515,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   position: relative;
   background: #0B0813;
   border: 1px solid rgba(139, 92, 246, 0.25);
-  border-radius: 20px;
-  padding: 1.75rem;
+  border-radius: 14px;
+  padding: 1.15rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1540,7 +1540,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: var(--font-display);
-  font-size: 3.2rem;
+  font-size: 2.2rem;
   font-weight: 900;
   letter-spacing: 2px;
   color: #FFFFFF;
@@ -1554,18 +1554,18 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 /* Top Area - Logo display */
 .unit-logo-area {
   position: relative;
-  height: 110px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.85rem;
   z-index: 1;
   transform-style: preserve-3d;
 }
 .unit-logo-glow-ring {
   position: absolute;
-  width: 130px;
-  height: 130px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, transparent 70%);
   filter: blur(12px);
@@ -1582,7 +1582,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 }
 
 .unit-ps-logo {
-  width: 155px;
+  width: 115px;
   height: auto;
   opacity: 0.9;
   filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.35));
@@ -1607,12 +1607,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 }
 
 .unit-card-header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.6rem;
 }
 
 .unit-card-title {
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #FFFFFF;
   letter-spacing: 0.5px;
@@ -1621,7 +1621,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 
 .unit-card-subtitle {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 500;
   color: #B9B2D0;
 }
@@ -1630,16 +1630,16 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 .unit-status-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.65rem;
 }
 
 .status-badge {
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 0.25rem 0.8rem;
+  padding: 0.15rem 0.6rem;
   border-radius: 99px;
   display: inline-block;
 }
@@ -1668,18 +1668,18 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   justify-content: center;
   gap: 0.4rem;
   flex-wrap: wrap;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   position: relative;
   z-index: 2;
 }
 .unit-specs-list span {
   font-family: var(--font-ui);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 600;
   color: #B9B2D0;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(139, 92, 246, 0.12);
-  padding: 0.2rem 0.55rem;
+  padding: 0.15rem 0.45rem;
   border-radius: 99px;
   white-space: nowrap;
   transition: all var(--t-fast);
@@ -1693,10 +1693,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 /* Price block */
 .unit-card-price {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: #FFFFFF;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.95rem;
 }
 
 /* Action Buttons */
@@ -1709,12 +1709,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 
 .btn-card-primary, .btn-card-secondary {
   font-family: var(--font-ui);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  border-radius: 8px;
-  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  padding: 0.42rem 0.65rem;
   cursor: pointer;
   transition: all var(--t-fast);
   text-decoration: none;
@@ -2844,10 +2844,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   will-change: transform;
   transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
   transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-}
-.unit-card:hover {
-  /* Let JS override transform, but scale up slightly */
-  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3), 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 .unit-card * {
   /* Ensure children can have 3D translate depth if needed */
