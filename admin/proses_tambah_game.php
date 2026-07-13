@@ -56,8 +56,22 @@ if (!move_uploaded_file($file['tmp_name'], $public_folder . $filename)) {
     exit();
 }
 
-$stmt = $koneksi->prepare("INSERT INTO games (judul_game, foto_game, kategori_game) VALUES (?,?,?)");
-$stmt->bind_param("sss", $judul, $filename, $kategori);
+$genre = trim($_POST['genre'] ?? '');
+if (empty($genre)) { $genre = 'Action / Adventure'; }
+if (mb_strlen($genre) > 100) {
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Genre game terlalu panjang (max 100 karakter)."));
+    exit();
+}
+
+$players = trim($_POST['players'] ?? '');
+if (empty($players)) { $players = '1-2 Players'; }
+if (mb_strlen($players) > 50) {
+    header("Location: master_game.php?msg=error&error_text=" . urlencode("Jumlah pemain terlalu panjang (max 50 karakter)."));
+    exit();
+}
+
+$stmt = $koneksi->prepare("INSERT INTO games (judul_game, foto_game, kategori_game, genre_game, players_game) VALUES (?,?,?,?,?)");
+$stmt->bind_param("sssss", $judul, $filename, $kategori, $genre, $players);
 $stmt->execute();
 $id_game_baru = $koneksi->insert_id;
 $stmt->close();

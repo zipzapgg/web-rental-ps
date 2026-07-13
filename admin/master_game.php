@@ -89,6 +89,8 @@ include __DIR__.'/sidebar.php';
           <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
         <?php endif; ?>
         <h6><?php echo htmlspecialchars($g['judul_game']); ?></h6>
+        <div style="font-size: .78rem; color: var(--v-muted); margin-bottom: .25rem;">Genre: <?php echo htmlspecialchars($g['genre_game'] ?? 'Action / Adventure'); ?></div>
+        <div style="font-size: .78rem; color: var(--v-muted); margin-bottom: .75rem;">Players: <?php echo htmlspecialchars($g['players_game'] ?? '1-2 Players'); ?></div>
         <a href="master_game.php?hapus=<?php echo $g['id_game']; ?>&_token=<?php echo csrf_get_token(); ?>" class="btn-hapus" onclick="return confirm('Hapus game ini?')">🗑 Hapus</a>
         <button type="button" onclick="bukaUnassign(<?php echo $g['id_game']; ?>,'<?php echo htmlspecialchars(addslashes($g['judul_game'])); ?>')" class="btn-kelola">🔗 Kelola Unit</button>
       </div>
@@ -116,6 +118,14 @@ include __DIR__.'/sidebar.php';
           <option value="PS5">PS5</option>
           <option value="Nintendo">Nintendo</option>
         </select>
+      </div>
+      <div class="form-group">
+        <label class="v-label">Genre Game</label>
+        <input type="text" name="genre" class="v-input" placeholder="Contoh: Sports / Racing, Action RPG" required>
+      </div>
+      <div class="form-group">
+        <label class="v-label">Jumlah Pemain (Players)</label>
+        <input type="text" name="players" class="v-input" placeholder="Contoh: 1-4 Players, 1-2 Players" required>
       </div>
       <div class="form-group">
         <label class="v-label">Foto Cover</label>
@@ -154,18 +164,27 @@ include __DIR__.'/sidebar.php';
 
 <!-- MODAL UNASSIGN -->
 <div class="modal-overlay" id="modalUnassign">
-  <div class="modal-box">
+  <div class="modal-box" style="max-width: 520px;">
     <button class="modal-close" onclick="document.getElementById('modalUnassign').classList.remove('open')">✕</button>
-    <div class="modal-title">🔗 KELOLA UNIT <span id="ua-judul" style="color:#fbbf24;"></span></div>
-    <p style="color:var(--v-muted);font-size:.85rem;margin-bottom:1.25rem;">Centang unit yang ingin <strong style="color:#f87171;">dihapus</strong> game ini, lalu klik Simpan.</p>
+    <div class="modal-title" style="margin-bottom: 0.5rem;">🔗 KELOLA UNIT</div>
+    <div style="font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; color: #fbbf24; margin-bottom: 1rem;" id="ua-judul"></div>
+    
+    <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 0.85rem 1rem; margin-bottom: 1.5rem;">
+      <p style="color: #fca5a5; font-size: 0.84rem; line-height: 1.5; margin: 0;">
+        ⚠️ <strong>Pilih unit untuk mencopot game:</strong> Centang unit di bawah yang ingin dihapus relasi gamenya, kemudian tekan tombol Simpan untuk mengeksekusi.
+      </p>
+    </div>
+
     <form method="POST" id="unassignForm">
       <input type="hidden" name="csrf_token" value="<?php echo csrf_token(); ?>">
       <input type="hidden" name="aksi" value="unassign">
       <input type="hidden" name="id_game" id="ua-id-game" value="">
-      <div id="ua-unit-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.6rem;max-height:260px;overflow-y:auto;padding:.25rem;margin-bottom:1.5rem;"></div>
-      <div style="display:flex;gap:.75rem;justify-content:flex-end;">
-        <button type="button" onclick="document.getElementById('modalUnassign').classList.remove('open')" class="btn-sm btn-blue" style="padding:.6rem 1.25rem;">Batal</button>
-        <button type="submit" class="btn-sm btn-red" style="padding:.6rem 1.25rem;">🗑 Hapus dari Unit Terpilih</button>
+      
+      <div id="ua-unit-list" style="display: flex; flex-direction: column; gap: 0.65rem; max-height: 280px; overflow-y: auto; padding: 0.25rem; margin-bottom: 1.75rem;"></div>
+      
+      <div style="display:flex; gap: 0.75rem; justify-content: flex-end; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 1.25rem;">
+        <button type="button" onclick="document.getElementById('modalUnassign').classList.remove('open')" class="btn-sm btn-blue" style="padding: 0.7rem 1.5rem; border-radius: 8px;">Batal</button>
+        <button type="submit" class="btn-sm btn-red" style="padding: 0.7rem 1.5rem; border-radius: 8px; font-weight: 700;">💾 Simpan Perubahan</button>
       </div>
     </form>
   </div>
@@ -208,12 +227,17 @@ function bukaUnassign(id, judul){
   const units = gameUnits[id] || [];
   const list = document.getElementById('ua-unit-list');
   if(!units.length) {
-    list.innerHTML = '<div style="color:var(--v-muted);font-family:var(--font-ui);font-size:.85rem;grid-column:1/-1;">Game ini belum di-assign ke unit manapun.</div>';
+    list.innerHTML = '<div style="color:var(--v-muted);font-family:var(--font-ui);font-size:0.88rem;text-align:center;padding:2rem 0;grid-column:1/-1;">Game ini belum di-assign ke unit manapun.</div>';
   } else {
     list.innerHTML = units.map(u => `
-      <label class="unit-check" style="justify-content: flex-start;">
-        <input type="checkbox" name="unit_ids[]" value="${u.id}" style="accent-color:#f87171;width:14px;height:14px;">
-        <span style="font-family:var(--font-ui);font-size:.85rem;color:#C4B5D4;">${u.nama}</span>
+      <label class="unassign-unit-item">
+        <div class="unassign-unit-left">
+          <span class="unassign-unit-icon">🎮</span>
+          <span class="unassign-unit-name">${u.nama}</span>
+        </div>
+        <div class="unassign-checkbox-wrap">
+          <input type="checkbox" name="unit_ids[]" value="${u.id}" class="unassign-checkbox-input">
+        </div>
       </label>`).join('');
   }
   document.getElementById('modalUnassign').classList.add('open');

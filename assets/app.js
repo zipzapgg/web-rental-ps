@@ -217,4 +217,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const newUrl = window.location.pathname + (window.location.hash || '');
     window.history.replaceState({}, document.title, newUrl);
   }
+
+  // ── Intersection Observer for Section Animations ──
+  const revealSections = ['lokasi', 'sewa'];
+  revealSections.forEach(id => {
+    const sec = document.getElementById(id);
+    if (sec) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            sec.classList.add('reveal-active');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      observer.observe(sec);
+    }
+  });
 });

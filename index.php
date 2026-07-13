@@ -112,9 +112,18 @@
     <div class="section-title">DAFTAR <span class="neon">HARGA</span></div>
     <div class="v-divider"></div>
     <div class="price-tab-nav">
-      <button class="price-tab-btn active" onclick="switchPriceTab('sewa',this)">🏠 Sewa Bawa Pulang</button>
-      <button class="price-tab-btn" onclick="switchPriceTab('tempat',this)">🎮 Main di Tempat</button>
-      <button class="price-tab-btn" onclick="switchPriceTab('playbox',this)">🎒 Playbox</button>
+      <button class="price-tab-btn active" onclick="switchPriceTab('sewa',this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tab-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>Sewa Bawa Pulang</span>
+      </button>
+      <button class="price-tab-btn" onclick="switchPriceTab('tempat',this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tab-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>Main di Tempat</span>
+      </button>
+      <button class="price-tab-btn" onclick="switchPriceTab('playbox',this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tab-icon"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        <span>Playbox</span>
+      </button>
     </div>
 
     <!-- Sewa Panel -->
@@ -128,14 +137,20 @@
       </div>
       <div class="row" style="margin-bottom:1.25rem;">
         <div class="col-half"><div class="price-card ps4">
-          <span class="v-badge v-badge-ps4" style="margin-bottom:.75rem;display:inline-block;">Console</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <span class="v-badge v-badge-ps4" style="display:inline-block;">Console</span>
+            <img src="assets/images/ps4.png" alt="PS4 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
+          </div>
           <div class="price-card-title">PlayStation 4</div><div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
           <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 100.000</span></div>
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 200.000</span></div>
           <div class="price-row"><span class="label">3 Hari <span class="free-badge">Free 2 hari</span></span><span class="price">Rp 300.000</span></div>
         </div></div>
         <div class="col-half"><div class="price-card ps5">
-          <span class="v-badge v-badge-ps5" style="margin-bottom:.75rem;display:inline-block;">Next-Gen</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <span class="v-badge v-badge-ps5" style="display:inline-block;">Next-Gen</span>
+            <img src="assets/images/ps5.png" alt="PS5 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
+          </div>
           <div class="price-card-title">PlayStation 5</div><div class="price-tag">Sewa Bawa Pulang · Per Hari</div>
           <div class="price-row"><span class="label">1 Hari</span><span class="price">Rp 195.000</span></div>
           <div class="price-row"><span class="label">2 Hari <span class="free-badge">Free 1 hari</span></span><span class="price">Rp 390.000</span></div>
@@ -161,7 +176,10 @@
       <p style="color:var(--v-muted);margin-bottom:2rem;font-size:.9rem;">Harga berlaku untuk sesi bermain langsung di toko kami</p>
       <div class="row">
         <div class="col-half"><div class="price-card ps4">
-          <span class="v-badge v-badge-ps4" style="margin-bottom:.75rem;display:inline-block;">Console</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <span class="v-badge v-badge-ps4" style="display:inline-block;">Console</span>
+            <img src="assets/images/ps4.png" alt="PS4 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
+          </div>
           <div class="price-card-title">PlayStation 4</div><div class="price-tag">Main di Tempat · Per Sesi</div>
           <div class="price-row"><span class="label">1 Jam</span><span class="price">Rp 8.000</span></div>
           <div class="price-row"><span class="label">2 Jam</span><span class="price">Rp 15.000</span></div>
@@ -170,7 +188,10 @@
           <div class="price-note">⚠ Waktu tidak dapat disimpan / dipause</div>
         </div></div>
         <div class="col-half"><div class="price-card ps5">
-          <span class="v-badge v-badge-ps5" style="margin-bottom:.75rem;display:inline-block;">Next-Gen</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <span class="v-badge v-badge-ps5" style="display:inline-block;">Next-Gen</span>
+            <img src="assets/images/ps5.png" alt="PS5 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
+          </div>
           <div class="price-card-title">PlayStation 5</div><div class="price-tag">Main di Tempat · Per Sesi</div>
           <div class="price-row"><span class="label">1 Jam</span><span class="price">Rp 15.000</span></div>
           <div class="price-row"><span class="label">2 Jam</span><span class="price">Rp 28.000</span></div>
@@ -198,9 +219,12 @@
       </div>
       <div class="row" style="margin-bottom:1.25rem;">
         <div class="col-half"><div class="price-card playbox">
-          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
-            <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
-            <span class="v-badge v-badge-ps4">PS4</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <div style="display:flex;gap:.5rem;">
+              <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
+              <span class="v-badge v-badge-ps4">PS4</span>
+            </div>
+            <img src="assets/images/ps4.png" alt="PS4 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
           </div>
           <div class="price-card-title">Playbox PS4</div>
           <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
@@ -210,9 +234,12 @@
           <div class="price-note green">Monitor + speaker + 2 controller included</div>
         </div></div>
      <div class="col-half" style="display:none;"><div class="price-card ps5">
-          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;">
-            <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
-            <span class="v-badge v-badge-ps5">PS5</span>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+            <div style="display:flex;gap:.5rem;">
+              <span class="v-badge" style="background:rgba(16,185,129,.15);color:#34d399;border:1px solid rgba(16,185,129,.3);">Playbox</span>
+              <span class="v-badge v-badge-ps5">PS5</span>
+            </div>
+            <img src="assets/images/ps5.png" alt="PS5 Logo" style="height:14px;width:auto;opacity:0.8;filter:drop-shadow(0 0 8px rgba(139,92,246,0.3));">
           </div>
           <div class="price-card-title">Playbox PS5</div>
           <div class="price-tag">Sewa Bawa Pulang · Per 24 Jam</div>
@@ -244,8 +271,14 @@
     <p style="color:var(--v-muted);margin-bottom:2rem;font-size:.9rem;">Klik unit untuk melihat game yang tersedia</p>
 
     <div class="unit-tabs">
-      <button class="unit-tab active" onclick="switchUnitTab('sewa',this)">🏠 Sewa Bawa Pulang</button>
-      <button class="unit-tab" onclick="switchUnitTab('tempat',this)">🎮 Main di Tempat</button>
+      <button class="unit-tab active" onclick="switchUnitTab('sewa',this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tab-icon"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>Sewa Bawa Pulang</span>
+      </button>
+      <button class="unit-tab" onclick="switchUnitTab('tempat',this)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="tab-icon"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>Main di Tempat</span>
+      </button>
     </div>
 
     <!-- Panel Sewa -->
@@ -458,24 +491,56 @@
 <!-- GAMES -->
 <section class="games-section" id="games">
   <div class="container">
-    <div class="section-title">KOLEKSI <span class="neon">GAME</span></div>
-    <div class="v-divider"></div>
-    <div style="margin-bottom:1.5rem;position:relative;max-width:420px;">
-      <input type="text" id="game-search" class="v-input" placeholder="Cari game..." oninput="cariGame(this.value)" style="padding-left:2.75rem;">
-      <svg width="18" height="18" style="position:absolute;left:.9rem;top:50%;transform:translateY(-50%);color:var(--v-muted);pointer-events:none;" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <!-- Section Header -->
+    <div class="location-header">
+      <div class="games-system-label">// DATA_LOAD_SYS_SEC</div>
+      <h2 class="games-title">KOLEKSI <span class="games-gradient-text">GAME</span></h2>
+      <div class="games-divider"></div>
+      <p class="games-subtitle">Browse all available PlayStation games ready to play.</p>
     </div>
+
+    <!-- Search Bar Wrapper -->
+    <div class="games-search-wrap">
+      <input type="text" id="game-search" class="games-search-input" placeholder="Cari game favorit..." oninput="cariGame(this.value)">
+      <svg class="games-search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </div>
+
     <div id="search-result" style="display:none;background:var(--v-card);border:1px solid var(--v-border);border-radius:14px;padding:1.5rem;margin-bottom:1.5rem;animation:fadeUp .25s ease both;">
       <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Hasil Pencarian: <strong id="search-keyword" style="color:var(--v-lavender);"></strong></div>
       <div id="search-list"></div>
     </div>
 
     <?php
-    // Logika Query: Bersih dari DISTINCT/JOIN agar urutan Abjad (A-Z) mutlak bekerja
-    $q_games = mysqli_query($koneksi, "SELECT id_game, judul_game, foto_game, kategori_game FROM games ORDER BY judul_game ASC");
+    // Helper function to mock meta attributes since database only has judul, foto, kategori (or for legacy empty values)
+    if (!function_exists('getGameMeta')) {
+      function getGameMeta($title, $kat) {
+        $title_lower = strtolower($title);
+        $genre = 'Action / Adventure';
+        $players = '1-2 Players';
+        
+        if (str_contains($title_lower, 'fc') || str_contains($title_lower, 'fifa') || str_contains($title_lower, 'pes') || str_contains($title_lower, 'efootball') || str_contains($title_lower, 'gran turismo') || str_contains($title_lower, 'motogp') || str_contains($title_lower, 'wwe')) {
+          $genre = 'Sports / Racing';
+          $players = '1-4 Players';
+        } elseif (str_contains($title_lower, 'crash') || str_contains($title_lower, 'sonic') || str_contains($title_lower, 'mario') || str_contains($title_lower, 'sackboy')) {
+          $genre = 'Platformer / Arcade';
+          $players = '1-4 Players';
+        } elseif (str_contains($title_lower, 'tekken') || str_contains($title_lower, 'mortal kombat') || str_contains($title_lower, 'street fighter') || str_contains($title_lower, 'naruto')) {
+          $genre = 'Fighting / Action';
+          $players = '1-2 Players';
+        } elseif (str_contains($title_lower, 'god of war') || str_contains($title_lower, 'elden ring') || str_contains($title_lower, 'spiderman') || str_contains($title_lower, 'ghost of tsushima') || str_contains($title_lower, 'horizon') || str_contains($title_lower, 'gta') || str_contains($title_lower, 'last of us') || str_contains($title_lower, 'red dead')) {
+          $genre = 'Action RPG / Open World';
+          $players = '1 Player';
+        }
+        
+        return ['genre' => $genre, 'players' => $players];
+      }
+    }
+
+    $q_games = mysqli_query($koneksi, "SELECT id_game, judul_game, foto_game, kategori_game, genre_game, players_game FROM games ORDER BY judul_game ASC");
     $arr_games = [];
     while ($g = mysqli_fetch_assoc($q_games)) $arr_games[] = $g;
     $total_games = count($arr_games);
-    $limit_games =6;
+    $limit_games = 6;
     ?>
 
     <div class="row" style="margin-top:.5rem;" id="games-grid">
@@ -484,16 +549,25 @@
         $bc     = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
         $hidden = $i >= $limit_games;
         
-        // Penggabungan Class & Style yang Benar (Tidak ada class ganda)
         $class_extra = $hidden ? ' pub-game-extra' : '';
         $style_extra = $hidden ? ' style="display:none;"' : '';
+        
+        $fallback = getGameMeta($g['judul_game'], $kat);
+        $genre = !empty($g['genre_game']) ? htmlspecialchars($g['genre_game']) : $fallback['genre'];
+        $players = !empty($g['players_game']) ? htmlspecialchars($g['players_game']) : $fallback['players'];
       ?>
       <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?>>
         <div class="game-card">
-          <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>">
+          <div class="game-card-img-wrap">
+            <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>" class="game-cover-img">
+            <?php if ($kat): ?><span class="game-platform-badge <?php echo $bc; ?>"><?php echo $kat; ?></span><?php endif; ?>
+          </div>
           <div class="game-card-body">
-            <?php if ($kat): ?><span class="v-badge <?php echo $bc; ?>" style="font-size:.65rem;padding:.1rem .4rem;margin-bottom:.4rem;display:inline-block;"><?php echo $kat; ?></span><?php endif; ?>
-            <div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?php echo htmlspecialchars($g['judul_game']); ?></div>
+            <div class="game-card-title-text" title="<?php echo htmlspecialchars($g['judul_game']); ?>"><?php echo htmlspecialchars($g['judul_game']); ?></div>
+            <div class="game-card-meta">
+              <span class="game-meta-genre"><?php echo $genre; ?></span>
+              <span class="game-meta-players">👥 <?php echo $players; ?></span>
+            </div>
           </div>
         </div>
       </div>
@@ -514,32 +588,108 @@
 <section class="sewa-section" id="sewa">
   <div class="container">
     <div class="row" style="align-items:center;gap:4rem;">
+      <!-- Left Column: Description & Features -->
       <div class="col-half">
-        <div class="hero-eyebrow">Layanan Sewa Harian</div>
-        <div class="section-title">SEWA <span class="neon">BAWA<br>PULANG</span></div>
-        <div class="v-divider"></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true"><use href="#ico-phone"/></svg></div><div class="sewa-feature-text"><h6>Booking via WhatsApp</h6><p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-store"/></svg></div><div class="sewa-feature-text"><h6>Ambil di Toko</h6><p>Datang langsung ke toko kami di Jagakarsa karena unit tidak bisa diantar.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-idcard"/></svg></div><div class="sewa-feature-text"><h6>Jaminan KTP & STNK</h6><p>Dokumen asli diserahkan saat pengambilan. Alamat KTP & STNK harus Jagakarsa.</p></div></div>
-        <div class="sewa-feature"><div class="sewa-icon"><svg width="22" height="22" aria-hidden="true" style="flex-shrink:0;"><use href="#ico-gift"/></svg></div><div class="sewa-feature-text"><h6>Promo Weekday</h6><p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari berlaku Senin s/d Kamis!</p></div></div>
-        <a href="sewa.php" class="btn-violet" style="display:inline-block;text-decoration:none;margin-top:1rem;"><span>Ajukan Sewa Sekarang</span></a>
-      </div>
-      <div class="col-half"><div class="v-card" style="padding:2.5rem;">
-        <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--v-muted);text-transform:uppercase;margin-bottom:1.5rem;">Unit Sewa Tersedia</div>
-        <?php
-        $units = mysqli_query($koneksi, "SELECT * FROM units WHERE tipe_layanan='Sewa Luar' AND status='Tersedia' ORDER BY kategori");
-        $ada   = false;
-        while ($u = mysqli_fetch_assoc($units)):
-          $ada = true; $kat = $u['kategori']; $bc = $kat === 'PS5' ? 'v-badge-ps5' : ($kat === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4');
-        ?>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--v-border);">
-          <span style="font-family:var(--font-ui);font-size:.95rem;color:#C4B5D4;"><?php echo htmlspecialchars($u['nama_unit']); ?></span>
-          <span class="v-badge <?php echo $bc; ?>"><?php echo $kat; ?></span>
+        <div class="sewa-system-label">// RENTAL_SERVICE_MODULE</div>
+        <h2 class="sewa-title">SEWA <span class="sewa-gradient-text">BAWA PULANG</span></h2>
+        <div class="sewa-divider"></div>
+        <p class="sewa-description">
+          Nikmati layanan sewa PlayStation harian dengan proses cepat, jaminan aman, dan reservasi mudah melalui WhatsApp.
+        </p>
+
+        <!-- Feature Rows -->
+        <div class="sewa-feature">
+          <div class="sewa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="sewa-feature-text">
+            <h6>Booking via WhatsApp</h6>
+            <p>Hubungi minimal H-1 sebelum tanggal pengambilan untuk reservasi unit.</p>
+          </div>
         </div>
-        <?php endwhile;
-        if (!$ada): ?><div style="text-align:center;padding:2rem;color:var(--v-muted);font-family:var(--font-ui);font-size:.9rem;">Semua unit sedang disewa 😊</div><?php endif; ?>
-        <div style="margin-top:1rem;font-size:.78rem;color:#93c5fd;font-family:var(--font-ui);background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.15);border-radius:8px;padding:.6rem .85rem;">ℹ️ PS5 juga bisa disewa hubungi WA untuk cek ketersediaan</div>
-      </div></div>
+        
+        <div class="sewa-feature">
+          <div class="sewa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="sewa-feature-text">
+            <h6>Ambil di Toko</h6>
+            <p>Datang langsung ke toko kami di Jagakarsa karena unit tidak bisa diantar.</p>
+          </div>
+        </div>
+
+        <div class="sewa-feature">
+          <div class="sewa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/></svg>
+          </div>
+          <div class="sewa-feature-text">
+            <h6>Jaminan KTP & STNK</h6>
+            <p>Dokumen asli diserahkan saat pengambilan. Alamat KTP & STNK harus Jagakarsa.</p>
+          </div>
+        </div>
+
+        <div class="sewa-feature">
+          <div class="sewa-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <div class="sewa-feature-text">
+            <h6>Promo Weekday</h6>
+            <p>Sewa 2 hari gratis 1 hari, sewa 3 hari gratis 2 hari berlaku Senin s/d Kamis!</p>
+          </div>
+        </div>
+
+        <a href="sewa.php" class="btn-wa-sewa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><use href="#ico-wa"/></svg>
+          <span>Ajukan Sewa Sekarang</span>
+        </a>
+      </div>
+
+      <!-- Right Column: Live Status Card -->
+      <div class="col-half">
+        <?php
+        $q_ready = mysqli_query($koneksi, "SELECT COUNT(*) as c FROM units WHERE tipe_layanan='Sewa Luar' AND status='Tersedia'");
+        $ready_count = mysqli_fetch_assoc($q_ready)['c'];
+        ?>
+        <div class="sewa-status-card">
+          <div class="status-card-header">
+            <h5 class="status-card-title">Unit Sewa Tersedia</h5>
+            <span class="status-ready-badge"><?php echo $ready_count; ?> Unit Ready</span>
+          </div>
+          <div class="sewa-unit-list">
+            <?php
+            $q_units = mysqli_query($koneksi, "SELECT * FROM units WHERE tipe_layanan='Sewa Luar' ORDER BY kategori, nama_unit");
+            $ada = false;
+            while ($u = mysqli_fetch_assoc($q_units)):
+              $ada = true;
+              $status = $u['status']; // Tersedia, Disewa, Maintenance
+              
+              if ($status === 'Tersedia') {
+                $status_html = '<span class="status-pill status-ready">🟢 Ready</span>';
+              } elseif ($status === 'Disewa') {
+                $status_html = '<span class="status-pill status-reserved">🟡 Reserved</span>';
+              } else {
+                $status_html = '<span class="status-pill status-maint">🔴 Maint</span>';
+              }
+            ?>
+            <div class="sewa-unit-row">
+              <span class="unit-name"><?php echo htmlspecialchars($u['nama_unit']); ?></span>
+              <?php echo $status_html; ?>
+            </div>
+            <?php endwhile;
+            if (!$ada): ?>
+              <div class="empty-units-text">Tidak ada unit terdaftar 😊</div>
+            <?php endif; ?>
+          </div>
+          
+          <!-- Info Alert Box -->
+          <div class="sewa-premium-alert">
+            <span class="alert-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </span>
+            <p class="alert-text">PS5 juga bisa disewa, silakan hubungi WhatsApp untuk cek ketersediaan terbaru.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -580,50 +730,172 @@
 <!-- LOKASI -->
 <section class="map-section" id="lokasi">
   <div class="container">
-    <div class="section-title">LOKASI <span class="neon">KAMI</span></div>
-    <div class="v-divider"></div>
+    <!-- Section Header -->
+    <div class="location-header">
+      <div class="location-system-label">// LOCATION_MODULE_ACTIVE</div>
+      <h2 class="location-title">LOKASI <span class="location-gradient-text">KAMI</span></h2>
+      <div class="location-divider"></div>
+      <p class="location-description">
+        Temukan Violet PlayStation dengan mudah. Kami siap melayani setiap hari di Jagakarsa, Jakarta Selatan.
+      </p>
+    </div>
+
     <div class="row" style="align-items:stretch;margin-top:1rem;">
-      <div class="col-half"><div class="map-info">
-        <h4>Violet PlayStation</h4>
-        <div class="map-detail"><div class="map-detail-icon">📍</div><div class="map-detail-text"><strong>Alamat</strong><p>Jl. Jagakarsa II No.5D, RT.1/RW.7, Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620</p></div></div>
-        <div class="map-detail"><div class="map-detail-icon">🕐</div><div class="map-detail-text"><strong>Jam Operasional</strong><p>Setiap hari · Senin-Kamis (09.00-22.00) Jumat (13.00-23.00) Sabtu-Minggu (09.00-23.00)</p></div></div>
-        <div class="map-detail"><div class="map-detail-icon">📱</div><div class="map-detail-text"><strong>WhatsApp</strong><p>0858-4783-1078</p></div></div>
-        <div class="map-detail"><div class="map-detail-icon">⚠</div><div class="map-detail-text"><strong>Penting</strong><p>Booking H-1 via WA. KTP & STNK Jagakarsa wajib dibawa.</p></div></div>
-        <a href="https://wa.me/6285847831078" target="_blank" class="btn-violet" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;margin-top:1.5rem;width:100%;justify-content:center;"><span>Chat WhatsApp</span></a>
-      </div></div>
-      <div class="col-half"><div class="map-wrap" style="height:100%;min-height:350px;">
-        <iframe loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5!2d106.8198065!3d-6.3269265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed005178c647%3A0x884731391d96c010!2sViolet%20PlayStation!5e0!3m2!1sid!2sid!4v1" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div></div>
+      <!-- Left Info Card -->
+      <div class="col-half">
+        <div class="location-card">
+          <div>
+            <h4 class="location-card-title">VIOLET PLAYSTATION</h4>
+            <div class="location-card-subtitle">Premium PlayStation Rental Center</div>
+            
+            <div class="location-detail-list">
+              <div class="location-detail-row">
+                <div class="location-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="location-info-text">
+                  <strong>Alamat</strong>
+                  <p>Jl. Jagakarsa II No.5D, RT.1/RW.7, Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620</p>
+                </div>
+              </div>
+              <div class="location-detail-row">
+                <div class="location-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="location-info-text">
+                  <strong>Jam Operasional</strong>
+                  <p>Senin-Kamis (09.00-22.00) · Jumat (13.00-23.00) · Sabtu-Minggu (09.00-23.00)</p>
+                </div>
+              </div>
+              <div class="location-detail-row">
+                <div class="location-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="location-info-text">
+                  <strong>WhatsApp</strong>
+                  <p>0858-4783-1078 (Respons Cepat)</p>
+                </div>
+              </div>
+              <div class="location-detail-row">
+                <div class="location-icon-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="location-info-text">
+                  <strong>Penting</strong>
+                  <p>Booking H-1 via WA. KTP & STNK Jagakarsa wajib dibawa sebagai jaminan sewa.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <a href="https://wa.me/6285847831078" target="_blank" class="btn-wa-location">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;"><use href="#ico-wa"/></svg>
+            <span>Chat WhatsApp</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Map Frame -->
+      <div class="col-half">
+        <div class="location-map-wrap">
+          <iframe loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.5!2d106.8198065!3d-6.3269265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed005178c647%3A0x884731391d96c010!2sViolet%20PlayStation!5e0!3m2!1sid!2sid!4v1" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="v-footer">
+  <!-- Huge Watermark -->
+  <div class="footer-watermark">VIOLET</div>
+  
   <div class="container">
-    <div style="display:flex;flex-wrap:wrap;gap:3rem;justify-content:space-between;">
-      <div>
-        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;">VIOLET <span class="neon">PLAYSTATION</span></div>
-        <div style="color:var(--v-muted);font-size:.9rem;margin-top:.5rem;">Sewa PS & Playbox Jagakarsa, Jakarta Selatan</div>
-        <div style="display:flex;gap:.75rem;margin-top:1.5rem;align-items:center;">
-          <a href="https://wa.me/6285847831078" target="_blank" class="wa-btn" title="WhatsApp"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><use href="#ico-wa"/></svg></a>
-          <a href="https://www.instagram.com/violetplaystation/" target="_blank" class="ig-btn" title="Instagram" style="width:44px;height:44px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+    <div class="footer-grid">
+      <!-- Left Section -->
+      <div class="footer-sec-left">
+        <div class="footer-brand">VIOLET <span class="neon">PLAYSTATION</span></div>
+        <div class="footer-sub-brand">Premium PlayStation Rental <span class="sub-sep">•</span> PS4 • PS5 • Playbox</div>
+        <p class="footer-description">
+          Providing premium PlayStation rental services in Jagakarsa, Jakarta Selatan with modern booking experience.
+        </p>
+        <div class="footer-social-wrap">
+          <a href="https://wa.me/6285847831078" target="_blank" class="footer-social-btn" title="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><use href="#ico-wa"/></svg>
+          </a>
+          <a href="https://www.instagram.com/violetplaystation/" target="_blank" class="footer-social-btn" title="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
         </div>
       </div>
-      <div>
-        <div style="font-family:var(--font-ui);font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--v-muted);margin-bottom:1rem;">Menu</div>
-        <div style="display:flex;flex-direction:column;gap:.6rem;">
-          <a href="#harga" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Daftar Harga</a>
-          <a href="#unit" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Cek Unit</a>
-          <a href="#games" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Koleksi Game</a>
-          <a href="sewa.php" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Form Sewa</a>
-          <a href="#lokasi" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Lokasi</a>
-          <a href="#faq" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">FAQ</a>
-          <a href="cek_status.php" style="color:#9d8bb0;text-decoration:none;font-size:.9rem;">Cek Status Sewa</a>
+
+      <!-- Center Section -->
+      <div class="footer-sec-center">
+        <h5 class="footer-sec-title">Quick Links</h5>
+        <div class="footer-links-grid">
+          <a href="#harga" class="footer-link">Daftar Harga</a>
+          <a href="#unit" class="footer-link">Cek Unit</a>
+          <a href="#games" class="footer-link">Koleksi Game</a>
+          <a href="sewa.php" class="footer-link">Form Sewa</a>
+          <a href="#lokasi" class="footer-link">Lokasi</a>
+          <a href="#faq" class="footer-link">FAQ</a>
+          <a href="cek_status.php" class="footer-link">Cek Status</a>
+        </div>
+      </div>
+
+      <!-- Right Section -->
+      <div class="footer-sec-right">
+        <h5 class="footer-sec-title">Information</h5>
+        <div class="footer-info-list">
+          <div class="footer-info-item">
+            <span class="info-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <div>
+              <strong>Jagakarsa</strong>
+              <span>Jakarta Selatan</span>
+            </div>
+          </div>
+          <div class="footer-info-item">
+            <span class="info-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </span>
+            <div>
+              <strong>Open Daily</strong>
+              <span>09:00 - 23:00</span>
+            </div>
+          </div>
+          <div class="footer-info-item">
+            <span class="info-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="3"/><path d="M12 12h.01"/></svg>
+            </span>
+            <div>
+              <strong>Platform</strong>
+              <span>PS4 • PS5 • Playbox</span>
+            </div>
+          </div>
+          <div class="footer-info-item">
+            <span class="info-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div>
+              <strong>WhatsApp</strong>
+              <span>Available Every Day</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="footer-copy">© 2026 Violet PlayStation · Jagakarsa, Jakarta Selatan</div>
+
+    <!-- Glowing Divider -->
+    <div class="footer-glow-divider"></div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom-bar">
+      <div class="copyright">© 2026 Violet PlayStation</div>
+      <div class="credits">Made with ❤️ in Jakarta Selatan</div>
+      <div class="version">V-SYS v2.0</div>
+    </div>
   </div>
 </footer>
 
