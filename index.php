@@ -539,6 +539,17 @@ $limit_games = 6;
 
     <!-- Meta Filter Controls -->
     <div class="games-filter-container" style="margin-bottom: 2.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+      <!-- Console Selector -->
+      <div class="games-select-wrap">
+        <select id="filter-console" onchange="applyFilters()" class="games-select-input">
+          <option value="ALL">Semua Konsol</option>
+          <option value="PS4">PlayStation 4</option>
+          <option value="PS5">PlayStation 5</option>
+          <option value="Nintendo">Nintendo Switch</option>
+        </select>
+        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+
       <!-- Genre Selector -->
       <div class="games-select-wrap">
         <select id="filter-genre" onchange="applyFilters()" class="games-select-input">
@@ -1063,6 +1074,7 @@ function togglePubGames() {
 }
 
 function applyFilters() {
+  const consoleVal = document.getElementById('filter-console').value;
   const genreVal = document.getElementById('filter-genre').value;
   const playersVal = document.getElementById('filter-players').value;
   
@@ -1070,17 +1082,19 @@ function applyFilters() {
   const showMoreBtnWrapper = document.getElementById('btn-pub-games')?.parentElement;
   
   cards.forEach(card => {
+    const platform = card.getAttribute('data-platform') || '';
     const genre = card.getAttribute('data-genre') || '';
     const players = card.getAttribute('data-players') || '';
     
+    const matchesConsole = (consoleVal === 'ALL' || platform === consoleVal);
     const matchesGenre = (genreVal === 'ALL' || genre === genreVal);
     const matchesPlayers = (playersVal === 'ALL' || players === playersVal);
     
-    if (matchesGenre && matchesPlayers) {
+    if (matchesConsole && matchesGenre && matchesPlayers) {
       const isExtra = card.classList.contains('pub-game-extra');
       const isExpanded = document.getElementById('btn-pub-games')?.classList.contains('all-shown');
       
-      if (genreVal === 'ALL' && playersVal === 'ALL') {
+      if (consoleVal === 'ALL' && genreVal === 'ALL' && playersVal === 'ALL') {
         if (isExtra && !isExpanded) {
           card.style.display = 'none';
         } else {
@@ -1096,7 +1110,7 @@ function applyFilters() {
   
   // Hide or show 'Show More' button
   if (showMoreBtnWrapper) {
-    showMoreBtnWrapper.style.display = (genreVal === 'ALL' && playersVal === 'ALL') ? '' : 'none';
+    showMoreBtnWrapper.style.display = (consoleVal === 'ALL' && genreVal === 'ALL' && playersVal === 'ALL') ? '' : 'none';
   }
 }
 
