@@ -616,7 +616,7 @@ $limit_games = 6;
         $players = !empty($g['players_game']) ? htmlspecialchars($g['players_game']) : $fallback['players'];
       ?>
       <div class="col-6game<?php echo $class_extra; ?>"<?php echo $style_extra; ?> data-platform="<?php echo htmlspecialchars($kat); ?>" data-genre="<?php echo $genre; ?>" data-players="<?php echo $players; ?>">
-        <div class="game-card">
+        <div class="game-card" onclick="bukaDetailGame('<?php echo htmlspecialchars(addslashes($g['judul_game'])); ?>', 'uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>', '<?php echo htmlspecialchars($genre); ?>', '<?php echo htmlspecialchars($players); ?>', '<?php echo htmlspecialchars($kat); ?>')">
           <div class="game-card-img-wrap">
             <img src="uploads/games/<?php echo htmlspecialchars($g['foto_game']); ?>" alt="<?php echo htmlspecialchars($g['judul_game']); ?>" class="game-cover-img">
             <?php if ($kat): ?><span class="game-platform-badge <?php echo $bc; ?>"><?php echo $kat; ?></span><?php endif; ?>
@@ -1130,6 +1130,45 @@ function toggleFaq(i) {
   ico.style.transform = open ? '' : 'rotate(45deg)';
 }
 
+<!-- MODAL DETAIL GAME -->
+<div class="modal-overlay" id="modalDetailGame" style="display:none; align-items:center; justify-content:center; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10,9,16,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); z-index:9999; padding:1rem;">
+  <div class="modal-box" style="max-width: 580px; background:#0B0813; border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 24px; padding: 2rem; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(168, 85, 247, 0.2); animation: fadeUp 0.3s ease both;">
+    <button class="modal-close" onclick="tutupDetailGame()" style="position:absolute; right:1.25rem; top:1.25rem; background:none; border:none; color:#AAA5C4; font-size:1.25rem; cursor:pointer; transition:color 0.2s;">✕</button>
+    
+    <div style="display:flex; gap: 1.5rem; flex-wrap: wrap;">
+      <!-- Left: Game Cover -->
+      <div style="flex: 0 0 160px; max-width: 100%; border-radius: 16px; overflow:hidden; border: 1px solid rgba(168, 85, 247, 0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.5);">
+        <img id="md-cover" src="" alt="Cover" style="width:100%; height:220px; object-fit:cover; display:block;">
+      </div>
+      
+      <!-- Right: Game Details -->
+      <div style="flex: 1; min-width: 240px; display:flex; flex-direction:column; justify-content:space-between;">
+        <div>
+          <span id="md-platform" class="game-platform-badge" style="position:static; display:inline-block; margin-bottom:0.75rem;">PS5</span>
+          <h3 id="md-title" style="font-family:var(--font-display); font-size:1.45rem; font-weight:800; color:#FFFFFF; margin-bottom:0.75rem; line-height:1.2;"></h3>
+          <div style="font-family:var(--font-ui); font-size:0.85rem; color:#AAA5C4; margin-bottom:0.4rem;">
+            <strong>Genre:</strong> <span id="md-genre"></span>
+          </div>
+          <div style="font-family:var(--font-ui); font-size:0.85rem; color:#AAA5C4; margin-bottom:1.25rem;">
+            <strong>Players:</strong> <span id="md-players"></span>
+          </div>
+        </div>
+        
+        <!-- Available Units List -->
+        <div>
+          <h5 style="font-family:var(--font-ui); font-size:0.85rem; font-weight:700; color:#FFFFFF; margin-bottom:0.75rem; letter-spacing:1px; text-transform:uppercase;">Tersedia di Unit:</h5>
+          <div id="md-units-list" style="display:flex; flex-wrap:wrap; gap:0.5rem;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer Button -->
+    <div style="margin-top:2rem; border-top:1px solid rgba(255,255,255,0.06); padding-top:1.25rem; display:flex; justify-content:flex-end;">
+      <button onclick="tutupDetailGame()" class="btn-sm btn-blue" style="padding:0.7rem 1.75rem; border-radius:100px; font-family:var(--font-ui); font-size:0.85rem; cursor:pointer;">Tutup</button>
+    </div>
+  </div>
+</div>
+
 // ── Search game ──────────────────────────────────────────────────────────────
 const allGames = <?php
 $gdata = [];
@@ -1173,6 +1212,40 @@ function cariGame(q) {
   list.innerHTML = h;
   box.style.display = 'block';
 }
+
+function bukaDetailGame(title, coverSrc, genre, players, platform) {
+  document.getElementById('md-title').textContent = title;
+  document.getElementById('md-cover').src = coverSrc;
+  document.getElementById('md-genre').textContent = genre;
+  document.getElementById('md-players').textContent = players;
+  
+  const badge = document.getElementById('md-platform');
+  badge.textContent = platform;
+  badge.className = 'game-platform-badge ' + (platform === 'PS5' ? 'v-badge-ps5' : (platform === 'Nintendo' ? 'v-badge-nin' : 'v-badge-ps4'));
+  
+  const gameInfo = allGames.find(g => g.judul.toLowerCase() === title.toLowerCase());
+  const list = document.getElementById('md-units-list');
+  
+  if (gameInfo && gameInfo.units && gameInfo.units.length > 0) {
+    list.innerHTML = gameInfo.units.map(u => `
+      <span style="background:rgba(168, 85, 247, 0.08); border:1px solid rgba(168, 85, 247, 0.25); border-radius:6px; padding:0.35rem 0.75rem; font-size:0.78rem; font-family:var(--font-ui); font-weight:600; color:#FFFFFF; text-shadow:0 0 10px rgba(168,85,247,0.3);">${u.nama}</span>
+    `).join('');
+  } else {
+    list.innerHTML = `<span style="font-family:var(--font-ui); font-size:0.8rem; color:#AAA5C4;">Belum di-assign ke unit manapun.</span>`;
+  }
+  
+  document.getElementById('modalDetailGame').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function tutupDetailGame() {
+  document.getElementById('modalDetailGame').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modalDetailGame').addEventListener('click', function(e) {
+  if (e.target === this) tutupDetailGame();
+});
 </script>
 </body>
 </html>
