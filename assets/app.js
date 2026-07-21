@@ -218,6 +218,38 @@ document.addEventListener('DOMContentLoaded', () => {
     window.history.replaceState({}, document.title, newUrl);
   }
 
+  // ── Navbar Sticky Scroll & Active Section Highlighting ──
+  const navbar = document.querySelector('.v-navbar');
+  const navLinks = document.querySelectorAll('.v-navbar .nav-links a[href^="#"]');
+  const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+  function onScrollNavbar() {
+    if (window.scrollY > 40) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+
+    let currentSec = '';
+    sections.forEach(sec => {
+      const secTop = sec.offsetTop - 120;
+      if (window.scrollY >= secTop) {
+        currentSec = '#' + sec.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentSec) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScrollNavbar, { passive: true });
+  onScrollNavbar();
+
   // ── Intersection Observer for Section Animations ──
   const revealSections = ['lokasi', 'sewa'];
   revealSections.forEach(id => {

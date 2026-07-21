@@ -14,8 +14,8 @@
   <meta property="og:image" content="https://violetplaystation.com/assets/images/logo-violet.jpeg">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#8B5CF6">
-  <link rel="stylesheet" href="assets/css/violet.css">
-  <script src="assets/app.js" defer></script>
+  <link rel="stylesheet" href="assets/css/violet.css?v=<?php echo time(); ?>">
+  <script src="assets/app.js?v=<?php echo time(); ?>" defer></script>
 </head>
 <body>
 
@@ -65,6 +65,10 @@
   </div>
   <div class="container hero-container">
     <div class="hero-content col-half animate-fade-up">
+      <div class="awwwards-status-pill">
+        <span class="live-pulse-dot"></span>
+        <span>SYSTEM ONLINE · SEWA CONSOLE & PLAYBOX HARI INI</span>
+      </div>
       <div class="hero-eyebrow">
         <svg width="14" height="14" aria-hidden="true" style="opacity:.8"><use href="#ico-pin"/></svg>
         <span>Jagakarsa · Jakarta Selatan</span>
@@ -537,23 +541,25 @@ $limit_games = 6;
       <svg class="games-search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
     </div>
 
-    <!-- Meta Filter Controls -->
-    <div class="games-filter-container" style="margin-bottom: 2.25rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <!-- Meta Filter Controls (Icon + Text + Chevron Down Pills) -->
+    <div class="games-filter-container" style="margin-bottom: 2.25rem; display: flex; gap: 0.6rem; align-items: center;">
       <!-- Console Selector -->
       <div class="games-select-wrap">
+        <svg class="games-select-icon" width="15" height="15"><use href="#ico-gamepad"/></svg>
         <select id="filter-console" onchange="applyFilters()" class="games-select-input">
-          <option value="ALL">Semua Konsol</option>
+          <option value="ALL">Konsol</option>
           <option value="PS4">PlayStation 4</option>
           <option value="PS5">PlayStation 5</option>
           <option value="Nintendo">Nintendo Switch</option>
         </select>
-        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg class="games-select-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
 
       <!-- Genre Selector -->
       <div class="games-select-wrap">
+        <svg class="games-select-icon" width="15" height="15"><use href="#ico-tag"/></svg>
         <select id="filter-genre" onchange="applyFilters()" class="games-select-input">
-          <option value="ALL">Semua Genre</option>
+          <option value="ALL">Genre</option>
           <?php
           $genres = [];
           foreach ($arr_games as $g) {
@@ -570,13 +576,14 @@ $limit_games = 6;
           }
           ?>
         </select>
-        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg class="games-select-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
 
       <!-- Players Selector -->
       <div class="games-select-wrap">
+        <svg class="games-select-icon" width="15" height="15"><use href="#ico-users"/></svg>
         <select id="filter-players" onchange="applyFilters()" class="games-select-input">
-          <option value="ALL">Semua Jumlah Pemain</option>
+          <option value="ALL">Pemain</option>
           <?php
           $players_list = [];
           foreach ($arr_games as $g) {
@@ -593,7 +600,7 @@ $limit_games = 6;
           }
           ?>
         </select>
-        <svg class="games-select-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        <svg class="games-select-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
     </div>
 
@@ -1249,5 +1256,18 @@ document.getElementById('modalDetailGame').addEventListener('click', function(e)
   if (e.target === this) tutupDetailGame();
 });
 </script>
+
+<!-- MOBILE BOTTOM DOCK NAVIGATION -->
+<div class="v-mobile-dock" aria-label="Mobile Navigation">
+  <a href="#harga" class="dock-item"><svg width="18" height="18"><use href="#ico-tag"/></svg><span>Harga</span></a>
+  <a href="#unit" class="dock-item"><svg width="18" height="18"><use href="#ico-gamepad"/></svg><span>Unit</span></a>
+  <a href="sewa.php" class="dock-btn-center">
+    <svg width="20" height="20" style="margin-bottom:2px;"><use href="#ico-gamepad"/></svg>
+    <span>Sewa</span>
+  </a>
+  <a href="#games" class="dock-item"><svg width="18" height="18"><use href="#ico-monitor"/></svg><span>Game</span></a>
+  <a href="cek_status.php" class="dock-item"><svg width="18" height="18"><use href="#ico-search"/></svg><span>Status</span></a>
+</div>
+
 </body>
 </html>

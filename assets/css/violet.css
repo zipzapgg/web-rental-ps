@@ -602,19 +602,23 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 }
 
 
-.v-navbar .nav-links { display: flex; gap: 2rem; align-items: center; } /* widened gap to 2rem */
+.v-navbar .nav-links { display: flex; gap: 0.5rem; align-items: center; }
 .v-navbar .nav-links a {
   font-family: var(--font-ui);
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.65);
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.75);
   text-decoration: none;
-  transition: color 0.25s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
   position: relative;
-  padding: 0.35rem 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .v-navbar .nav-links a svg {
   flex-shrink: 0;
@@ -623,74 +627,76 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   opacity: 0.85;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
-.v-navbar .nav-links a:hover svg {
-  transform: scale(1.1);
-  opacity: 1;
-}
 
-/* ── Auto-revealing Nav Label ── */
+/* ── Interactive Auto-Revealing Nav Label (Expands on Hover, Click & Active Section) ── */
 .v-navbar .nav-label {
   max-width: 0;
   opacity: 0;
+  margin-left: 0;
   display: inline-block;
   white-space: nowrap;
-  transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, margin-left 0.25s ease;
+  overflow: hidden;
+  transition: max-width 0.38s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease, margin-left 0.28s ease;
+  font-weight: 700;
+  font-size: 0.84rem;
   pointer-events: none;
-  font-weight: 700;
-  overflow: hidden; /* hidden moved here so text clips correctly when collapsed */
 }
-.v-navbar .nav-links a:hover .nav-label {
-  max-width: 120px; /* expands to show text */
+
+/* Reveal text explanation on hover, click focus, or active section */
+.v-navbar .nav-links a:hover .nav-label,
+.v-navbar .nav-links a:focus .nav-label,
+.v-navbar .nav-links a:active .nav-label,
+.v-navbar .nav-links a.active .nav-label {
+  max-width: 140px;
   opacity: 1;
-  margin-left: 8px; /* space between SVG and text */
+  margin-left: 8px;
 }
 
-/* ── Minimalist Underline expand from center ── */
-.v-navbar .nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 14px;
-  height: 2px;
-  background: var(--v-accent);
-  border-radius: 99px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
-}
-.v-navbar .nav-links a:hover::after {
-  transform: translateX(-50%) scaleX(1);
-}
-.v-navbar .nav-links a:hover { 
-  color: var(--v-white); 
+.v-navbar .nav-links a:hover svg,
+.v-navbar .nav-links a.active svg {
+  transform: scale(1.15);
+  opacity: 1;
 }
 
-/* ── Violet Pill-Button Sewa Link (Collapses to Icon only) ── */
+/* ── Active & Hover Glass Pill Highlight ── */
+.v-navbar .nav-links a.active,
+.v-navbar .nav-links a:hover,
+.v-navbar .nav-links a:focus {
+  color: var(--v-white);
+  background: rgba(139, 92, 246, 0.22);
+  border-color: rgba(196, 161, 255, 0.4);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.3);
+}
+
+/* ── Prominent Action CTA Sewa Link Button ── */
 .nav-btn-sewa {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  font-family: var(--font-ui) !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px !important;
   text-decoration: none;
   background: linear-gradient(135deg, #5B2CBF 0%, #8B5CF6 100%) !important;
   color: #FFFFFF !important;
-  box-shadow: 0 0 14px rgba(139, 92, 246, 0.4) !important;
-  border-radius: 6px;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.45) !important;
+  border-radius: 100px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  padding: 0.35rem 0.5rem !important; /* compact padding for icon-only initially */
-  border: none !important;
-  gap: 0;
-  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  padding: 0.45rem 1.15rem !important;
+  border: 1px solid rgba(196, 161, 255, 0.4) !important;
+  gap: 0.4rem;
+  margin-left: 0.4rem;
+}
+.nav-btn-sewa .nav-label {
+  max-width: 140px !important;
+  opacity: 1 !important;
+  margin-left: 6px !important;
 }
 .nav-btn-sewa:hover {
-  transform: translateY(-2px) !important;
-  background: linear-gradient(135deg, #8B5CF6 0%, #C4A1FF 100%) !important;
-  box-shadow: 0 0 22px rgba(139, 92, 246, 0.8) !important;
-  padding: 0.35rem 0.8rem !important; /* wider padding when expanded */
+  transform: translateY(-2px) scale(1.03) !important;
+  background: linear-gradient(135deg, #7C3AED 0%, #C4A1FF 100%) !important;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.75) !important;
   color: #FFFFFF !important;
 }
 .nav-btn-sewa svg {
@@ -698,9 +704,6 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   height: 14px;
   fill: currentColor;
   flex-shrink: 0;
-}
-.v-navbar .nav-links .nav-btn-sewa::after {
-  display: none !important; /* disable bottom underline on button */
 }
 
 /* ── Hamburger ────────────────────────────────────────────── */
@@ -1778,8 +1781,74 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 }
 .games-select-wrap {
   position: relative;
-  min-width: 220px;
-  flex: 0 1 240px;
+  min-width: 130px;
+  flex: 0 1 auto;
+}
+.games-select-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--v-lavender);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+}
+.games-select-input {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(20, 16, 31, 0.75) !important;
+  border: 1px solid rgba(168, 85, 247, 0.28) !important;
+  border-radius: 50px !important;
+  padding: 0.6rem 2.2rem 0.6rem 2.65rem !important;
+  color: #E2DCF2 !important;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(139, 92, 246, 0.12) !important;
+}
+.games-select-input option {
+  background: #14101F;
+  color: #FFFFFF;
+}
+.games-select-input:focus, .games-select-input:hover {
+  outline: none;
+  border-color: var(--v-violet) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.35) !important;
+  background: rgba(28, 20, 47, 0.9) !important;
+}
+.games-select-chevron {
+  position: absolute;
+  right: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #AAA5C4;
+  pointer-events: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+.games-select-input:focus + .games-select-chevron {
+  color: var(--v-lavender);
+  transform: translateY(-50%) rotate(180deg);
+}
+.games-select-input:focus + .games-select-chevron {
+  color: var(--v-lavender);
+  transform: translateY(-50%) rotate(180deg);
+}
+.games-select-icon {
+  position: absolute;
+  left: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--v-lavender);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
 }
 .games-select-input {
   width: 100%;
@@ -1788,7 +1857,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
   background: rgba(20, 16, 31, 0.55) !important;
   border: 1px solid rgba(168, 85, 247, 0.18) !important;
   border-radius: 50px !important;
-  padding: 0.65rem 2.5rem 0.65rem 1.25rem !important;
+  padding: 0.65rem 2.2rem 0.65rem 2.6rem !important;
   color: #AAA5C4 !important;
   font-family: var(--font-ui);
   font-size: 0.85rem;
@@ -3602,20 +3671,34 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 }
 
 @media (max-width: 768px) {
-  /* Navbar */
-  .v-navbar .nav-links { display: none; }
-  .nav-hamburger       { display: flex; }
+  /* Navbar (Hidden on Mobile — All Navigation Handled by Bottom App Dock) */
+  .v-navbar            { display: none !important; }
+  .nav-hamburger       { display: none !important; }
+  .nav-drawer          { display: none !important; }
 
   /* Sections */
-  .hero                { padding: 5rem 0 3rem; }
+  .hero                { padding: 2.5rem 0 3rem; }
   .hero-logo-wrap      { display: none !important; }
   .hero-cta            { flex-direction: column; }
   .hero-cta .btn-violet{ text-align: center; }
   .col-half            { flex: 1 1 100% !important; }
   .price-section, .units-section, .games-section,
   .sewa-section, .map-section, .faq-section { padding: 3.5rem 0; }
-  .col-6game    { flex: 1 1 calc(50% - .75rem) !important; max-width: calc(50% - .75rem) !important; }
-  .game-card-img-wrap { height: 160px !important; }
+  
+  /* Games Grid Mobile 2-Column Grid (Max 2 Games Per Row) */
+  #games-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+  .col-6game {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+  .game-card-img-wrap { height: 145px !important; }
   .units-grid   { grid-template-columns: repeat(2, 1fr) !important; gap: 1rem; }
   .form-grid-2  { grid-template-columns: 1fr !important; }
   .map-wrap iframe { min-height: 260px; }
@@ -3662,9 +3745,198 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 
   /* Navbar container */
   .v-navbar > .container { padding: 0 1rem; }
-  body { flex-direction: column !important; }
+  body { flex-direction: column !important; padding-bottom: 5rem !important; }
   .admin-topbar { width: 100% !important; }
+
+  /* Game Filter Mobile 3-Column Equal Grid Fit (1 Screen Fits All) */
+  .games-filter-container {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.4rem !important;
+    width: 100% !important;
+    overflow-x: visible !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .games-select-wrap {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+  .games-select-icon {
+    left: 0.55rem !important;
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .games-select-chevron {
+    right: 0.45rem !important;
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .games-select-input {
+    font-size: 0.73rem !important;
+    padding: 0.5rem 1.35rem 0.5rem 1.85rem !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  .games-search-wrap {
+    max-width: 100% !important;
+  }
+
+  /* ── Mobile Floating Bottom Dock Navigation ── */
+  .v-mobile-dock {
+    display: flex !important;
+    position: fixed;
+    bottom: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    z-index: 9999;
+    background: rgba(12, 8, 24, 0.92);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    border-radius: 100px;
+    padding: 0.45rem 0.65rem;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(139, 92, 246, 0.3);
+  }
+  .v-mobile-dock .dock-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .v-mobile-dock .dock-item svg {
+    fill: currentColor;
+    transition: transform 0.2s ease;
+  }
+  .v-mobile-dock .dock-item:active, .v-mobile-dock .dock-item:hover {
+    color: #C4A1FF;
+    transform: translateY(-2px);
+  }
+  /* ── Centered Floating Sewa Button with SVG Icon ── */
+  .v-mobile-dock .dock-btn-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background: linear-gradient(135deg, #5B2CBF 0%, #8B5CF6 100%);
+    color: #FFFFFF !important;
+    font-family: var(--font-ui);
+    font-weight: 800;
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.45rem 1rem;
+    border-radius: 100px;
+    box-shadow: 0 0 22px rgba(139, 92, 246, 0.7), 0 4px 15px rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(196, 161, 255, 0.5);
+    transform: translateY(-12px);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+  .v-mobile-dock .dock-btn-center svg {
+    fill: currentColor;
+    width: 20px;
+    height: 20px;
+  }
+  .v-mobile-dock .dock-btn-center:active {
+    transform: translateY(-6px) scale(0.95);
+  }
+  /* ── Mobile Top Back Bar for sewa.php & cek_status.php ── */
+  .v-mobile-top-bar {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background: rgba(12, 8, 24, 0.92);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+  .v-mobile-top-bar .btn-mobile-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: var(--font-ui);
+    font-size: 0.88rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, rgba(91, 44, 191, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%);
+    border: 1px solid rgba(196, 161, 255, 0.4);
+    padding: 0.45rem 1rem;
+    border-radius: 100px;
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .v-mobile-top-bar .btn-mobile-back:active {
+    transform: scale(0.95);
+  }
+  .v-mobile-top-bar .mobile-brand img {
+    height: 28px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  }
 }
+
+/* ── Awwwards-Style Live Status Badge ── */
+.awwwards-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  color: #34D399;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0.4rem 0.9rem;
+  border-radius: 100px;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.2);
+}
+.live-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #34D399;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.live-pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid #34D399;
+  animation: pulseDot 1.8s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
+}
+@keyframes pulseDot {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Default Desktop State for Mobile Elements */
+.v-mobile-dock, .v-mobile-top-bar { display: none; }
 
 @media (max-width: 600px) {
   .price-card { padding: 1.5rem; }
@@ -3677,7 +3949,8 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--v-accent); outl
 
 @media (max-width: 400px) {
   .units-grid   { grid-template-columns: 1fr 1fr !important; }
-  .col-6game    { flex: 1 1 calc(50% - .5rem) !important; max-width: calc(50% - .5rem) !important; }
+  #games-grid   { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 0.5rem !important; }
+  .col-6game    { width: 100% !important; max-width: 100% !important; flex: none !important; }
   .section-title{ font-size: 1.6rem !important; }
   .hero-title   { font-size: 2.2rem !important; }
   .v-table      { min-width: 520px; }
